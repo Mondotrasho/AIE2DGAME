@@ -1,0 +1,3 @@
+[submodule "MathsLib"]
+	path = MathsLib
+	url = https://github.com/Mondotrasho/MathsLib.git
