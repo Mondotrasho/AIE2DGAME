@@ -1,7 +1,8 @@
 #include "_2DGameApp.h"
 
+
 int main() {
-	
+
 	// allocation
 	auto app = new _2DGameApp();
 

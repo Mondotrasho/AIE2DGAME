@@ -4,11 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bootstrap", "bootstrap\Bootstrap.vcxproj", "{AF59BB0B-E059-4773-83DC-728A949647DA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA} = {C0502CD6-8391-4B50-AB79-C9D39B15C5FA}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2DGame", "2DGame\2DGame.vcxproj", "{DEA49362-B428-4215-8D64-4EA0B4FF0858}"
 	ProjectSection(ProjectDependencies) = postProject
 		{AF59BB0B-E059-4773-83DC-728A949647DA} = {AF59BB0B-E059-4773-83DC-728A949647DA}
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA} = {C0502CD6-8391-4B50-AB79-C9D39B15C5FA}
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathsLib", "MathsLib\MathsLib\MathsLib.vcxproj", "{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +40,14 @@ Global
 		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x64.Build.0 = Release|x64
 		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x86.ActiveCfg = Release|Win32
 		{DEA49362-B428-4215-8D64-4EA0B4FF0858}.Release|x86.Build.0 = Release|Win32
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}.Debug|x64.ActiveCfg = Debug|x64
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}.Debug|x64.Build.0 = Debug|x64
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}.Debug|x86.ActiveCfg = Debug|Win32
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}.Debug|x86.Build.0 = Debug|Win32
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}.Release|x64.ActiveCfg = Release|x64
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}.Release|x64.Build.0 = Release|x64
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}.Release|x86.ActiveCfg = Release|Win32
+		{C0502CD6-8391-4B50-AB79-C9D39B15C5FA}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
