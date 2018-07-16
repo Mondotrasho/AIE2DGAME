@@ -3,6 +3,7 @@
 #include "Font.h"
 #include "Input.h"
 
+
 _2DGameApp::_2DGameApp() {
 
 }
@@ -22,6 +23,11 @@ bool _2DGameApp::startup() {
 
 	m_timer = 0;
 
+	// load an image
+	m_shipTexture = new aie::Texture("../bin/textures/ship.png");
+	// position the transform near the center
+	m_matrix.z_axis = { getWindowWidth() / 2.f,getWindowHeight() / 2.f,1 };
+
 	return true;
 }
 
@@ -35,6 +41,8 @@ void _2DGameApp::update(float deltaTime) {
 
 	m_timer += deltaTime;
 
+	m_matrix.rotate_z(deltaTime);
+	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
@@ -52,7 +60,7 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-
+	m_2dRenderer->drawSpriteTransformed3x3(m_shipTexture,(float*)&m_matrix);
 
 
 
