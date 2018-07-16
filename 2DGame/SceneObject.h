@@ -6,18 +6,12 @@
 class SceneObject {
 public:
 	SceneObject();
-	virtual ~SceneObject() {
-		// detach from parent
-		if (m_parent != nullptr)
-			m_parent->removeChild(this);
-		// remove all children
-		for (auto child : m_children)
-			child->m_parent = nullptr;
-	}
+	virtual ~SceneObject();
 	//helpers
 	SceneObject* getParent() const { return m_parent; }
 	size_t childCount() const { return m_children.size(); }
 	SceneObject* getChild(unsigned int index) const {return m_children[index];}
+
 	void addChild(SceneObject* child);
 	void removeChild(SceneObject* child);
 	void update(float deltaTime);
@@ -33,8 +27,8 @@ public:
 	void scale(float width, float height);
 
 
-	virtual void onUpdate(float deltaTime) { }
-	virtual void onDraw(aie::Renderer2D* renderer) { }
+	virtual void onUpdate(float deltaTime);
+	virtual void onDraw(aie::Renderer2D* renderer);
 	
 protected:
 	SceneObject* m_parent = nullptr;
