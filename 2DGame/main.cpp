@@ -1,6 +1,5 @@
 #include "_2DGameApp.h"
 
-
 int main() {
 
 	// allocation
