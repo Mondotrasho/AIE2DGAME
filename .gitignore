@@ -4,6 +4,6 @@
 
 /BootBase.VC.db
 /BootBase.VC.VC.opendb
-/.vs
-/x64
-/temp
+.vs/
+x64/
+temp/
