@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
+#include "SpriteObject.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -19,4 +20,5 @@ protected:
 
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*			m_font;
+	SpriteObject m_tank, m_turret;
 };

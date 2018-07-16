@@ -77,7 +77,10 @@ void SceneObject::scale(float width, float height) {
 	updateTransform();
 }
 
-void SceneObject::onUpdate(float deltaTime) { }void SceneObject::onDraw(aie::Renderer2D* renderer) { }void SceneObject::update(float deltaTime) {
+void SceneObject::onUpdate(float deltaTime) { }
+void SceneObject::onDraw(aie::Renderer2D* renderer) { }
+
+void SceneObject::update(float deltaTime) {
 	// run onUpdate behaviour
 	onUpdate(deltaTime);
 	// update children

@@ -176,6 +176,11 @@
     <ClInclude Include="SpriteObject.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MathsLib\MathsLib\MathsLib.vcxproj">
+      <Project>{c0502cd6-8391-4b50-ab79-c9d39b15c5fa}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
