@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/BootBase.VC.db
+/BootBase.VC.VC.opendb
+/.vs
+/x64
+/temp
