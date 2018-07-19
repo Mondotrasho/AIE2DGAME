@@ -167,25 +167,33 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimatedSprite.cpp" />
+    <ClCompile Include="ChaseState.cpp" />
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="NotCondition.cpp" />
+    <ClCompile Include="PatrolState.cpp" />
     <ClCompile Include="PlayerControlledState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Transition.cpp" />
+    <ClCompile Include="WithinRangeCondition.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
+    <ClInclude Include="ChaseState.h" />
     <ClInclude Include="Condition.h" />
     <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="GameDefs.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="NotCondition.h" />
+    <ClInclude Include="PatrolState.h" />
     <ClInclude Include="PlayerControlledState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="Vector2D.h" />
+    <ClInclude Include="WithinRangeCondition.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>
