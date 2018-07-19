@@ -58,7 +58,7 @@ void AnimatedSpriteApp::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-	m_sprite.draw(m_2dRenderer, m_position.x, m_position.y);// , DRAW_FLIP_X | DRAW_FLIP_Y);
+	m_sprite.draw(m_2dRenderer, m_position.x, m_position.y, DRAW_FLIP_X | DRAW_FLIP_Y);
 	
 	// output some text, uses the last used colour
 	m_2dRenderer->drawText(m_font, "Press ESC to quit", 0, 0);

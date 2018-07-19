@@ -24,7 +24,7 @@ public:
 	void addFrame(aie::Texture* texture, float delay);
 
 	void update(float deltaTime);
-	void draw(aie::Renderer2D* renderer, int x, int y,int flags);
+	void draw(aie::Renderer2D* renderer, int x, int y, int flags = 0);
 
 private:
 	std::vector<Frame> m_frames;

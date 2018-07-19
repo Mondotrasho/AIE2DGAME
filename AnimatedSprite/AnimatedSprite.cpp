@@ -59,6 +59,8 @@ void AnimatedSprite::draw(aie::Renderer2D* renderer, int x, int y, int flags)
 		break;
 	}
 	default:
-		assert(0);
+		throw std::exception((std::string("Invalid flag value: ") +
+			std::to_string(flags)).c_str());
+		
 	}
 }
