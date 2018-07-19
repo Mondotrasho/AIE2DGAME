@@ -173,6 +173,9 @@
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\bootstrap\Bootstrap.vcxproj">
+      <Project>{af59bb0b-e059-4773-83dc-728a949647da}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\MathsLib\MathsLib\MathsLib.vcxproj">
       <Project>{c0502cd6-8391-4b50-ab79-c9d39b15c5fa}</Project>
     </ProjectReference>
