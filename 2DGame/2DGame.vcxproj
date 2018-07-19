@@ -171,9 +171,13 @@
     <ClCompile Include="Condition.cpp" />
     <ClCompile Include="FiniteStateMachine.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameState.cpp" />
+    <ClCompile Include="GameStateManager.cpp" />
+    <ClCompile Include="InGameState.cpp" />
     <ClCompile Include="NotCondition.cpp" />
     <ClCompile Include="PatrolState.cpp" />
     <ClCompile Include="PlayerControlledState.cpp" />
+    <ClCompile Include="SplashScreenState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Transition.cpp" />
     <ClCompile Include="WithinRangeCondition.cpp" />
@@ -187,9 +191,13 @@
     <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="GameDefs.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="GameStateManager.h" />
+    <ClInclude Include="InGameState.h" />
     <ClInclude Include="NotCondition.h" />
     <ClInclude Include="PatrolState.h" />
     <ClInclude Include="PlayerControlledState.h" />
+    <ClInclude Include="SplashScreenState.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Transition.h" />
     <ClInclude Include="Vector2D.h" />

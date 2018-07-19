@@ -7,3 +7,9 @@ const int PLAYER_STATE_CONTROLLED = 0;
 
 const int ENEMY_STATE_PATROL = 0;
 const int ENEMY_STATE_CHASE = 0;
+
+enum class eGameState {
+	SPLASH,
+	INGAME,
+	STATE_COUNT
+};

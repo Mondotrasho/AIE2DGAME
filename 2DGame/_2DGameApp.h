@@ -2,7 +2,7 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
-
+#include "GameStateManager.h"
 
 class GameObject;
 
@@ -19,13 +19,12 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
+	static GameStateManager* getGameStateManager() { return &m_gameStateManager; }
 protected:
+	static GameStateManager m_gameStateManager;
 
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*			m_font;
-
-	GameObject*			m_player;
-	GameObject*			m_enemy;
 
 	float m_timer;//DELTA TIME MEMBER VAR
 };
