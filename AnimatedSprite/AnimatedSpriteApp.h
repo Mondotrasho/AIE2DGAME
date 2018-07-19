@@ -26,6 +26,7 @@ protected:
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*			m_font;
 
-	AnimatedSprite		m_sprite;
-	Vector2D			m_position;
+	AnimatedSprite		m_sprite, m_sprite2, m_sprite3;
+	Vector2D			m_position, m_position2, m_position3;
+	
 };

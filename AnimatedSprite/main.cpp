@@ -1,6 +1,9 @@
 #include "AnimatedSpriteApp.h"
 #include <iostream>
 #include <exception>
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
 int main() {
 	
 	// allocation
@@ -13,7 +16,8 @@ catch (std::exception e) {
 	std::cout << e.what() << std::endl;
 }
 	// deallocation
-	delete app;
+//delete app;
 
+	_CrtDumpMemoryLeaks();
 	return 0;
 }
