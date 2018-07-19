@@ -166,10 +166,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ResourceBase.cpp" />
+    <ClCompile Include="Snack.cpp" />
+    <ClCompile Include="SnackFactory.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="IPrototype.h" />
+    <ClInclude Include="ResourceBase.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Snack.h" />
+    <ClInclude Include="SnackFactory.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>

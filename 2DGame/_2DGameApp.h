@@ -2,7 +2,9 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
-#include "Matrix3.h"
+#include "Snack.h"
+#include <list>
+#include "SnackFactory.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -22,8 +24,7 @@ protected:
 
 
 	aie::Font*	m_font;//FPS FONT
-	float m_timer;//DELTA TIME MEMBER VAR
-	
-	aie::Texture* m_shipTexture;
-	Matrix3 m_matrix = Matrix3::identity;
+ 
+	std::unique_ptr<SnackFactory> m_snackFactory;
+	std::list<std::shared_ptr<Snack>> m_snacks;
 };
