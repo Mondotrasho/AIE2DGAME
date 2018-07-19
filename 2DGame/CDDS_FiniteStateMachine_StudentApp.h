@@ -3,15 +3,13 @@
 #include "Application.h"
 #include "Renderer2D.h"
 
-
 class GameObject;
 
-
-class _2DGameApp : public aie::Application {
+class CDDS_FiniteStateMachine_StudentApp : public aie::Application {
 public:
 
-	_2DGameApp();
-	virtual ~_2DGameApp();
+	CDDS_FiniteStateMachine_StudentApp();
+	virtual ~CDDS_FiniteStateMachine_StudentApp();
 
 	virtual bool startup();
 	virtual void shutdown();
@@ -26,6 +24,4 @@ protected:
 
 	GameObject*			m_player;
 	GameObject*			m_enemy;
-
-	float m_timer;//DELTA TIME MEMBER VAR
 };
