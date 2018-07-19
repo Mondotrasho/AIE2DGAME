@@ -1,6 +1,6 @@
 #include "AnimatedSprite.h"
 #include <Renderer2D.h>
-#include <cassert>
+#include <iostream>
 
 
 AnimatedSprite::AnimatedSprite() : m_currentFrame(0), m_timer(0)
@@ -10,15 +10,21 @@ AnimatedSprite::AnimatedSprite() : m_currentFrame(0), m_timer(0)
 
 AnimatedSprite::~AnimatedSprite()
 {
-	for (Frame f : m_frames) {
-		delete f.m_texture.get();
-	}
+	//for (Frame f : m_frames) {
+	//	delete f.m_texture.get();
+	//}//was causing break
 }
 
-void AnimatedSprite::addFrame(const std::shared_ptr<aie::Texture>& texture, float delay)
-{	assert(texture);
-	m_frames.push_back(Frame(texture, delay));
-}
+int AnimatedSprite::addFrame(const std::shared_ptr<aie::Texture>& texture, float delay) {
+	//assert(texture);
+	{
+		if (texture == nullptr)
+			return ERROR_NULL_TEXTURE;
+		if (texture->getPixels() == nullptr)
+			return ERROR_NO_PIXEL_DATA;
+		m_frames.push_back(Frame(texture, delay));
+		return NO_ERROR;
+	}}
 
 void AnimatedSprite::update(float deltaTime)
 {

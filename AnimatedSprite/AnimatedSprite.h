@@ -21,7 +21,7 @@ private:
 public:
 	AnimatedSprite();
 	~AnimatedSprite();
-	void addFrame(const std::shared_ptr<aie::Texture>& texture, float delay);
+	int addFrame(const std::shared_ptr<aie::Texture>& texture, float delay);
 	void update(float deltaTime);
 	void draw(aie::Renderer2D* renderer, int x, int y, int flags = 0);
 	int getCurrentFrame() { return m_currentFrame; }

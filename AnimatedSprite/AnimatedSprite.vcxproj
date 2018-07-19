@@ -165,10 +165,14 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="AnimatedSpriteApp.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="AnimatedSpriteApp.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="ResouceManager.h" />
+    <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bootstrap\Bootstrap.vcxproj">

@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
+#include <iostream>
 
 AnimatedSpriteApp::AnimatedSpriteApp() {
 
@@ -37,12 +38,18 @@ bool AnimatedSpriteApp::startup() {
 	m_position2.x = 400;
 	m_position2.y = getWindowHeight() >> 1;
 	m_position3.x = 600;
-	m_position3.y = getWindowHeight() >> 1;
-	return true;
+	m_position3.y = getWindowHeight() >> 1;
+	
+	std::cout << "images loaded: " << m_images.getCount() << std::endl;
+	return true;
 }
 
 void AnimatedSpriteApp::shutdown() {
 
+	std::cout << "images loaded: " << m_images.getCount() << std::endl;
+
+	m_images.collectGarbage();
+	std::cout << "images loaded: " << m_images.getCount() << std::endl;
 	delete m_font;
 	delete m_2dRenderer;
 }
