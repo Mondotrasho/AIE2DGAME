@@ -2,7 +2,10 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
-#include "Matrix3.h"
+
+const int COLUMNS = 7;
+const int ROWS = 6;
+const int BORDER = 50;
 
 class _2DGameApp : public aie::Application {
 public:
@@ -16,14 +19,17 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
+	bool checkForWin();
+
 protected:
 
 	aie::Renderer2D*	m_2dRenderer;
+	aie::Font*			m_font;
 
+	int					m_board[COLUMNS][ROWS];
+	int					m_currentPlayer;
+	bool				m_isGameOver;	// be careful, base class defines m_gameOver (which will close the app)
 
-	aie::Font*	m_font;//FPS FONT
-	float m_timer;//DELTA TIME MEMBER VAR
-	
-	aie::Texture* m_shipTexture;
-	Matrix3 m_matrix = Matrix3::identity;
+	aie::Texture*		m_croissant;
+	aie::Texture*		m_cupcake;
 };
