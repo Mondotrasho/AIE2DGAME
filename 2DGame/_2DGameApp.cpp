@@ -36,6 +36,8 @@ void _2DGameApp::shutdown() {
 	delete m_2dRenderer;
 }
 
+float m_rayAngle;
+
 void _2DGameApp::update(float deltaTime) {
 
 	m_timer += deltaTime;
@@ -43,7 +45,28 @@ void _2DGameApp::update(float deltaTime) {
 	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-
+	// use home/end/delete/pagedown keys to move ray
+	if (input->isKeyDown(aie::INPUT_KEY_W)) {
+		m_ray.origin.y += 200 * deltaTime;
+	}
+	if (input->isKeyDown(aie::INPUT_KEY_S)) {
+		m_ray.origin.y -= 200 * deltaTime;
+	}
+	if (input->isKeyDown(aie::INPUT_KEY_D)) {
+		m_ray.origin.x += 200 * deltaTime;
+	}
+	if (input->isKeyDown(aie::INPUT_KEY_A)) {
+		m_ray.origin.x -= 200 * deltaTime;
+	}
+	
+	// use insert/pageup keys to rotate ray
+	if (input->isKeyDown(aie::INPUT_KEY_Q))
+		m_rayAngle -= deltaTime;
+	if (input->isKeyDown(aie::INPUT_KEY_E))
+		m_rayAngle += deltaTime;
+	m_ray.direction.x = sinf(m_rayAngle);
+	m_ray.direction.y = cosf(m_rayAngle);
+	// etc...
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
