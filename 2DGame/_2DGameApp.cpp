@@ -45,7 +45,7 @@ void _2DGameApp::update(float deltaTime) {
 	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-	// use home/end/delete/pagedown keys to move ray
+	// use W/S/A/D keys to move ray
 	if (input->isKeyDown(aie::INPUT_KEY_W)) {
 		m_ray.origin.y += 200 * deltaTime;
 	}
@@ -59,7 +59,7 @@ void _2DGameApp::update(float deltaTime) {
 		m_ray.origin.x -= 200 * deltaTime;
 	}
 	
-	// use insert/pageup keys to rotate ray
+	// use Q/E keys to rotate ray
 	if (input->isKeyDown(aie::INPUT_KEY_Q))
 		m_rayAngle -= deltaTime;
 	if (input->isKeyDown(aie::INPUT_KEY_E))
