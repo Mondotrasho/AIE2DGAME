@@ -41,8 +41,72 @@ void _2DGameApp::shutdown() {
 
 bool _2DGameApp::checkForWin()
 {
-	// TODO: Complete this function
+	for (int i = 0; i < ROWS; ++i)
+	{
+		for (int j = 0; j < COLUMNS; ++j)
+		{
+			int temp = m_board[j][i]; // either 1 or 2 or 0
+			if (temp == 0)
+			{
+				return false;
+			}
+			if ((temp == m_board[j + 1][i]) && (m_board[j][i] == m_board[j + 2][i]) && (m_board[j][i] == m_board[j + 3][i]))
+			{
+				return true;
+			}
+			if ((temp == m_board[j - 1][i]) && (temp == m_board[j - 2][i]) && (temp == m_board[j - 3][i]))
+			{
+				return true;
+			}
+			if ((temp == m_board[j ][i + 1]) && ( temp == m_board[j][i + 2])&&(temp == m_board[j][i + 3]))
+			{
+				return true;
+			}
+			if ((temp == m_board[j][i - 1])&&(temp == m_board[j][i - 2])&&(temp == m_board[j][i - 3]))
+			{
+				return true;
+			}
+			if ((temp == m_board[j + 1][i + 1])&&(temp == m_board[j + 1][i + 2])&&(temp == m_board[j + 1][i + 3]))
+			{
+				return true;
+			}
+			if ((temp  == m_board[j - 1][i - 1] )&&(temp == m_board[j - 1][i - 2] )&&(temp== m_board[j - 1][i - 3]))
+			{
+				return true;
+			}
+			if ((temp == m_board[j + 1][i - 1])&&( temp == m_board[j + 1][i - 2])&&( temp == m_board[j + 1][i - 3]))
+			{
+				return true;
+			}
+			if ((temp == m_board[j - 1][i + 1])&&( temp == m_board[j - 1][i + 2])&&( temp == m_board[j - 1][i + 3]))
+			{
+				return true;
+			}
+		}
+	}
 	return false;
+	/*For each tile on the x axis
+	For each tile on the y axis
+	Get the tile at location x, y
+
+	If the tile is empty, continue to the next tile
+	If the next 3 tiles to the right match the current
+	tile, return true
+	If the previous 3 tiles to the left match the current
+	tile, return true
+	If the 3 tiles above the current tile match the
+	current tile, return true
+	If the 3 tiles below the current tile match the
+	current tile, return true
+	If the 3 tiles diagonally to the right and down match
+	the current tile, return true
+	If the 3 tiles diagonally to the left and down match
+	the current tile, return true
+	If the 3 tiles diagonally to the right and up match
+	the current tile, return true
+	If the 3 tiles diagonally to the left and up match
+	the current tile, return true
+	return false*/
 }
 
 void _2DGameApp::update(float deltaTime) {
