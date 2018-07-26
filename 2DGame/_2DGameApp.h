@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "Renderer2D.h"
 
-#include "Plane.h"
+#include "Ray.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -25,5 +25,5 @@ protected:
 	aie::Font*	m_font;//FPS FONT
 	float m_timer;//DELTA TIME MEMBER VAR
 	
-	Plane m_plane;
+	Ray m_ray;
 };

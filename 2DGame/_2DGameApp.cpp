@@ -17,7 +17,8 @@ bool _2DGameApp::startup() {
 
 	m_2dRenderer = new aie::Renderer2D();
 	//640,360
-	m_plane = Plane(Vector2(620, 340), Vector2(680, 400));
+	//m_plane = Plane(Vector2(620, 340), Vector2(680, 400));
+	m_ray = Ray(Vector2(600, 222), Vector2(399, 300), 10000);
 		// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
@@ -59,30 +60,14 @@ void _2DGameApp::draw() {
 	// draw your stuff here!
 
 	//....
-
-	Vector2 perp = { -m_plane.N.y,m_plane.N.x };
-	Vector2 p1 = m_plane.N * -m_plane.d + perp * 1000;
-	Vector2 p2 = m_plane.N * -m_plane.d - perp * 1000;
-	
-	m_2dRenderer->drawLine(p1.x,p1.y,p2.x,p2.y, 1);
-	// get point on plane closest to window center 
-	Vector2 u = m_plane.closestPoint({ 800,360 });
-
-	m_2dRenderer->drawLine(800, 360, u.x, u.y);
-
-	//m_2dRenderer->drawLine(620, 340, 680, 400);
-	//// draw plane normal 50 pixels long 
-	//m_2dRenderer->setRenderColour(1, 0, 0); 
-	//m_2dRenderer->drawLine(u.x, u.y, u.x + m_plane.N.x * 50, u.y + m_plane.N.y * 50, 4);
-	//// draws a simple coloured line with a given thickness
-	//// depth is in the range [0,100] with lower being closer to the viewer
-	//
-	////virtual void drawLine(float x1, float y1, float x2, float y2, float thickness = 1.0f, float depth = 0.0f);
-	//// get a vector perpendicular to the normal 
-	//Vector2 v(m_plane.N.y, -m_plane.N.x);
-	//// draw separating line 3000 pixels long 
-	//m_2dRenderer->setRenderColour(1, 1, 0); 
-	//m_2dRenderer->drawLine(u.x - v.x * 1500, u.y - v.x * 1500, u.x + v.x * 1500, u.y + v.y * 1500, 4);
+	// draw a pink/purle ray
+	m_2dRenderer->setRenderColour(1, 0, 1);
+	m_2dRenderer->drawCircle(m_ray.origin.x, m_ray.origin.y, 10);
+	m_2dRenderer->drawLine(m_ray.origin.x, m_ray.origin.y,
+		m_ray.origin.x + m_ray.direction.x *
+		m_ray.length,
+		m_ray.origin.y + m_ray.direction.y *
+		m_ray.length, 5);
 
 
 
