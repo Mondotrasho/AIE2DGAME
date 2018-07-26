@@ -4,6 +4,7 @@
 #include "Renderer2D.h"
 
 #include "Ray.h"
+#include "Vector3.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -24,6 +25,10 @@ protected:
 
 	aie::Font*	m_font;//FPS FONT
 	float m_timer;//DELTA TIME MEMBER VAR
-	
+
+	float m_rayAngle;
 	Ray m_ray;
+
+	//colours
+	Vector3 m_colour;
 };

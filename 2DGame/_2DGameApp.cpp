@@ -16,11 +16,18 @@ _2DGameApp::~_2DGameApp() {
 bool _2DGameApp::startup() {
 
 	m_2dRenderer = new aie::Renderer2D();
-	//640,360
-	//m_plane = Plane(Vector2(620, 340), Vector2(680, 400));
-	m_ray = Ray(Vector2(600, 222), Vector2(399, 300), 10000);
-		// TODO: remember to change this when redistributing a build!
-	// the following path would be used instead: "./font/consolas.ttf"
+
+	//Temp variables for readability
+	Vector2 startypoint = { 640, 360 }; // X = 640 Y = 360
+	Vector2 directionypoint = { 0.7f, 0.7f }; //start pointing up 0.7 of the way and across 0.7 of the way
+
+	//make the ray starting where it starts pointing where it points and 300 long
+	m_ray = Ray(startypoint, directionypoint, 300);
+	//use atan2 to get angle from y and x WHY Y THEN X CAUSE FUCK U THATS WHY
+	m_rayAngle = atan2(directionypoint.y, directionypoint.x);
+
+	m_colour = { 0.3f,0.7f,0.0f };
+
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_timer = 0;
@@ -36,12 +43,18 @@ void _2DGameApp::shutdown() {
 	delete m_2dRenderer;
 }
 
-float m_rayAngle;
+
 
 void _2DGameApp::update(float deltaTime) {
 
 	m_timer += deltaTime;
-
+	//0.0 - 1.0
+	m_colour.R += deltaTime / 2;
+	if (m_colour.R > 1) { m_colour.R = 0; }
+	m_colour.G += deltaTime / 2;
+	if (m_colour.G > 1) { m_colour.G = 0; }
+	m_colour.B += deltaTime / 2;
+	if (m_colour.B > 1) { m_colour.B = 0; }
 	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -66,7 +79,8 @@ void _2DGameApp::update(float deltaTime) {
 		m_rayAngle += deltaTime;
 	m_ray.direction.x = sinf(m_rayAngle);
 	m_ray.direction.y = cosf(m_rayAngle);
-	// etc...
+
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -81,10 +95,9 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-
-	//....
+	
 	// draw a pink/purle ray
-	m_2dRenderer->setRenderColour(1, 0, 1);
+	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	m_2dRenderer->drawCircle(m_ray.origin.x, m_ray.origin.y, 10);
 	m_2dRenderer->drawLine(m_ray.origin.x, m_ray.origin.y,
 		m_ray.origin.x + m_ray.direction.x *
