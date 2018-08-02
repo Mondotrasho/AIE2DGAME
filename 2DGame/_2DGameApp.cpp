@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
+#include "CMove.h"
 
 _2DGameApp::_2DGameApp() {
 
@@ -20,10 +21,11 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	// load the sprites in
-	m_tank.setup("../bin/textures/tankGreen.png", "../bin/textures/barrelGreen.png");
-
+	//m_tank.setup("../bin/textures/tankGreen.png", "../bin/textures/barrelGreen.png");
+	const ComponentPtr move;
+	Player.addComponent(move);
 	// center the tank
-	m_tank.setPosition(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
+//	m_tank.setPosition(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
 
 	return true;
 }
@@ -37,7 +39,7 @@ void _2DGameApp::shutdown() {
 void _2DGameApp::update(float deltaTime) {
 
 	// input example
-	m_tank.onUpdate(deltaTime);
+	//m_tank.onUpdate(deltaTime);
 	aie::Input* input = aie::Input::getInstance();
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -55,7 +57,7 @@ void _2DGameApp::draw() {
 	// draw your stuff here!
 
 	// draw the tank
-	m_tank.draw(m_2dRenderer);
+	//m_tank.draw(m_2dRenderer);
 	
 	// output some text, uses the last used colour
 	char fps[32];

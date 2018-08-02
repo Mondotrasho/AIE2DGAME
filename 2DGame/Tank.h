@@ -22,6 +22,7 @@ class Tank : public SpriteObject{
 	private:
 
 	SpriteObject m_turret;
-	// add speed variables
+	// add speed variables
+
 };
 

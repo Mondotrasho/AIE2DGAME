@@ -4,6 +4,7 @@
 #include "Renderer2D.h"
 #include "SpriteObject.h"
 #include "Tank.h"
+#include "GameObject.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -21,6 +22,6 @@ protected:
 
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*			m_font;
-	Tank m_tank;
-
+	//Tank m_tank;
+	GameObject Player;
 };
