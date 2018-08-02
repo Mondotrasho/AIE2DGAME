@@ -55,9 +55,9 @@ void Tank::onUpdate(float deltaTime)
 
 
 	// rotate turret
-	if (input->isKeyDown(aie::INPUT_KEY_LEFT))
+	if (input->isKeyDown(aie::INPUT_KEY_Q))
 		m_turret.rotate(-deltaTime);
-	if (input->isKeyDown(aie::INPUT_KEY_RIGHT))
+	if (input->isKeyDown(aie::INPUT_KEY_E))
 		m_turret.rotate(deltaTime);
 
 
