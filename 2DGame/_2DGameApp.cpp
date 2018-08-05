@@ -87,7 +87,9 @@ void _2DGameApp::draw() {
 		m_ray.length, 5);
 
 	//point Move for closest position on a ray to a point
+	//point IJKL
 	m_2dRenderer->drawCircle((m_point.x), (m_point.y), 10);
+	//line to ray
 	const auto closepoint = m_ray.closestPoint(m_point);
 	m_2dRenderer->drawLine(m_point.x, m_point.y, closepoint.x, closepoint.y, 1);
 
