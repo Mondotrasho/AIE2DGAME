@@ -28,6 +28,7 @@ protected:
 
 	float m_rayAngle;
 	Ray m_ray;
+	Vector2 Orb_move;
 
 	//colours
 	Vector3 m_colour;
