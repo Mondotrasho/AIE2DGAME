@@ -22,7 +22,7 @@ bool _2DGameApp::startup() {
 	Vector2 directionypoint = { 0.7f, 0.7f }; //start pointing up 0.7 of the way and across 0.7 of the way
 
 	//make the ray starting where it starts pointing where it points and 300 long
-	m_ray = Ray(startypoint, directionypoint, 400);
+	m_ray = Ray(startypoint, directionypoint, 700);
 	//use atan2 to get angle from y and x WHY Y THEN X CAUSE FUCK U THATS WHY
 	m_rayAngle = atan2(directionypoint.y, directionypoint.x);
 
@@ -33,7 +33,7 @@ bool _2DGameApp::startup() {
 	m_timer = 0;
 
 	m_point = { m_ray.origin.x + 100,m_ray.origin.y };
-	Vector2 asd = { startypoint.x - 500, startypoint.y };
+	Vector2 asd = { startypoint.x + 400, startypoint.y+300 };
 	m_sphere = { asd , 200};
 	
 
@@ -93,15 +93,20 @@ void _2DGameApp::draw() {
 	m_2dRenderer->drawCircle((m_point.x), (m_point.y), 10);
 	//line to ray
 	const auto closepoint = m_ray.closestPoint(m_point);
+	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
 	m_2dRenderer->drawLine(m_point.x, m_point.y, closepoint.x, closepoint.y, 1);
 
 	//ray vs Sphere 
+	
+	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	m_2dRenderer->drawCircle(m_sphere.center.x,m_sphere.center.y, m_sphere.radius);
-	Vector2* hitcha = nullptr;
+	Vector2 test = { 1,1 };
+	auto hitcha = new Vector2 (test);
 	auto i = m_ray.intersects(m_sphere, hitcha);
-	if (hitcha != nullptr) {
-		m_2dRenderer->drawCircle((hitcha->x), (hitcha->y), 10);
-	}
+	Vector2 doot = *hitcha;
+	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+	m_2dRenderer->drawCircle((doot.x), (doot.y), 10);
+	
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
