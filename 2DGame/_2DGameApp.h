@@ -30,6 +30,7 @@ protected:
 	float m_rayAngle;
 	Ray m_ray;
 	Vector2 m_point;
+	Sphere m_sphere;
 
 	//colours
 	Vector3 m_colour;
