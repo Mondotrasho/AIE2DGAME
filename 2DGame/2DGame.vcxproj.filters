@@ -21,12 +21,15 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RayControls.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_2DGameApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PointController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RayController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

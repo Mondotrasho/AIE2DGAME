@@ -15,6 +15,7 @@ public:
 	virtual bool startup();
 	virtual void shutdown();
 
+	
 	virtual void update(float deltaTime);
 	virtual void draw();
 
@@ -28,7 +29,7 @@ protected:
 
 	float m_rayAngle;
 	Ray m_ray;
-	Vector2 Orb_move;
+	Vector2 m_point;
 
 	//colours
 	Vector3 m_colour;

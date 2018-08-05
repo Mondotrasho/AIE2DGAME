@@ -2,8 +2,8 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
-
-
+#include "RayController.h"
+#include "PointController.h"
 
 _2DGameApp::_2DGameApp() {
 
@@ -32,7 +32,7 @@ bool _2DGameApp::startup() {
 
 	m_timer = 0;
 
-	Orb_move = { m_ray.origin.x + 100,m_ray.origin.y };
+	m_point = { m_ray.origin.x + 100,m_ray.origin.y };
 	
 
 	return true;
@@ -56,44 +56,12 @@ void _2DGameApp::update(float deltaTime) {
 	if (m_colour.G > 1) { m_colour.G = 0; }
 	m_colour.B += deltaTime / 2;
 	if (m_colour.B > 1) { m_colour.B = 0; }
+	raycontroller(m_ray,m_rayAngle,deltaTime);
+	pointcontroller(m_point, deltaTime);
+
 	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-	// use W/S/A/D keys to move ray
-	if (input->isKeyDown(aie::INPUT_KEY_W)) {
-		m_ray.origin.y += 200 * deltaTime;
-	}
-	if (input->isKeyDown(aie::INPUT_KEY_S)) {
-		m_ray.origin.y -= 200 * deltaTime;
-	}
-	if (input->isKeyDown(aie::INPUT_KEY_D)) {
-		m_ray.origin.x += 200 * deltaTime;
-	}
-	if (input->isKeyDown(aie::INPUT_KEY_A)) {
-		m_ray.origin.x -= 200 * deltaTime;
-	}
-	// use Q/E keys to rotate ray
-	if (input->isKeyDown(aie::INPUT_KEY_Q))
-		m_rayAngle -= deltaTime;
-	if (input->isKeyDown(aie::INPUT_KEY_E))
-		m_rayAngle += deltaTime;
-	m_ray.direction.x = sinf(m_rayAngle);
-	m_ray.direction.y = cosf(m_rayAngle);
-
-	// use W/S/A/D keys to move orb
-	if (input->isKeyDown(aie::INPUT_KEY_I)) {
-		Orb_move.y += 200 * deltaTime;
-	}
-	if (input->isKeyDown(aie::INPUT_KEY_K)) {
-		Orb_move.y -= 200 * deltaTime;
-	}
-	if (input->isKeyDown(aie::INPUT_KEY_L)) {
-		Orb_move.x += 200 * deltaTime;
-	}
-	if (input->isKeyDown(aie::INPUT_KEY_J)) {
-		Orb_move.x -= 200 * deltaTime;
-	}
-
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -116,10 +84,12 @@ void _2DGameApp::draw() {
 		m_ray.origin.x + m_ray.direction.x *
 		m_ray.length,
 		m_ray.origin.y + m_ray.direction.y *
-		m_ray.length, 5);	m_2dRenderer->drawCircle((Orb_move.x), (Orb_move.y), 10);
-	auto x = m_ray.closestPoint(Orb_move);
-	
-	m_2dRenderer->drawLine(Orb_move.x, Orb_move.y, x.x, x.y, 1);
+		m_ray.length, 5);
+
+	//point Move for closest position on a ray to a point
+	m_2dRenderer->drawCircle((m_point.x), (m_point.y), 10);
+	const auto closepoint = m_ray.closestPoint(m_point);
+	m_2dRenderer->drawLine(m_point.x, m_point.y, closepoint.x, closepoint.y, 1);
 
 
 	// output some text, uses the last used colour
@@ -131,3 +101,4 @@ void _2DGameApp::draw() {
 	// done drawing sprites
 	m_2dRenderer->end();
 }
+
