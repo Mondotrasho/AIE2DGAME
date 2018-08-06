@@ -31,6 +31,8 @@ protected:
 	Ray m_ray;
 	Vector2 m_point;
 	Sphere m_sphere;
+	AABB m_box;
+	Plane m_plane;
 
 	//colours
 	Vector3 m_colour;

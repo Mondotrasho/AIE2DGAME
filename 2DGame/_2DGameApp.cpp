@@ -33,10 +33,12 @@ bool _2DGameApp::startup() {
 	m_timer = 0;
 
 	m_point = { m_ray.origin.x + 100,m_ray.origin.y };
-	Vector2 asd = { startypoint.x + 400, startypoint.y+300 };
-	m_sphere = { asd , 200};
 	
+	m_sphere = { Vector2( 1040, 660 ) , 200};
+	
+	m_box = {Vector2(400,600),Vector2(500,700)};
 
+	m_plane = { Vector2(1000 ,200), Vector2(1200,500) };
 	return true;
 }
 
@@ -106,7 +108,31 @@ void _2DGameApp::draw() {
 	Vector2 doot = *hitcha;
 	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
 	m_2dRenderer->drawCircle((doot.x), (doot.y), 10);
+
+	//ray vs box
+	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
+
+	m_2dRenderer->drawBox(m_box.center().x, m_box.center().y, m_box.extents().x * 2, m_box.extents().y * 2);
+
+	Vector2 test2 = { 1,1 };
+	auto hitcha2 = new Vector2(test2);
+	auto i2 = m_ray.intersects(m_box, hitcha2);
+	Vector2 doot2 = *hitcha2;
+	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+	m_2dRenderer->drawCircle((doot2.x), (doot2.y), 10);
+
+	//ray vs plane
+	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	
+	m_2dRenderer->drawLine(400, 500,m_plane.N.x,m_plane.N.y);
+
+	Vector2 test3 = { 1,1 };
+	auto hitcha3 = new Vector2(test3);
+	auto i3 = m_ray.intersects(m_plane, hitcha3);
+	Vector2 doot3 = *hitcha2;
+	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+	m_2dRenderer->drawCircle((doot3.x), (doot3.y), 10);
+
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
