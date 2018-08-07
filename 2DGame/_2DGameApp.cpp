@@ -38,7 +38,7 @@ bool _2DGameApp::startup() {
 	
 	m_box = {Vector2(400,600),Vector2(500,700)};
 
-	m_plane = { Vector2(1000 ,200), Vector2(1200,500) };
+	m_plane = { Vector2(4,6),-300 };// Vector2(1200, 500)};//{ Vector2(400,600),50 };//{Vector2(0,0),0}; // 
 	return true;
 }
 
@@ -102,37 +102,52 @@ void _2DGameApp::draw() {
 	
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	m_2dRenderer->drawCircle(m_sphere.center.x,m_sphere.center.y, m_sphere.radius);
-	Vector2 test = { 1,1 };
-	auto hitcha = new Vector2 (test);
-	auto i = m_ray.intersects(m_sphere, hitcha);
-	Vector2 doot = *hitcha;
-	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-	m_2dRenderer->drawCircle((doot.x), (doot.y), 10);
+	Vector2 intersect_point_sphere;
+	if(m_ray.intersects(m_sphere, &intersect_point_sphere))
+	{
+		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
+	}
+	
 
 	//ray vs box
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 
 	m_2dRenderer->drawBox(m_box.center().x, m_box.center().y, m_box.extents().x * 2, m_box.extents().y * 2);
 
-	Vector2 test2 = { 1,1 };
-	auto hitcha2 = new Vector2(test2);
-	auto i2 = m_ray.intersects(m_box, hitcha2);
-	Vector2 doot2 = *hitcha2;
-	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-	m_2dRenderer->drawCircle((doot2.x), (doot2.y), 10);
+	Vector2 intersect_point_box; //todo use me everywhere
+	if(m_ray.intersects(m_box, &intersect_point_box))
+	{
+		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+		m_2dRenderer->drawCircle((intersect_point_box.x), (intersect_point_box.y), 10);
+	}
+	
+	
 
 	//ray vs plane
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
+
+	// get point on plane closest to window center 
+	auto u = m_plane.closestPoint(Vector2(640,360));
+	m_2dRenderer->setRenderColour(1, 0, 1);
+	m_2dRenderer->drawCircle(u.x, u.y, 200);
+	// draw plane normal 50 pixels long 
+	m_2dRenderer->setRenderColour(1, 0, 0); 
+	m_2dRenderer->drawLine(u.x, u.y, u.x + m_plane.N.x * 50, u.y + m_plane.N.y * 50, 4);
+
+	// get a vector perpendicular to the normal 
+	Vector2 v(m_plane.N.y, -m_plane.N.x);
+
+	// draw separating line 3000 pixels long 
+	m_2dRenderer->setRenderColour(1, 1, 0); 
+	m_2dRenderer->drawLine(u.x - v.x * 1500, u.y - v.y * 1500, u.x + v.x * 1500, u.y + v.y * 1500, 4);
 	
-	m_2dRenderer->drawLine(400, 500,m_plane.N.x,m_plane.N.y);
-
-	Vector2 test3 = { 1,1 };
-	auto hitcha3 = new Vector2(test3);
-	auto i3 = m_ray.intersects(m_plane, hitcha3);
-	Vector2 doot3 = *hitcha2;
-	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-	m_2dRenderer->drawCircle((doot3.x), (doot3.y), 10);
-
+	Vector2 intersect_point_plane;
+	if(m_ray.intersects(m_plane, &intersect_point_plane))
+	{	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+		m_2dRenderer->drawCircle((intersect_point_plane.x), (intersect_point_plane.y), 10);
+	}
+	
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
