@@ -4,6 +4,8 @@
 #include "Input.h"
 #include "RayController.h"
 #include "PointController.h"
+#include "t_controller.h"
+#include "Spline.h"
 
 _2DGameApp::_2DGameApp() {
 
@@ -18,13 +20,11 @@ bool _2DGameApp::startup() {
 	m_2dRenderer = new aie::Renderer2D();
 
 	//Temp variables for readability
-	Vector2 startypoint = { 640, 360 }; // X = 640 Y = 360
-	Vector2 directionypoint = { 0.7f, 0.7f }; //start pointing up 0.7 of the way and across 0.7 of the way
-
-	//make the ray starting where it starts pointing where it points and 300 long
-	m_ray = Ray(startypoint, directionypoint, 400);
-	//use atan2 to get angle from y and x WHY Y THEN X CAUSE FUCK U THATS WHY
-	m_rayAngle = atan2(directionypoint.y, directionypoint.x);
+	Vector2 startypoint = { 500, 200 }; // X = 640 Y = 360
+	m_point_1 = { 500 , 200 };
+	m_point_2 = { 500 , 500 };
+	m_point_3 = { 800 , 500 };
+	m_point_4 = { 800 , 200 };
 
 	m_colour = { 0.3f,0.7f,0.0f };
 
@@ -32,9 +32,8 @@ bool _2DGameApp::startup() {
 
 	m_timer = 0;
 
-	m_point = { m_ray.origin.x + 100,m_ray.origin.y };
-	Vector2 asd = { startypoint.x - 500, startypoint.y };
-	m_sphere = { asd , 200};
+	t_value = 1;
+	
 	
 
 	return true;
@@ -58,12 +57,24 @@ void _2DGameApp::update(float deltaTime) {
 	if (m_colour.G > 1) { m_colour.G = 0; }
 	m_colour.B += deltaTime / 2;
 	if (m_colour.B > 1) { m_colour.B = 0; }
-	raycontroller(m_ray,m_rayAngle,deltaTime);
-	pointcontroller(m_point, deltaTime);
-
 	
+	pointcontroller(m_point_1, deltaTime);
+
+	t_controller(t_value , deltaTime);
+
+	spline_point_1 = Spline::lerp_2(m_point_1, m_point_2, t_value);
+	spline_point_2 = Spline::lerp_2(m_point_2, m_point_3, t_value);
+	spline_point_3 = Spline::lerp_2(m_point_3, m_point_4, t_value);
+
+	mid_point_12 = Spline::lerp_2(spline_point_1 , spline_point_2,t_value);
+	mid_point_23 = Spline::lerp_2(spline_point_2, spline_point_3, t_value);
+
+	mid_of_mids = Spline::lerp_2(mid_point_12, mid_point_23, t_value);
+
 	// input example
 	aie::Input* input = aie::Input::getInstance();
+
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -81,27 +92,39 @@ void _2DGameApp::draw() {
 	
 	// draw a pink/purle ray
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
-	m_2dRenderer->drawCircle(m_ray.origin.x, m_ray.origin.y, 10);
-	m_2dRenderer->drawLine(m_ray.origin.x, m_ray.origin.y,
-		m_ray.origin.x + m_ray.direction.x *
-		m_ray.length,
-		m_ray.origin.y + m_ray.direction.y *
-		m_ray.length, 5);
 
-	//point Move for closest position on a ray to a point
+	//place points
 	//point IJKL
-	m_2dRenderer->drawCircle((m_point.x), (m_point.y), 10);
-	//line to ray
-	const auto closepoint = m_ray.closestPoint(m_point);
-	m_2dRenderer->drawLine(m_point.x, m_point.y, closepoint.x, closepoint.y, 1);
+	m_2dRenderer->drawCircle((m_point_1.x), (m_point_1.y), 10);
+	m_2dRenderer->drawCircle((m_point_2.x), (m_point_2.y), 10);
+	m_2dRenderer->drawCircle((m_point_3.x), (m_point_3.y), 10);
+	m_2dRenderer->drawCircle((m_point_4.x), (m_point_4.y), 10);
 
-	//ray vs Sphere 
-	m_2dRenderer->drawCircle(m_sphere.center.x,m_sphere.center.y, m_sphere.radius);
-	Vector2* hitcha = nullptr;
-	auto i = m_ray.intersects(m_sphere, hitcha);
-	if (hitcha != nullptr) {
-		m_2dRenderer->drawCircle((hitcha->x), (hitcha->y), 10);
-	}
+	//draw lines between them
+	m_2dRenderer->drawLine(m_point_1.x, m_point_1.y, m_point_2.x, m_point_2.y);
+	m_2dRenderer->drawLine(m_point_2.x, m_point_2.y, m_point_3.x, m_point_3.y);
+	m_2dRenderer->drawLine(m_point_3.x, m_point_3.y, m_point_4.x, m_point_4.y);
+	//m_2dRenderer->drawLine(m_point_4.x, m_point_4.y, m_point_1.x, m_point_1.y);
+
+	//draw the t points
+	m_2dRenderer->drawCircle((spline_point_1.x), (spline_point_1.y), 10);
+	m_2dRenderer->drawCircle((spline_point_2.x), (spline_point_2.y), 10);
+	m_2dRenderer->drawCircle((spline_point_3.x), (spline_point_3.y), 10);
+
+	//draw lines connecting the t points
+	m_2dRenderer->drawLine(spline_point_1.x, spline_point_1.y, spline_point_2.x, spline_point_2.y);
+	m_2dRenderer->drawLine(spline_point_2.x, spline_point_2.y, spline_point_3.x, spline_point_3.y);
+
+	//draw mid points of above lines
+	m_2dRenderer->drawCircle(mid_point_12.x, mid_point_12.y, 10);
+	m_2dRenderer->drawCircle(mid_point_23.x, mid_point_23.y, 10);
+	//draw line between them
+	m_2dRenderer->drawLine(mid_point_12.x, mid_point_12.y, mid_point_23.x, mid_point_23.y);
+
+	// last point
+	m_2dRenderer->drawCircle(mid_of_mids.x, mid_of_mids.y, 10);
+
+	
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());

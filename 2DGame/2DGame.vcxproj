@@ -166,12 +166,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Spline.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PointController.h" />
     <ClInclude Include="RayController.h" />
+    <ClInclude Include="Spline.h" />
+    <ClInclude Include="t_controller.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>

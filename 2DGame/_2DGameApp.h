@@ -27,11 +27,12 @@ protected:
 	aie::Font*	m_font;//FPS FONT
 	float m_timer;//DELTA TIME MEMBER VAR
 
-	float m_rayAngle;
-	Ray m_ray;
-	Vector2 m_point;
-	Sphere m_sphere;
 
+	Vector2 m_point_1,m_point_2,m_point_3, m_point_4;
+	Vector2 spline_point_1, spline_point_2, spline_point_3;
+	Vector2 mid_point_12, mid_point_23;
+	Vector2 mid_of_mids;
+	float t_value;
 	//colours
 	Vector3 m_colour;
 };
