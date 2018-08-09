@@ -38,7 +38,7 @@ bool _2DGameApp::startup() {
 	
 	m_box = {Vector2(400,600),Vector2(500,700)};
 
-	m_plane = { Vector2(.4,.2),-600 };// Vector2(1200, 500)};//{ Vector2(400,600),50 };//{Vector2(0,0),0}; // 
+	m_plane = { Vector2(0.4f,0.2f),-600 };// Vector2(1200, 500)};//{ Vector2(400,600),50 };//{Vector2(0,0),0}; // 
 	return true;
 }
 
