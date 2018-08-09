@@ -38,7 +38,7 @@ bool _2DGameApp::startup() {
 	
 	m_box = {Vector2(400,600),Vector2(500,700)};
 
-	m_plane = { Vector2(4,6),-300 };// Vector2(1200, 500)};//{ Vector2(400,600),50 };//{Vector2(0,0),0}; // 
+	m_plane = { Vector2(.4,.2),-600 };// Vector2(1200, 500)};//{ Vector2(400,600),50 };//{Vector2(0,0),0}; // 
 	return true;
 }
 
@@ -103,10 +103,13 @@ void _2DGameApp::draw() {
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	m_2dRenderer->drawCircle(m_sphere.center.x,m_sphere.center.y, m_sphere.radius);
 	Vector2 intersect_point_sphere;
-	if(m_ray.intersects(m_sphere, &intersect_point_sphere))
+	Vector2 reflection_sphere;
+	if(m_ray.intersects(m_sphere,&intersect_point_sphere, &reflection_sphere))
 	{
 		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
 		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
+		auto temp = reflection_sphere + intersect_point_sphere;
+		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
 	}
 	
 
@@ -116,10 +119,13 @@ void _2DGameApp::draw() {
 	m_2dRenderer->drawBox(m_box.center().x, m_box.center().y, m_box.extents().x * 2, m_box.extents().y * 2);
 
 	Vector2 intersect_point_box; //todo use me everywhere
-	if(m_ray.intersects(m_box, &intersect_point_box))
+	Vector2 reflection_box;
+	if(m_ray.intersects(m_box, &intersect_point_box,&reflection_box))
 	{
 		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
 		m_2dRenderer->drawCircle((intersect_point_box.x), (intersect_point_box.y), 10);
+		auto temp = reflection_box + intersect_point_box;
+		m_2dRenderer->drawLine((intersect_point_box.x), (intersect_point_box.y), temp.x, temp.y);
 	}
 	
 	
@@ -130,7 +136,7 @@ void _2DGameApp::draw() {
 	// get point on plane closest to window center 
 	auto u = m_plane.closestPoint(Vector2(640,360));
 	m_2dRenderer->setRenderColour(1, 0, 1);
-	m_2dRenderer->drawCircle(u.x, u.y, 200);
+	
 	// draw plane normal 50 pixels long 
 	m_2dRenderer->setRenderColour(1, 0, 0); 
 	m_2dRenderer->drawLine(u.x, u.y, u.x + m_plane.N.x * 50, u.y + m_plane.N.y * 50, 4);
@@ -143,9 +149,12 @@ void _2DGameApp::draw() {
 	m_2dRenderer->drawLine(u.x - v.x * 1500, u.y - v.y * 1500, u.x + v.x * 1500, u.y + v.y * 1500, 4);
 	
 	Vector2 intersect_point_plane;
-	if(m_ray.intersects(m_plane, &intersect_point_plane))
+	Vector2 reflection_plane;
+	if(m_ray.intersects(m_plane, &intersect_point_plane, &reflection_plane))
 	{	m_2dRenderer->setRenderColour(.3f, .3f, .3f);
 		m_2dRenderer->drawCircle((intersect_point_plane.x), (intersect_point_plane.y), 10);
+		auto temp = intersect_point_plane + reflection_plane;
+		m_2dRenderer->drawLine((intersect_point_plane.x), (intersect_point_plane.y), temp.x, temp.y);
 	}
 	
 	// output some text, uses the last used colour
