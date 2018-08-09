@@ -34,6 +34,8 @@ protected:
 	Vector2 mid_of_mids;
 	float t_value;
 	Vector2 m_mouse;
+
+	Vector2 all[100];
 	//colours
 	Vector3 m_colour;
 };

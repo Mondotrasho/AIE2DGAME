@@ -33,6 +33,7 @@ bool _2DGameApp::startup() {
 	m_timer = 0;
 
 	t_value = 1;
+
 	
 	
 
@@ -80,7 +81,18 @@ void _2DGameApp::update(float deltaTime) {
 
 	mid_of_mids = Spline::lerp_2(mid_point_12, mid_point_23, t_value);
 
+	for (int i = 0; i < 100; ++i)
+	{
+		auto a = Spline::lerp_2(m_point_1, m_point_2, 0.01*i);
+		auto b = Spline::lerp_2(m_point_2, m_point_3, 0.01*i);
+		auto c = Spline::lerp_2(m_point_3, m_point_4, 0.01*i);
 
+		auto d = Spline::lerp_2(a, b, 0.01*i);
+		auto e = Spline::lerp_2(b, c, 0.01*i);
+
+			all[i] = Spline::lerp_2(d, e, 0.01*i);
+		
+	}
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -98,8 +110,8 @@ void _2DGameApp::draw() {
 	// draw your stuff here!
 	
 	// draw a pink/purle ray
-	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
-
+	
+	m_2dRenderer->setRenderColour(0, 1, 0);
 	//place points
 	//point IJKL
 	m_2dRenderer->drawCircle((m_point_1.x), (m_point_1.y), 10);
@@ -112,7 +124,7 @@ void _2DGameApp::draw() {
 	m_2dRenderer->drawLine(m_point_2.x, m_point_2.y, m_point_3.x, m_point_3.y);
 	m_2dRenderer->drawLine(m_point_3.x, m_point_3.y, m_point_4.x, m_point_4.y);
 	//m_2dRenderer->drawLine(m_point_4.x, m_point_4.y, m_point_1.x, m_point_1.y);
-
+	m_2dRenderer->setRenderColour(1, 0, 0);
 	//draw the t points
 	m_2dRenderer->drawCircle((spline_point_1.x), (spline_point_1.y), 10);
 	m_2dRenderer->drawCircle((spline_point_2.x), (spline_point_2.y), 10);
@@ -121,7 +133,7 @@ void _2DGameApp::draw() {
 	//draw lines connecting the t points
 	m_2dRenderer->drawLine(spline_point_1.x, spline_point_1.y, spline_point_2.x, spline_point_2.y);
 	m_2dRenderer->drawLine(spline_point_2.x, spline_point_2.y, spline_point_3.x, spline_point_3.y);
-
+	m_2dRenderer->setRenderColour(1, .5, .25);
 	//draw mid points of above lines
 	m_2dRenderer->drawCircle(mid_point_12.x, mid_point_12.y, 10);
 	m_2dRenderer->drawCircle(mid_point_23.x, mid_point_23.y, 10);
@@ -129,9 +141,14 @@ void _2DGameApp::draw() {
 	m_2dRenderer->drawLine(mid_point_12.x, mid_point_12.y, mid_point_23.x, mid_point_23.y);
 
 	// last point
-	m_2dRenderer->drawCircle(mid_of_mids.x, mid_of_mids.y, 10);
+	m_2dRenderer->drawCircle(mid_of_mids.x, mid_of_mids.y, 5);
+	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
+	for (int i = 1; i < 99; ++i)
+	{
 
-	
+		m_2dRenderer->drawLine(all[i].x, all[i].y, all[i+1].x, all[i+1].y, 1);
+
+	}
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
