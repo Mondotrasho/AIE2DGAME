@@ -57,8 +57,17 @@ void _2DGameApp::update(float deltaTime) {
 	if (m_colour.G > 1) { m_colour.G = 0; }
 	m_colour.B += deltaTime / 2;
 	if (m_colour.B > 1) { m_colour.B = 0; }
+	// input example
+	aie::Input* input = aie::Input::getInstance();
+
+	m_mouse.x = input->getMouseX();
+	m_mouse.y = input->getMouseY();;
 	
-	pointcontroller(m_point_1, deltaTime);
+
+	pointcontroller(m_mouse, m_point_1, deltaTime);
+	pointcontroller(m_mouse, m_point_2, deltaTime);
+	pointcontroller(m_mouse, m_point_3, deltaTime);
+	pointcontroller(m_mouse, m_point_4, deltaTime);
 
 	t_controller(t_value , deltaTime);
 
@@ -71,8 +80,6 @@ void _2DGameApp::update(float deltaTime) {
 
 	mid_of_mids = Spline::lerp_2(mid_point_12, mid_point_23, t_value);
 
-	// input example
-	aie::Input* input = aie::Input::getInstance();
 
 
 	// exit the application

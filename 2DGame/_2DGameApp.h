@@ -33,6 +33,7 @@ protected:
 	Vector2 mid_point_12, mid_point_23;
 	Vector2 mid_of_mids;
 	float t_value;
+	Vector2 m_mouse;
 	//colours
 	Vector3 m_colour;
 };
