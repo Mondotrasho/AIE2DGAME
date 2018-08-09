@@ -141,8 +141,10 @@ void _2DGameApp::draw() {
 	m_2dRenderer->drawLine(mid_point_12.x, mid_point_12.y, mid_point_23.x, mid_point_23.y);
 
 	// last point
-	m_2dRenderer->drawCircle(mid_of_mids.x, mid_of_mids.y, 5);
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
+	m_2dRenderer->drawCircle(mid_of_mids.x, mid_of_mids.y, 5);
+
+	// draw the curve
 	for (int i = 1; i < 99; ++i)
 	{
 
