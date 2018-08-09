@@ -87,11 +87,10 @@ void _2DGameApp::update(float deltaTime) {
 		auto b = Spline::lerp_2(m_point_2, m_point_3, 0.01*i);
 		auto c = Spline::lerp_2(m_point_3, m_point_4, 0.01*i);
 
-		auto d = Spline::lerp_2(a, b, 0.01*i);
-		auto e = Spline::lerp_2(b, c, 0.01*i);
+		auto d =  Spline::lerp_2(a, b, 0.01*i);
+		auto e =  Spline::lerp_2(b, c, 0.01*i);
 
-			all[i] = Spline::lerp_2(d, e, 0.01*i);
-		
+		all[i] = Spline::lerp_2(d, e, 0.01*i);
 	}
 
 	// exit the application
@@ -138,10 +137,12 @@ void _2DGameApp::draw() {
 	m_2dRenderer->drawCircle(mid_point_12.x, mid_point_12.y, 10);
 	m_2dRenderer->drawCircle(mid_point_23.x, mid_point_23.y, 10);
 	//draw line between them
+	
 	m_2dRenderer->drawLine(mid_point_12.x, mid_point_12.y, mid_point_23.x, mid_point_23.y);
 
 	// last point
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
+	
 	m_2dRenderer->drawCircle(mid_of_mids.x, mid_of_mids.y, 5);
 
 	// draw the curve
@@ -152,6 +153,19 @@ void _2DGameApp::draw() {
 
 	}
 	// output some text, uses the last used colour
+
+	// clamp time to 0-2, but let it stay
+	// at 2 for 1 second before looping
+	float t = fmod(getTime(), 3.0f);
+	if (t > 2)
+		t = 2;
+	// tween size 0-300 over 2 seconds, using an elastic out
+	float size = Tweening::easeOutElastic(t, 0.0f, 300.0f, 2.0f);
+	// draw an elastic bouncing box
+	m_2dRenderer->drawBox(getWindowWidth() / 2,
+		getWindowHeight() / 2,
+		size, size);
+
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
