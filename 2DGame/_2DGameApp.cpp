@@ -156,15 +156,17 @@ void _2DGameApp::draw() {
 
 	// clamp time to 0-2, but let it stay
 	// at 2 for 1 second before looping
-	float t = fmod(getTime(), 3.0f);
-	if (t > 2)
-		t = 2;
+	//float t = fmod(getTime(), 3.0f);
+	//if (t > 2)
+	//	t = 2;
+
 	// tween size 0-300 over 2 seconds, using an elastic out
-	float size = Tweening::easeOutElastic(t, 0.0f, 300.0f, 2.0f);
+	//float size = Tweening::easeOutElastic(t, 0.0f, 300.0f, 2.0f);
+
 	// draw an elastic bouncing box
-	m_2dRenderer->drawBox(getWindowWidth() / 2,
-		getWindowHeight() / 2,
-		size, size);
+//	m_2dRenderer->drawBox(getWindowWidth() / 2,
+//		getWindowHeight() / 2,
+//		size, size);
 
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
