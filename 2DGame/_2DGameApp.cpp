@@ -149,7 +149,8 @@ void _2DGameApp::draw() {
 	for (int i = 1; i < 99; ++i)
 	{
 
-		m_2dRenderer->drawLine(all[i].x, all[i].y, all[i+1].x, all[i+1].y, 1);
+		m_2dRenderer->drawLine(all[i].x, all[i].y, all[i+1].x, all[i+1].y, 10,100);
+		
 
 	}
 	// output some text, uses the last used colour
