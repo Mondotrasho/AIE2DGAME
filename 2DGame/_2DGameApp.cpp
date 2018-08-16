@@ -34,11 +34,15 @@ bool _2DGameApp::startup() {
 
 	m_point = { m_ray.origin.x + 100,m_ray.origin.y };
 	
-	m_sphere = { Vector2( 1040, 660 ) , 200};
+	m_sphere = { Vector2(1040, 660) , 30 };
+	m_sphere_1 = { Vector2(840, 660) , 30 };
+	m_sphere_2 = { Vector2(640, 660) , 30 };
+	m_sphere_3 = { Vector2(440, 660) , 30 };
+	m_sphere_4 = { Vector2(240, 660) , 30 };
 	
-	m_box = {Vector2(400,600),Vector2(500,700)};
+	
 
-	m_plane = { Vector2(0.4f,0.2f),-600 };// Vector2(1200, 500)};//{ Vector2(400,600),50 };//{Vector2(0,0),0}; // 
+	m_plane = { Vector2(0.0f,0.1f),-50 };// Vector2(1200, 500)};//{ Vector2(400,600),50 };//{Vector2(0,0),0}; // 
 	return true;
 }
 
@@ -60,9 +64,9 @@ void _2DGameApp::update(float deltaTime) {
 	if (m_colour.G > 1) { m_colour.G = 0; }
 	m_colour.B += deltaTime / 2;
 	if (m_colour.B > 1) { m_colour.B = 0; }
-	raycontroller(m_ray,m_rayAngle,deltaTime);
+	raycontroller(m_ray,m_rayAngle,m_plane,deltaTime);
 	pointcontroller(m_point, deltaTime);
-
+	if (m_ray.origin.distance(m_plane.closestPoint(m_ray.origin)) < 10) { m_ray.origin.y += 200 * deltaTime; }
 	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -101,7 +105,11 @@ void _2DGameApp::draw() {
 	//ray vs Sphere 
 	
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
-	m_2dRenderer->drawCircle(m_sphere.center.x,m_sphere.center.y, m_sphere.radius);
+	m_2dRenderer->drawCircle(m_sphere.center.x, m_sphere.center.y, m_sphere.radius);
+	m_2dRenderer->drawCircle(m_sphere_1.center.x, m_sphere_1.center.y, m_sphere_1.radius);
+	m_2dRenderer->drawCircle(m_sphere_2.center.x, m_sphere_2.center.y, m_sphere_2.radius);
+	m_2dRenderer->drawCircle(m_sphere_3.center.x, m_sphere_3.center.y, m_sphere_3.radius);
+	m_2dRenderer->drawCircle(m_sphere_4.center.x, m_sphere_4.center.y, m_sphere_4.radius);
 	Vector2 intersect_point_sphere;
 	Vector2 reflection_sphere;
 	if(m_ray.intersects(m_sphere,&intersect_point_sphere, &reflection_sphere))
@@ -111,24 +119,36 @@ void _2DGameApp::draw() {
 		auto temp = reflection_sphere + intersect_point_sphere;
 		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
 	}
-	
-
-	//ray vs box
-	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
-
-	m_2dRenderer->drawBox(m_box.center().x, m_box.center().y, m_box.extents().x * 2, m_box.extents().y * 2);
-
-	Vector2 intersect_point_box; //todo use me everywhere
-	Vector2 reflection_box;
-	if(m_ray.intersects(m_box, &intersect_point_box,&reflection_box))
+	if (m_ray.intersects(m_sphere_1, &intersect_point_sphere, &reflection_sphere))
 	{
 		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-		m_2dRenderer->drawCircle((intersect_point_box.x), (intersect_point_box.y), 10);
-		auto temp = reflection_box + intersect_point_box;
-		m_2dRenderer->drawLine((intersect_point_box.x), (intersect_point_box.y), temp.x, temp.y);
+		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
+		auto temp = reflection_sphere + intersect_point_sphere;
+		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
 	}
-	
-	
+	if (m_ray.intersects(m_sphere_2, &intersect_point_sphere, &reflection_sphere))
+	{
+		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
+		auto temp = reflection_sphere + intersect_point_sphere;
+		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
+	}
+	if (m_ray.intersects(m_sphere_3, &intersect_point_sphere, &reflection_sphere))
+	{
+		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
+		auto temp = reflection_sphere + intersect_point_sphere;
+		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
+	}
+	if (m_ray.intersects(m_sphere_4, &intersect_point_sphere, &reflection_sphere))
+	{
+		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
+		auto temp = reflection_sphere + intersect_point_sphere;
+		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
+	}
+
+
 
 	//ray vs plane
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);

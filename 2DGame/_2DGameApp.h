@@ -30,8 +30,8 @@ protected:
 	float m_rayAngle;
 	Ray m_ray;
 	Vector2 m_point;
-	Sphere m_sphere;
-	AABB m_box;
+	Sphere m_sphere, m_sphere_1, m_sphere_2, m_sphere_3, m_sphere_4;
+	
 	Plane m_plane;
 
 	//colours
