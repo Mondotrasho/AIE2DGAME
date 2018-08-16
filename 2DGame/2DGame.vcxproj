@@ -166,10 +166,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BinaryTree.cpp" />
+    <ClCompile Include="TreeNode.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BinaryTree.h" />
+    <ClInclude Include="TreeNode.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>

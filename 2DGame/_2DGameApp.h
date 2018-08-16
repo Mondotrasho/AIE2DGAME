@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "Matrix3.h"
+#include "BinaryTree.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -23,5 +24,6 @@ protected:
 
 	aie::Font*	m_font;//FPS FONT
 	float m_timer;//DELTA TIME MEMBER VAR
-
+	BinaryTree m_binaryTree;
+	TreeNode* m_selectedNode;
 };
