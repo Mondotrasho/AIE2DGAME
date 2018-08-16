@@ -23,7 +23,5 @@ protected:
 
 	aie::Font*	m_font;//FPS FONT
 	float m_timer;//DELTA TIME MEMBER VAR
-	
-	aie::Texture* m_shipTexture;
-	Matrix3 m_matrix = Matrix3::identity;
+
 };
