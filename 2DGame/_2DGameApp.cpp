@@ -1,12 +1,12 @@
+
+
 #include "_2DGameApp.h"
-#include "Texture.h"
 #include "Font.h"
-#include "Input.h"
 #include "RayController.h"
 #include "PointController.h"
 
-_2DGameApp::_2DGameApp() {
-
+_2DGameApp::_2DGameApp()
+{
 }
 
 _2DGameApp::~_2DGameApp() {
@@ -23,7 +23,7 @@ bool _2DGameApp::startup() {
 
 	//make the ray starting where it starts pointing where it points and 300 long
 	m_ray = Ray(startypoint, directionypoint, 700);
-	//use atan2 to get angle from y and x WHY Y THEN X CAUSE FUCK U THATS WHY
+	//use atan2 to get angle from y and x WHY?? Y THEN X CAUSE FUCK U THATS WHY??
 	m_rayAngle = atan2(directionypoint.y, directionypoint.x);
 
 	m_colour = { 0.3f,0.7f,0.0f };
@@ -34,15 +34,15 @@ bool _2DGameApp::startup() {
 
 	m_point = { m_ray.origin.x + 100,m_ray.origin.y };
 	
-	m_sphere = { Vector2(1040, 660) , 30 };
-	m_sphere_1 = { Vector2(840, 660) , 30 };
-	m_sphere_2 = { Vector2(640, 660) , 30 };
-	m_sphere_3 = { Vector2(440, 660) , 30 };
-	m_sphere_4 = { Vector2(240, 660) , 30 };
-	
-	
+	box.push_back(GrapplePoint(Vector2(440, 660), 30));
+	box.push_back(GrapplePoint(Vector2(240, 660), 30));
+	box.push_back(GrapplePoint(Vector2(440, 660), 30));
+	box.push_back(GrapplePoint(Vector2(640, 660), 30));
+	box.push_back(GrapplePoint(Vector2(840, 660), 30));
+	box.push_back(GrapplePoint(Vector2(1040, 660), 30));
 
-	m_plane = { Vector2(0.0f,0.1f),-50 };// Vector2(1200, 500)};//{ Vector2(400,600),50 };//{Vector2(0,0),0}; // 
+
+	m_plane = { Vector2(400, 3),Vector2(401,3) };//{ Vector2(0.0f,0.1f),-50 }; //use this format for rotating as the 0.1 0.2 etc is easier for for loops and shite
 	return true;
 }
 
@@ -67,6 +67,7 @@ void _2DGameApp::update(float deltaTime) {
 	raycontroller(m_ray,m_rayAngle,m_plane,deltaTime);
 	pointcontroller(m_point, deltaTime);
 	if (m_ray.origin.distance(m_plane.closestPoint(m_ray.origin)) < 10) { m_ray.origin.y += 200 * deltaTime; }
+
 	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -84,6 +85,8 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
+	
+	
 	
 	// draw a pink/purle ray
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
@@ -105,50 +108,11 @@ void _2DGameApp::draw() {
 	//ray vs Sphere 
 	
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
-	m_2dRenderer->drawCircle(m_sphere.center.x, m_sphere.center.y, m_sphere.radius);
-	m_2dRenderer->drawCircle(m_sphere_1.center.x, m_sphere_1.center.y, m_sphere_1.radius);
-	m_2dRenderer->drawCircle(m_sphere_2.center.x, m_sphere_2.center.y, m_sphere_2.radius);
-	m_2dRenderer->drawCircle(m_sphere_3.center.x, m_sphere_3.center.y, m_sphere_3.radius);
-	m_2dRenderer->drawCircle(m_sphere_4.center.x, m_sphere_4.center.y, m_sphere_4.radius);
-	Vector2 intersect_point_sphere;
-	Vector2 reflection_sphere;
-	if(m_ray.intersects(m_sphere,&intersect_point_sphere, &reflection_sphere))
-	{
-		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
-		auto temp = reflection_sphere + intersect_point_sphere;
-		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
-	}
-	if (m_ray.intersects(m_sphere_1, &intersect_point_sphere, &reflection_sphere))
-	{
-		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
-		auto temp = reflection_sphere + intersect_point_sphere;
-		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
-	}
-	if (m_ray.intersects(m_sphere_2, &intersect_point_sphere, &reflection_sphere))
-	{
-		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
-		auto temp = reflection_sphere + intersect_point_sphere;
-		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
-	}
-	if (m_ray.intersects(m_sphere_3, &intersect_point_sphere, &reflection_sphere))
-	{
-		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
-		auto temp = reflection_sphere + intersect_point_sphere;
-		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
-	}
-	if (m_ray.intersects(m_sphere_4, &intersect_point_sphere, &reflection_sphere))
-	{
-		m_2dRenderer->setRenderColour(.3f, .3f, .3f);
-		m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
-		auto temp = reflection_sphere + intersect_point_sphere;
-		m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
-	}
 
-
+	for (auto& Grappleable : box)
+	{
+		Grappleable.Draw(m_2dRenderer, test);
+	}
 
 	//ray vs plane
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);

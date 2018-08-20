@@ -166,11 +166,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Grapple.cpp" />
+    <ClCompile Include="GrapplePoint.cpp" />
+    <ClCompile Include="RandomXY.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Grapple.h" />
+    <ClInclude Include="GrapplePoint.h" />
     <ClInclude Include="PointController.h" />
+    <ClInclude Include="RandomXY.h" />
     <ClInclude Include="RayController.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>

@@ -2,9 +2,10 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
-
 #include "Ray.h"
 #include "Vector3.h"
+#include "GrapplePoint.h"
+
 
 class _2DGameApp : public aie::Application {
 public:
@@ -30,8 +31,10 @@ protected:
 	float m_rayAngle;
 	Ray m_ray;
 	Vector2 m_point;
-	Sphere m_sphere, m_sphere_1, m_sphere_2, m_sphere_3, m_sphere_4;
-	
+
+	std::vector<GrapplePoint> box;
+	Grapple test = { Vector2(1,1),Vector2(1,1) };
+
 	Plane m_plane;
 
 	//colours

@@ -21,6 +21,15 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Grapple.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomXY.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GrapplePoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_2DGameApp.h">
@@ -30,6 +39,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RayController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grapple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomXY.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GrapplePoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
