@@ -21,9 +21,10 @@ void GrapplePoint::Draw(aie::Renderer2D *renderer, Grapple& grapple)
 	{
 		
 		renderer->drawCircle((intersect_point.x), (intersect_point.y), 10);
-		auto temp = reflection + intersect_point;
+		auto temp = reflection + intersect_point * (grapple.get_ray().length - grapple.get_ray().origin.distance(intersect_point) );
 		renderer->drawLine((intersect_point.x), (intersect_point.y), temp.x, temp.y);
 	}
+	
 }
 
 

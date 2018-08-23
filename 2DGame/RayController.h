@@ -3,23 +3,18 @@
 #include "Input.h"
 #include "Ray.h"
 
-inline void raycontroller(Ray& m_ray, float& m_rayAngle,Plane ground, float deltaTime)
+inline void raycontroller(Ray& m_ray, float& m_rayAngle, float deltaTime)
 {
-	m_ray.origin.y -= 200 * deltaTime; //fall
+	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 	// use W/S/A/D keys to move ray
 	if (input->isKeyDown(aie::INPUT_KEY_W)) {
-		if (m_ray.origin.distance(ground.closestPoint(m_ray.origin)) < 300)
-		{
-						m_ray.origin.y += 400 * deltaTime;
-			
-		}
-		
+		m_ray.origin.y += 400 * deltaTime;
 	}
-	if (input->isKeyDown(aie::INPUT_KEY_S)) {
-		if (m_ray.origin.distance(ground.closestPoint(m_ray.origin)) >= 10) { m_ray.origin.y -= 200 * deltaTime; }
-		
+	if (input->isKeyDown(aie::INPUT_KEY_S))
+	{
+		m_ray.origin.y -= 200 * deltaTime;	
 	}
 	if (input->isKeyDown(aie::INPUT_KEY_D)) {
 		m_ray.origin.x += 200 * deltaTime;

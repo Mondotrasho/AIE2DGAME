@@ -10,11 +10,12 @@ namespace aie {
 class Grapple
 {
 public:
+	Grapple() = default;
 	Grapple(Vector2 &origin ,Vector2 &direction);
 	~Grapple();
 
-	void Draw(aie::Renderer2D());
-	void Update(float deltatime);
+	void Draw(aie::Renderer2D *renderer);
+	void Update(float deltatime,Plane& m_plane);
 
 	float get_angle();
 	Ray get_ray();
