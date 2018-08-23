@@ -6,6 +6,10 @@
 #include "PointController.h"
 #include "t_controller.h"
 #include "Spline.h"
+#include "Curve.h"
+#include <vector>
+
+using namespace Curves;
 
 _2DGameApp::_2DGameApp() {
 
@@ -35,8 +39,14 @@ bool _2DGameApp::startup() {
 	t_value = 1;
 
 	
-	
+	points.push_back({ 200 + 50, 100 });
+	points.push_back({ 200 + 350, 100 });
+	points.push_back({ 200 + 75, 300 });
+	points.push_back({ 200 + 625, 300 });
+	points.push_back({ 200 + 450, 500 });
 
+	ship = points[0];
+	
 	return true;
 }
 
@@ -92,6 +102,10 @@ void _2DGameApp::update(float deltaTime) {
 
 		all[i] = Spline::lerp_2(d, e, 0.01*i);
 	}
+	count += 1;
+	ship = Vector2(CardinalSpline(points.data(), points.size(), t_value, t_value));
+	ship_dest = Vector2(CardinalSpline(points.data(), points.size(), t_value + 0.01, t_value));
+
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -153,6 +167,27 @@ void _2DGameApp::draw() {
 		
 
 	}
+
+	// last needed to store previous interpolated position
+	Vector2 last = catmullRomSpline(points.data(), points.size(), 0);
+	float tension = 0.001f;
+	// loop and create a smooth spline with 50 segments, skip first point
+	for (int i = 1; i < 51; ++i) {
+
+		Vector2 curr = CardinalSpline(points.data(),
+			points.size(),
+			i / 50.0f,
+			t_value);
+
+		m_2dRenderer->drawLine(last.x, last.y, curr.x, curr.y, 2);
+
+		last = curr;
+	}
+
+	auto angle = ship_dest - ship;
+	auto right = Vector2(1,0);
+	m_2dRenderer->drawBox(ship.x, ship.y, 10, 30, atan2f(angle.y,angle.x));//ship.angle_between(ship_dest));
+
 	// output some text, uses the last used colour
 
 	// clamp time to 0-2, but let it stay

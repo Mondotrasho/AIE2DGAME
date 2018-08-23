@@ -38,4 +38,13 @@ protected:
 	Vector2 all[100];
 	//colours
 	Vector3 m_colour;
+
+	std::vector<Vector2> points;
+
+	Vector2 ship;
+	float count;
+	Vector2 ship_dest;
+
+	// create a series of points in our spline
+
 };
