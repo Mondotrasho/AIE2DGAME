@@ -80,6 +80,13 @@ void _2DGameApp::update(float deltaTime) {
 	pointcontroller(m_mouse, m_point_3, deltaTime);
 	pointcontroller(m_mouse, m_point_4, deltaTime);
 
+	//tutes one
+	pointcontroller(m_mouse, points[0], deltaTime);
+	pointcontroller(m_mouse, points[1], deltaTime);
+	pointcontroller(m_mouse, points[2], deltaTime);
+	pointcontroller(m_mouse, points[3], deltaTime);
+	pointcontroller(m_mouse, points[4], deltaTime);
+
 	t_controller(t_value , deltaTime);
 
 	spline_point_1 = Spline::lerp_2(m_point_1, m_point_2, t_value);
@@ -91,6 +98,7 @@ void _2DGameApp::update(float deltaTime) {
 
 	mid_of_mids = Spline::lerp_2(mid_point_12, mid_point_23, t_value);
 
+
 	for (int i = 0; i < 100; ++i)
 	{
 		auto a = Spline::lerp_2(m_point_1, m_point_2, 0.01*i);
@@ -100,7 +108,8 @@ void _2DGameApp::update(float deltaTime) {
 		auto d =  Spline::lerp_2(a, b, 0.01*i);
 		auto e =  Spline::lerp_2(b, c, 0.01*i);
 
-		all[i] = Spline::lerp_2(d, e, 0.01*i);
+		all.push_back(Spline::lerp_2(d, e, 0.01*i));
+
 	}
 	count += 1;
 	ship = Vector2(CardinalSpline(points.data(), points.size(), t_value, t_value));
@@ -158,16 +167,15 @@ void _2DGameApp::draw() {
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	
 	m_2dRenderer->drawCircle(mid_of_mids.x, mid_of_mids.y, 5);
-
 	// draw the curve
-	for (int i = 1; i < 99; ++i)
+	for (int i = 1; i < all.size()-1; ++i)
 	{
-
+		
 		m_2dRenderer->drawLine(all[i].x, all[i].y, all[i+1].x, all[i+1].y, 10,100);
 		
 
 	}
-
+	all.clear();
 	// last needed to store previous interpolated position
 	Vector2 last = catmullRomSpline(points.data(), points.size(), 0);
 	float tension = 0.001f;
@@ -183,7 +191,10 @@ void _2DGameApp::draw() {
 
 		last = curr;
 	}
-
+	for (auto point : points)
+	{
+		m_2dRenderer->drawCircle(point.x, point.y, 5);
+	}
 	auto angle = ship_dest - ship;
 	auto right = Vector2(1,0);
 	m_2dRenderer->drawBox(ship.x, ship.y, 10, 30, atan2f(angle.y,angle.x));//ship.angle_between(ship_dest));

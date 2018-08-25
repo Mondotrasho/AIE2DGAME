@@ -32,10 +32,12 @@ protected:
 	Vector2 spline_point_1, spline_point_2, spline_point_3;
 	Vector2 mid_point_12, mid_point_23;
 	Vector2 mid_of_mids;
+
+	std::vector<Vector2> all;
+
 	float t_value;
 	Vector2 m_mouse;
-
-	Vector2 all[100];
+;
 	//colours
 	Vector3 m_colour;
 
