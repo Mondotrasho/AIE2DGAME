@@ -6,7 +6,7 @@
 #include "PointController.h"
 #include "t_controller.h"
 #include "Spline.h"
-#include "Curve.h"
+#include "Curves.h"
 #include <vector>
 
 using namespace Curves;
