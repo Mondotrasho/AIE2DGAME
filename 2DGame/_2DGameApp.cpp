@@ -6,6 +6,7 @@
 #include "PointController.h"
 #include "RandomXY.h"
 #include <ctime>
+#include "Curves.h"
 
 _2DGameApp::_2DGameApp()
 {
@@ -83,10 +84,46 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	player.Draw(m_2dRenderer);
+
+	Vector2 intersect_point_sphere;
+	Vector2 reflection_sphere;
+	
+	float t = 0;
 	
 	for (auto& Grappleable : box)
 	{
 		Grappleable.Draw(m_2dRenderer, test);
+		
+		if (player.get_ray().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
+		{
+			m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+			m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
+			auto temp1 = Vector2(intersect_point_sphere.x, intersect_point_sphere.y - 100);
+			auto temp2 = intersect_point_sphere - player.get_ray().origin;//Vector2(temp1.x - 50, temp1.y - 50);
+			vecs.push_back(intersect_point_sphere);
+			vecs.push_back(temp1);
+			vecs.push_back(temp2);
+			vecs.push_back(player.get_ray().origin);
+
+
+			Vector2 first = Curves::catmullRomSpline(vecs.data(),vecs.size(), 0.001);
+			for (double i = 0; i < 100; ++i)
+			{
+				Vector2 secnd = Curves::CardinalSpline(vecs.data(), vecs.size(), i / 50.0f,	0.5);
+				m_2dRenderer->drawLine(first.x, first.y, secnd.x, secnd.y, 2);
+				first = secnd;
+				
+			}
+			for (auto vec : vecs)
+			{
+				m_2dRenderer->drawCircle(vec.x, vec.y, 10);
+			}
+			vecs.clear();
+			auto temp = reflection_sphere + intersect_point_sphere;
+			m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
+		
+
+		}
 	}
 	// get point on plane closest to window center 
 	auto u = m_plane.closestPoint(Vector2(640,360));

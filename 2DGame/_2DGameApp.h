@@ -33,9 +33,11 @@ protected:
 	Vector2 m_point;
 
 	std::vector<GrapplePoint> box;
-	Grapple test = { Vector2(1,1),Vector2(1,1) };
+	Grapple test = { Vector2(-1000,-1000),Vector2(-1000,-1000) };
 	Grapple player;
 	Plane m_plane;
+
+	std::vector<Vector2> vecs;
 
 	//colours
 	Vector3 m_colour;
