@@ -1,7 +1,11 @@
 #include "Grapple.h"
 #include "Renderer2D.h"
 #include "RayController.h"
+#include "Grab.h"
 
+#ifndef PI
+#define PI 3.14159265359;
+#endif
 
 Grapple::Grapple(Vector2 &origin, Vector2 &direction)
 {
@@ -28,23 +32,32 @@ void Grapple::Draw(aie::Renderer2D* renderer)
 		5);
 }
 
-void Grapple::Update(float deltatime,Plane& plane)
+void Grapple::Update(float deltatime,Plane& plane, std::vector<GrapplePoint>& Points,float distance)
 {
 	//todo fix
 	//fall to ground
 	if(plane.distanceTo(m_ray.origin) > 10){m_ray.origin.y -= 200 * deltatime; }
 	//move
 	raycontroller(m_ray, m_rayAngle, deltatime);
+	Grab(m_ray, m_rayAngle, deltatime, Points, distance);
 	//keep above ground
 	if (plane.distanceTo(m_ray.origin) < 10) { m_ray.origin.y = 10; }
 }
 
 float Grapple::get_angle()
 {
+	while (m_rayAngle > 6.283185307) { m_rayAngle -= 6.283185307; }
 	return m_rayAngle;
 }
 
 Ray Grapple::get_ray()
 {
 	return m_ray;
+}
+
+float Grapple::get_angle_deg()
+{
+	auto temp = 180 / PI;
+	while (m_rayAngle > 6.283185307) { m_rayAngle -= 6.283185307; }
+	return m_rayAngle * temp;
 }

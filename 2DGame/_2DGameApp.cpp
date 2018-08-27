@@ -53,6 +53,7 @@ void _2DGameApp::shutdown() {
 
 
 
+
 void _2DGameApp::update(float deltaTime) {
 
 	m_timer += deltaTime;
@@ -66,7 +67,11 @@ void _2DGameApp::update(float deltaTime) {
 	if (m_colour.B > 1) { m_colour.B = 0; }
 	//END COLOUR
 
-	player.Update(deltaTime,m_plane);
+	if (grappleing = true)
+	{
+		player.Update(deltaTime, m_plane, box, grappleing);
+	}
+	
 	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -87,7 +92,11 @@ void _2DGameApp::draw() {
 
 	Vector2 intersect_point_sphere;
 	Vector2 reflection_sphere;
-	
+
+
+	auto rad = player.get_angle();
+	auto deg = player.get_angle_deg();
+
 	float t = 0;
 	
 	for (auto& Grappleable : box)
@@ -99,25 +108,38 @@ void _2DGameApp::draw() {
 			m_2dRenderer->setRenderColour(.3f, .3f, .3f);
 			m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
 			auto temp1 = Vector2(intersect_point_sphere.x, intersect_point_sphere.y - 100);
-			auto temp2 = intersect_point_sphere - player.get_ray().origin;//Vector2(temp1.x - 50, temp1.y - 50);
+			
 			vecs.push_back(intersect_point_sphere);
-			vecs.push_back(temp1);
-			vecs.push_back(temp2);
-			vecs.push_back(player.get_ray().origin);
+			if (player.get_angle_deg() > 180) {
+				vecs.push_back(Vector2(intersect_point_sphere.x + (reflection_sphere.x / 2), intersect_point_sphere.y - (player.get_ray().origin.distance(intersect_point_sphere)) / 4));
+			}
+			else
+			{
+				vecs.push_back(Vector2(intersect_point_sphere.x - (reflection_sphere.x / 2), intersect_point_sphere.y - (player.get_ray().origin.distance(intersect_point_sphere)) / 4));
+			}
+
+				vecs.push_back(player.get_ray().origin);
 
 
-			Vector2 first = Curves::catmullRomSpline(vecs.data(),vecs.size(), 0.001);
+			Vector2 first = Curves::CardinalSpline(vecs.data(),vecs.size(), 1 / 50.0f, 0.001);
 			for (double i = 0; i < 100; ++i)
 			{
 				Vector2 secnd = Curves::CardinalSpline(vecs.data(), vecs.size(), i / 50.0f,	0.5);
-				m_2dRenderer->drawLine(first.x, first.y, secnd.x, secnd.y, 2);
+				
+				m_2dRenderer->drawLine(first.x , first.y, secnd.x, secnd.y, 1);
+
 				first = secnd;
 				
 			}
-			for (auto vec : vecs)
-			{
-				m_2dRenderer->drawCircle(vec.x, vec.y, 10);
-			}
+			m_2dRenderer->setRenderColour(1, 0, 0);
+			m_2dRenderer->drawCircle(vecs[0].x, vecs[0].y, 2);
+			m_2dRenderer->setRenderColour(0, 1, 0);
+			m_2dRenderer->drawCircle(vecs[1].x, vecs[1].y, 2);
+			m_2dRenderer->setRenderColour(0, 0, 1);
+			m_2dRenderer->drawCircle(vecs[2].x, vecs[2].y, 2);
+			
+			
+
 			vecs.clear();
 			auto temp = reflection_sphere + intersect_point_sphere;
 			m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);

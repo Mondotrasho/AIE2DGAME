@@ -3,6 +3,8 @@
 #include "Ray.h"
 
 
+class GrapplePoint;
+
 namespace aie {
 	class Renderer2D;
 }
@@ -15,11 +17,11 @@ public:
 	~Grapple();
 
 	void Draw(aie::Renderer2D *renderer);
-	void Update(float deltatime,Plane& m_plane);
+	void Update(float deltatime,Plane& m_plane, std::vector<GrapplePoint>& Points, float distance);
 
 	float get_angle();
 	Ray get_ray();
-
+	float get_angle_deg();
 
 private:
 	Ray m_ray;

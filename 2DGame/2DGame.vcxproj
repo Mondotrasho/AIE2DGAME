@@ -173,6 +173,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Grab.h" />
     <ClInclude Include="Grapple.h" />
     <ClInclude Include="GrapplePoint.h" />
     <ClInclude Include="PointController.h" />
