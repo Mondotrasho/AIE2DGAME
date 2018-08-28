@@ -4,31 +4,36 @@
 #include "Ray.h"
 #include "GrapplePoint.h"
 
-inline void Grab(Ray& m_ray, float& m_rayAngle, float deltaTime, std::vector<GrapplePoint>& Targets ,float distance)
+inline void Grab(Grapple* grapps, float deltaTime, std::vector<GrapplePoint>& Targets ,float distance)
 {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 	// use W/S/A/D keys to move ray
+	Vector2 intersect_point_sphere;
+	Vector2 reflection_sphere;
 	
-	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
+	for (auto& Grappleable : Targets)
 	{
-		
-		for (auto& Grappleable : Targets)
+		if (grapps->get_ray().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
 		{
-			Vector2 intersect_point_sphere;
-			Vector2 reflection_sphere;
-			if (m_ray.intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
-			{
-				distance = m_ray.origin.distance(Grappleable.intersect_point);
-        		if (m_ray.origin.distance(Grappleable.intersect_point) > distance && input->isKeyDown(aie::INPUT_KEY_SPACE))
+			distance = grapps->get_ray().origin.distance(Grappleable.intersect_point);
+ 			if (input->isKeyDown(aie::INPUT_KEY_SPACE))
+			{				
+				if (((grapps->get_velocity()* deltaTime) += grapps->get_ray().origin).distance(Grappleable.intersect_point) > distance)
 				{
 					//switch
-					m_ray.origin -= 1;\
+					grapps->set_velocity() = { 0,0 };
 				}
+				if (((grapps->get_velocity()* deltaTime) += grapps->get_ray().origin).distance(Grappleable.intersect_point) < distance)
+				{
+					//switch
+					grapps->set_velocity() = { 0,0 };
+				}
+
+				grapps->set_ray().direction.x = sinf(grapps->get_angle());
+				grapps->set_ray().direction.y = cosf(grapps->get_angle());
 			}
-			m_ray.direction.x = sinf(m_rayAngle);
-			m_ray.direction.y = cosf(m_rayAngle);
 		}
 	}
 };

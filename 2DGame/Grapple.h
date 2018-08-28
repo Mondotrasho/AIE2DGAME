@@ -22,10 +22,14 @@ public:
 	float get_angle();
 	Ray get_ray();
 	float get_angle_deg();
-
+	Vector2 get_velocity() { return velocity; }
+	Vector2& set_velocity() { return velocity; }
+	Ray& set_ray() { return m_ray; }
 private:
 	Ray m_ray;
 	float m_rayAngle;
 	float m_length;
+	Vector2 velocity;
+
 };
 

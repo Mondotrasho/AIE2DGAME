@@ -3,24 +3,24 @@
 #include "Input.h"
 #include "Ray.h"
 
-inline void raycontroller(Ray& m_ray, float& m_rayAngle, float deltaTime)
+inline void raycontroller(Ray& m_ray, float& m_rayAngle,Vector2& velocity, float deltaTime)
 {
 	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 	// use W/S/A/D keys to move ray
 	if (input->isKeyDown(aie::INPUT_KEY_W)) {
-		m_ray.origin.y += 400 * deltaTime;
+		velocity.y += 10;
 	}
 	if (input->isKeyDown(aie::INPUT_KEY_S))
 	{
-		m_ray.origin.y -= 200 * deltaTime;	
+		velocity.y -= 4;
 	}
 	if (input->isKeyDown(aie::INPUT_KEY_D)) {
-		m_ray.origin.x += 200 * deltaTime;
+		velocity.x += 4;
 	}
 	if (input->isKeyDown(aie::INPUT_KEY_A)) {
-		m_ray.origin.x -= 200 * deltaTime;
+		velocity.x -= 4;
 	}
 	// use Q/E keys to rotate ray
 	if (input->isKeyDown(aie::INPUT_KEY_Q))

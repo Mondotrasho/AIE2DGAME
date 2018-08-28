@@ -2,6 +2,7 @@
 #include "Renderer2D.h"
 #include "RayController.h"
 #include "Grab.h"
+#include "nicolausYes_easing.h"
 
 #ifndef PI
 #define PI 3.14159265359;
@@ -36,12 +37,19 @@ void Grapple::Update(float deltatime,Plane& plane, std::vector<GrapplePoint>& Po
 {
 	//todo fix
 	//fall to ground
-	if(plane.distanceTo(m_ray.origin) > 10){m_ray.origin.y -= 200 * deltatime; }
+	if(plane.distanceTo(m_ray.origin) > 10){velocity.y -= 200 * deltatime; }
 	//move
-	raycontroller(m_ray, m_rayAngle, deltatime);
-	Grab(m_ray, m_rayAngle, deltatime, Points, distance);
+	raycontroller(m_ray, m_rayAngle, velocity, deltatime);
+	m_ray.origin += velocity * deltatime;
+	velocity -= (velocity * deltatime) / 4;
+	Grab(this, deltatime, Points, distance);
 	//keep above ground
-	if (plane.distanceTo(m_ray.origin) < 10) { m_ray.origin.y = 10; }
+	
+	if (plane.distanceTo(m_ray.origin) < 10) { velocity.y = -velocity.y * 1; }
+	if (plane.distanceTo(m_ray.origin) < 1) {
+		m_ray.origin.y = 10;
+		velocity.y = 0;
+	}
 }
 
 float Grapple::get_angle()
