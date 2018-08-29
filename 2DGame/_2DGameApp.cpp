@@ -66,11 +66,8 @@ void _2DGameApp::update(float deltaTime) {
 	m_colour.B += deltaTime / 2;
 	if (m_colour.B > 1) { m_colour.B = 0; }
 	//END COLOUR
-
-	if (grappleing = true)
-	{
-		player.Update(deltaTime, m_plane, box, grappleing);
-	}
+	player.Update(deltaTime, m_plane, box);
+	
 	
 	
 	// input example

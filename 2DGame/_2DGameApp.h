@@ -36,7 +36,6 @@ protected:
 	Grapple test = { Vector2(-1000,-1000),Vector2(-1000,-1000) };
 	Grapple player;
 	Plane m_plane;
-	bool grappleing;
 	std::vector<Vector2> vecs;
 
 	//colours

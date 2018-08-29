@@ -16,8 +16,17 @@ public:
 	Grapple(Vector2 &origin ,Vector2 &direction);
 	~Grapple();
 
+	int state; //0 == not 1 == is Grappled 2 == firing
+	GrapplePoint* target;
+	float intercept_distance;
+	Vector2 intersect_point;
+	Ray m_ray;
+	float m_rayAngle;
+	float m_length;
+	Vector2 velocity;
+
 	void Draw(aie::Renderer2D *renderer);
-	void Update(float deltatime,Plane& m_plane, std::vector<GrapplePoint>& Points, float distance);
+	void Update(float deltatime,Plane& m_plane, std::vector<GrapplePoint>& Points);
 
 	float get_angle();
 	Ray get_ray();
@@ -26,10 +35,7 @@ public:
 	Vector2& set_velocity() { return velocity; }
 	Ray& set_ray() { return m_ray; }
 private:
-	Ray m_ray;
-	float m_rayAngle;
-	float m_length;
-	Vector2 velocity;
-
+	
+	
 };
 

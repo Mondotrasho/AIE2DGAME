@@ -3,6 +3,9 @@
 #include "RayController.h"
 #include "Grab.h"
 #include "nicolausYes_easing.h"
+#include <glm/detail/func_geometric.inl>
+#include "apply_velocity.h"
+#include "point_hitcheck.h"
 
 #ifndef PI
 #define PI 3.14159265359;
@@ -33,16 +36,19 @@ void Grapple::Draw(aie::Renderer2D* renderer)
 		5);
 }
 
-void Grapple::Update(float deltatime,Plane& plane, std::vector<GrapplePoint>& Points,float distance)
+void Grapple::Update(float deltatime, Plane& plane, std::vector<GrapplePoint>& points)
 {
-	//todo fix
 	//fall to ground
-	if(plane.distanceTo(m_ray.origin) > 10){velocity.y -= 200 * deltatime; }
+	if (plane.distanceTo(m_ray.origin) > 10) { velocity.y -= 200 * deltatime; }
+
 	//move
 	raycontroller(m_ray, m_rayAngle, velocity, deltatime);
-	m_ray.origin += velocity * deltatime;
-	velocity -= (velocity * deltatime) / 4;
-	Grab(this, deltatime, Points, distance);
+
+	//grappling
+	//grab check
+	Grab(this, deltatime, points); 
+	if (state == 2) {point_hitcheck(this, points);}
+	apply_velocity(this, velocity, deltatime, 4);
 	//keep above ground
 	
 	if (plane.distanceTo(m_ray.origin) < 10) { velocity.y = -velocity.y * 1; }

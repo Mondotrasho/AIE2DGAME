@@ -173,10 +173,12 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="apply_velocity.h" />
     <ClInclude Include="Grab.h" />
     <ClInclude Include="Grapple.h" />
     <ClInclude Include="GrapplePoint.h" />
     <ClInclude Include="PointController.h" />
+    <ClInclude Include="point_hitcheck.h" />
     <ClInclude Include="RandomXY.h" />
     <ClInclude Include="RayController.h" />
     <ClInclude Include="_2DGameApp.h" />
