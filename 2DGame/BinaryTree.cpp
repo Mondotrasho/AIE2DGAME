@@ -17,7 +17,7 @@ bool BinaryTree::isEmpty() const
 void BinaryTree::insert(int a_nValue)
 {
 //		If the tree is empty, the value is inserted at the root
-	//TreeNode toAdd = TreeNode(a_nValue);
+	TreeNode toAdd = TreeNode(a_nValue);
 	if(isEmpty())
 	{
 		

@@ -166,15 +166,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BinaryTree.cpp" />
-    <ClCompile Include="TreeNode.cpp" />
-    <ClCompile Include="_2DGameApp.cpp" />
+    <ClCompile Include="Application2D.cpp" />
+    <ClCompile Include="BinaryTree_john.cpp" />
+    <ClCompile Include="TreeNode_john.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BinaryTree.h" />
-    <ClInclude Include="TreeNode.h" />
-    <ClInclude Include="_2DGameApp.h" />
+    <ClInclude Include="Application2D.h" />
+    <ClInclude Include="BinaryTree_john.h" />
+    <ClInclude Include="TreeNode_john.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathsLib\MathsLib\MathsLib.vcxproj">
