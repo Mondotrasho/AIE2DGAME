@@ -57,7 +57,7 @@ void SceneObject::setPosition(float x, float y) {
 	updateTransform();
 }
 void SceneObject::setRotate(float radians) {
-	m_localTransform.set_rotate_z(radians);
+	m_localTransform.setRotateZ(radians);
 	updateTransform();
 }
 void SceneObject::setScale(float width, float height) {
