@@ -166,11 +166,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="_2DGameApp.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\EntityDisplayApp.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="_2DGameApp.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\EntityDisplayApp.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathsLib\MathsLib\MathsLib.vcxproj">

@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="_2DGameApp.cpp">
+    <ClCompile Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\EntityDisplayApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="_2DGameApp.h">
+    <ClInclude Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\EntityDisplayApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
