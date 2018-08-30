@@ -32,6 +32,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_timer = 0;
+	m_timer2 = 0;
 
 	player = { startypoint, directionypoint};
 
@@ -56,6 +57,9 @@ bool _2DGameApp::startup() {
 
 	// center the Worm
 	worm.setPosition(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
+	worm.worm_face.center = Vector2(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
+	worm.worm_face.radius = 30;
+	worm.worm_states = 0;
 
 	return true;
 	
@@ -73,6 +77,12 @@ void _2DGameApp::shutdown() {
 void _2DGameApp::update(float deltaTime) {
 
 	m_timer += deltaTime;
+	m_timer2 += deltaTime;
+	if (m_timer2 > 2.0f)
+	{
+		m_timer2 = 0;
+		worm.worm_states = rand() % 2;
+	}
 	//colour changing todo move
 	//0.0 - 1.0
 	m_colour.R += deltaTime / 2;
@@ -84,9 +94,13 @@ void _2DGameApp::update(float deltaTime) {
 	//END COLOUR
 	player.Update(deltaTime, walls, box);
 
-	worm.onUpdate(deltaTime);
+	worm.onUpdate(deltaTime, walls);
+	worm.worm_face.center.x = worm.getGlobalTransform().translation.x;
+	worm.worm_face.center.y = worm.getGlobalTransform().translation.y;
+
 	
-	
+
+
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 	// exit the application
@@ -163,6 +177,7 @@ void _2DGameApp::draw() {
 		}
 	}
 
+	//m_2dRenderer->drawCircle(worm.worm_face.center.x, worm.worm_face.center.y, worm.worm_face.radius);
 	draw_boundries(walls, m_2dRenderer);
 	
 	

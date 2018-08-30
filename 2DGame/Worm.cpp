@@ -76,15 +76,12 @@ void Worm::setup(const char* WormImage, const char* worm_body_image)
 
 }
 
-void Worm::onUpdate(float deltaTime)
+void Worm::onUpdate(float deltaTime, std::vector<Plane>& planes)
 {
 	// input example
-	aie::Input* input = aie::Input::getInstance();
-	auto facing = getLocalTransform()[1];	
-	translate(facing.x*velocity.x, facing.y*velocity.y);
-	
+	aie::Input* input = aie::Input::getInstance();	
 	// rotate Worm
-	if (input->isKeyDown(aie::INPUT_KEY_LEFT)) {
+	if (worm_states == 1) {
 		rotate(-deltaTime);
 
 	m_body1.rotate(0.4f * deltaTime);
@@ -95,7 +92,7 @@ void Worm::onUpdate(float deltaTime)
 	m_body5.rotate(0.4f * deltaTime);
 	//rotate(-deltaTime*3);
 }
-if (input->isKeyDown(aie::INPUT_KEY_RIGHT)) {
+if (worm_states == 2) {
 	rotate(deltaTime);
 	m_body1.rotate(-0.4f * deltaTime);
 	m_body2.rotate(-0.4f * deltaTime);
@@ -122,6 +119,28 @@ if (m_body1.getLocalTransform().x_axis.y > 0) {
 	m_body5.rotate(-0.3f* deltaTime);
 	m_body6.rotate(-0.3f* deltaTime);
 }
-	//}
+for (auto p : planes)
+{
+
+	if (p.N.x == 0 && p.distanceTo(worm_face.closestPoint(p.closestPoint(worm_face.center))) < 10)
+	{
+		auto facing = getLocalTransform()[1];
+		translate(facing.x*-velocity.x, facing.y*-velocity.y);
+		velocity.y = -velocity.y * 1;
+	}
+
+	if (p.N.y == 0 && p.distanceTo(worm_face.closestPoint(p.closestPoint(worm_face.center))) < 10)
+	{
+		auto facing = getLocalTransform()[1];
+		translate(facing.x*-velocity.x, facing.y*-velocity.y);
+		velocity.x = -velocity.x * 1;
+	}
+	
+}
+;
+
+auto facing = getLocalTransform()[1];
+translate(facing.x*velocity.x, facing.y*velocity.y);
+
 
 }

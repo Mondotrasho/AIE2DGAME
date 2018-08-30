@@ -43,4 +43,5 @@ protected:
 	//colours
 	Vector3 m_colour;
 	Worm worm;
+	float m_timer2;//worm timer
 };

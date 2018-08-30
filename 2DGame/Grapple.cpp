@@ -44,7 +44,7 @@ void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<Gra
 		
 		if (p.N.x == 0 && p.distanceTo(m_ray.origin) > 10)
 		{
-			velocity.y -= 200 * deltatime;
+			velocity.y -= 300 * deltatime;
 		}
 
 		/*if (p.N.y == 0 && p.distanceTo(m_ray.origin) > 10)
@@ -52,10 +52,10 @@ void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<Gra
 			velocity.x -= 200 * deltatime;
 		}*/
 	} 
+	;
 	
-
 	//move
-	raycontroller(m_ray, m_rayAngle, velocity, deltatime);
+	raycontroller(m_ray, m_rayAngle, velocity, plane[0], deltatime);
 
 	//grappling
 	//grab check

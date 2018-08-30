@@ -1,5 +1,6 @@
 #pragma once
 #include "SpriteObject.h"
+#include "Plane.h"
 
 class Worm  : public SpriteObject{
 
@@ -16,10 +17,10 @@ class Worm  : public SpriteObject{
 	void setup(const char* WormImage, const char* worm_body_image);
 
 	// update Worm/Worm movement
-	virtual void onUpdate(float deltaTime);
+	virtual void onUpdate(float deltaTime,std::vector<Plane>& planes);
 
-
-
+	int worm_states;
+	Sphere worm_face;
 	private:
 
 	SpriteObject m_body1, m_body2, m_body3, m_body4, m_body5, m_body6;
