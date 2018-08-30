@@ -40,7 +40,7 @@ bool _2DGameApp::startup() {
 
 	for (int i = 0; i < 15; ++i)
 	{
-		box.push_back(GrapplePoint(randomer.random_on_screen(), 30));
+		box.push_back(GrapplePoint(randomer.random_on_screen(), 30)); // random_in_range(50, 1280 - 50, 50, 720 - 50), 30));
 	}
 
 	Ground = { Vector2(1, 3),Vector2(2,3) };//{ Vector2(0.0f,0.1f),-50 }; //use this format for rotating as the 0.1 0.2 etc is easier for for loops and shite
@@ -78,10 +78,10 @@ void _2DGameApp::update(float deltaTime) {
 
 	m_timer += deltaTime;
 	m_timer2 += deltaTime;
-	if (m_timer2 > 2.0f)
+	if (m_timer2 > 2.0f)//0.5f)
 	{
 		m_timer2 = 0;
-		worm.worm_states = rand() % 2;
+		worm.worm_states = (rand() % 3);
 	}
 	//colour changing todo move
 	//0.0 - 1.0
@@ -180,10 +180,16 @@ void _2DGameApp::draw() {
 	//m_2dRenderer->drawCircle(worm.worm_face.center.x, worm.worm_face.center.y, worm.worm_face.radius);
 	draw_boundries(walls, m_2dRenderer);
 	
-	
+
+	char Score[32];
+	std::string s = std::to_string(int(m_timer2));
+	char cstr[32];
+	strcpy(cstr, s.c_str());
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
+	m_2dRenderer->drawText(m_font, cstr, 30, 720 - 100);
+	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
 	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 
