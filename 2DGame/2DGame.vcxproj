@@ -166,16 +166,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\EntityDisplayApp.cpp" />
-    <ClCompile Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityDisplay\EntityDisplayApp.h" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MathsLib\MathsLib\MathsLib.vcxproj">
       <Project>{c0502cd6-8391-4b50-ab79-c9d39b15c5fa}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityEditor\EntityEditorApp.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityEditor\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\Downloads\NamedSharedMemoryExercise\EntityEditor\EntityEditorApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
