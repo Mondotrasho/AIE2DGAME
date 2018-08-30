@@ -5,6 +5,7 @@
 #include "Ray.h"
 #include "Vector3.h"
 #include "GrapplePoint.h"
+#include "Worm.h"
 
 
 class _2DGameApp : public aie::Application {
@@ -35,9 +36,11 @@ protected:
 	std::vector<GrapplePoint> box;
 	Grapple test = { Vector2(-1000,-1000),Vector2(-1000,-1000) };
 	Grapple player;
-	Plane m_plane;
+	Plane Ground,Roof,Right,Left;
+	std::vector<Plane> walls;
 	std::vector<Vector2> vecs;
 
 	//colours
 	Vector3 m_colour;
+	Worm worm;
 };

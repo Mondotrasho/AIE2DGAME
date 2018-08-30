@@ -36,10 +36,23 @@ void Grapple::Draw(aie::Renderer2D* renderer)
 		5);
 }
 
-void Grapple::Update(float deltatime, Plane& plane, std::vector<GrapplePoint>& points)
+void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<GrapplePoint>& points)
 {
 	//fall to ground
-	if (plane.distanceTo(m_ray.origin) > 10) { velocity.y -= 200 * deltatime; }
+	for (auto p : plane)
+	{
+		
+		if (p.N.x == 0 && p.distanceTo(m_ray.origin) > 10)
+		{
+			velocity.y -= 200 * deltatime;
+		}
+
+		/*if (p.N.y == 0 && p.distanceTo(m_ray.origin) > 10)
+		{
+			velocity.x -= 200 * deltatime;
+		}*/
+	} 
+	
 
 	//move
 	raycontroller(m_ray, m_rayAngle, velocity, deltatime);
@@ -50,11 +63,27 @@ void Grapple::Update(float deltatime, Plane& plane, std::vector<GrapplePoint>& p
 	if (state == 2) {point_hitcheck(this, points);}
 	apply_velocity(this, velocity, deltatime, 4);
 	//keep above ground
+	for (auto p : plane)
+	{
 	
-	if (plane.distanceTo(m_ray.origin) < 10) { velocity.y = -velocity.y * 1; }
-	if (plane.distanceTo(m_ray.origin) < 1) {
-		m_ray.origin.y = 10;
-		velocity.y = 0;
+		if (p.N.x == 0 && p.distanceTo(m_ray.origin) < 10)
+		{
+			velocity.y = -velocity.y * 1;
+		}
+		if (p.N.x == 0 && p.distanceTo(m_ray.origin) < 1)
+		{
+			m_ray.origin.y = 10; velocity.y = 0;
+		}
+
+		if (p.N.y == 0 && p.distanceTo(m_ray.origin) < 10)
+		{
+			velocity.x = -velocity.x * 1;
+		}
+		if (p.N.y == 0 && p.distanceTo(m_ray.origin) < 1)
+		{
+			m_ray.origin.x = 10; velocity.x = 0;
+		}
+	
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "RandomXY.h"
 #include <ctime>
 #include "Curves.h"
+#include "draw_boundries.h"
 
 _2DGameApp::_2DGameApp()
 {
@@ -41,8 +42,23 @@ bool _2DGameApp::startup() {
 		box.push_back(GrapplePoint(randomer.random_on_screen(), 30));
 	}
 
-	m_plane = { Vector2(400, 3),Vector2(401,3) };//{ Vector2(0.0f,0.1f),-50 }; //use this format for rotating as the 0.1 0.2 etc is easier for for loops and shite
+	Ground = { Vector2(1, 3),Vector2(2,3) };//{ Vector2(0.0f,0.1f),-50 }; //use this format for rotating as the 0.1 0.2 etc is easier for for loops and shite
+	Roof = { Vector2(2, getWindowHeight() - 3),Vector2(1,getWindowHeight() - 3) };
+	Right = { Vector2(getWindowWidth() - 3, 1),Vector2(getWindowWidth() - 3,2) };
+	Left = { Vector2(3, 2),Vector2(3,1) };
+
+	walls.push_back(Ground);
+	walls.push_back(Roof);
+	walls.push_back(Right);
+	walls.push_back(Left);
+
+	worm.setup("../bin/textures/snake_head.png","../bin/textures/snake_bod.png");
+
+	// center the Worm
+	worm.setPosition(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
+
 	return true;
+	
 }
 
 void _2DGameApp::shutdown() {
@@ -66,8 +82,9 @@ void _2DGameApp::update(float deltaTime) {
 	m_colour.B += deltaTime / 2;
 	if (m_colour.B > 1) { m_colour.B = 0; }
 	//END COLOUR
-	player.Update(deltaTime, m_plane, box);
-	
+	player.Update(deltaTime, walls, box);
+
+	worm.onUpdate(deltaTime);
 	
 	
 	// input example
@@ -86,6 +103,7 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	player.Draw(m_2dRenderer);
+	worm.draw(m_2dRenderer);
 
 	Vector2 intersect_point_sphere;
 	Vector2 reflection_sphere;
@@ -144,20 +162,9 @@ void _2DGameApp::draw() {
 
 		}
 	}
-	// get point on plane closest to window center 
-	auto u = m_plane.closestPoint(Vector2(640,360));
-	m_2dRenderer->setRenderColour(1, 0, 1);
+
+	draw_boundries(walls, m_2dRenderer);
 	
-	// draw plane normal 50 pixels long 
-	m_2dRenderer->setRenderColour(1, 0, 0); 
-	m_2dRenderer->drawLine(u.x, u.y, u.x + m_plane.N.x * 50, u.y + m_plane.N.y * 50, 4);
-
-	// get a vector perpendicular to the normal 
-	Vector2 v(m_plane.N.y, -m_plane.N.x);
-
-	// draw separating line 3000 pixels long 
-	m_2dRenderer->setRenderColour(1, 1, 0); 
-	m_2dRenderer->drawLine(u.x - v.x * 1500, u.y - v.y * 1500, u.x + v.x * 1500, u.y + v.y * 1500, 4);
 	
 	// output some text, uses the last used colour
 	char fps[32];

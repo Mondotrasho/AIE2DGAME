@@ -169,11 +169,15 @@
     <ClCompile Include="Grapple.cpp" />
     <ClCompile Include="GrapplePoint.cpp" />
     <ClCompile Include="RandomXY.cpp" />
+    <ClCompile Include="SceneObject.cpp" />
+    <ClCompile Include="SpriteObject.cpp" />
+    <ClCompile Include="Worm.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="apply_velocity.h" />
+    <ClInclude Include="draw_boundries.h" />
     <ClInclude Include="Grab.h" />
     <ClInclude Include="Grapple.h" />
     <ClInclude Include="GrapplePoint.h" />
@@ -181,6 +185,9 @@
     <ClInclude Include="point_hitcheck.h" />
     <ClInclude Include="RandomXY.h" />
     <ClInclude Include="RayController.h" />
+    <ClInclude Include="SceneObject.h" />
+    <ClInclude Include="SpriteObject.h" />
+    <ClInclude Include="Worm.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>

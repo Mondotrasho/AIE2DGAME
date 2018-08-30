@@ -40,6 +40,9 @@ void SceneObject::removeChild(SceneObject* child) {
 const Matrix3& SceneObject::getLocalTransform() const {
 	return m_localTransform;
 }
+Matrix3& SceneObject::setLocalTransform() {
+	return m_localTransform;
+}
 const Matrix3& SceneObject::getGlobalTransform() const {
 	return m_globalTransform;
 }

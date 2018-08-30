@@ -26,7 +26,7 @@ public:
 	Vector2 velocity;
 
 	void Draw(aie::Renderer2D *renderer);
-	void Update(float deltatime,Plane& m_plane, std::vector<GrapplePoint>& Points);
+	void Update(float deltatime, std::vector<Plane>& plane, std::vector<GrapplePoint>& Points);
 
 	float get_angle();
 	Ray get_ray();

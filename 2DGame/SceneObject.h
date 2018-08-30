@@ -17,6 +17,7 @@ public:
 	void update(float deltaTime);
 	void draw(aie::Renderer2D* renderer);
 	const Matrix3& getLocalTransform() const;
+	Matrix3& setLocalTransform();
 	const Matrix3& getGlobalTransform() const;
 	void updateTransform();
 	void setPosition(float x, float y);
@@ -36,5 +37,6 @@ protected:
 
 	Matrix3 m_localTransform = Matrix3::identity;
 	Matrix3 m_globalTransform = Matrix3::identity;
-};
+};
+
 
