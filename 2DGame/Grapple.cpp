@@ -61,30 +61,45 @@ void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<Gra
 	//grab check
 	Grab(this, deltatime, points); 
 	if (state == 2) {point_hitcheck(this, points);}
-	apply_velocity(this, velocity, deltatime, 4);
+	float multi = 1.0f;
 	//keep above ground
 	for (auto p : plane)
 	{
-	
+	//top bot
 		if (p.N.x == 0 && p.distanceTo(m_ray.origin) < 10)
 		{
-			velocity.y = -velocity.y * 1;
+			velocity.y = -velocity.y + 1;
+			//bot
+			if (p.N.y == 1)
+			{
+				m_ray.origin.y += 10;// velocity.y = 0;
+			}
+			//top
+			if (p.N.y == -1)
+			{
+				m_ray.origin.y -= 10;// velocity.y = 0;
+			}
 		}
-		if (p.N.x == 0 && p.distanceTo(m_ray.origin) < 1)
-		{
-			m_ray.origin.y = 10; velocity.y = 0;
-		}
-
+		
+		//left right
 		if (p.N.y == 0 && p.distanceTo(m_ray.origin) < 10)
 		{
-			velocity.x = -velocity.x * 1;
+			velocity.x = -velocity.x + 1;
+			//left
+			if (p.N.x == 1)
+			{
+				m_ray.origin.x += 10;// velocity.x = 0;
+			}
+			//right
+			if (p.N.x == -1)
+			{
+				m_ray.origin.x -= 10;// velocity.x = 0;
+			}
 		}
-		if (p.N.y == 0 && p.distanceTo(m_ray.origin) < 1)
-		{
-			m_ray.origin.x = 10; velocity.x = 0;
-		}
+		
 	
 	}
+	apply_velocity(this, velocity, deltatime, 4);
 }
 
 float Grapple::get_angle()

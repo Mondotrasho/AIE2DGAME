@@ -198,6 +198,6 @@ float multi = 1.0f;
 	}
 auto facing = getLocalTransform()[1];
 translate(facing.x*velocity.x, facing.y*velocity.y);
-
+updateTransform();
 
 }
