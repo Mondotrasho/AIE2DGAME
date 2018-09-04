@@ -53,13 +53,26 @@ bool _2DGameApp::startup() {
 	walls.push_back(Right);
 	walls.push_back(Left);
 
-	worm.setup("../bin/textures/snake_head.png","../bin/textures/snake_bod.png");
+	worm_box.push_back(w1);
+	worm_box.push_back(w2);
+	worm_box.push_back(w3);
+	worm_box.push_back(w4);
+	worm_box.push_back(w5);
+	worm_box.push_back(w6);
+	worm_box.push_back(w7);
+	worm_box.push_back(w8);
+	worm_box.push_back(w9);
+	worm_box.push_back(w10);
+	for (auto& worm : worm_box)
+	{
+		worm.setup("../bin/textures/snake_head.png", "../bin/textures/snake_bod.png");
 
-	// center the Worm
-	worm.setPosition(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
-	worm.worm_face.center = Vector2(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
-	worm.worm_face.radius = 30;
-	worm.worm_states = 0;
+		// center the Worm
+		worm.setPosition(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
+		worm.worm_face.center = Vector2(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
+		worm.worm_face.radius = 30;
+		worm.worm_states = 0;
+	}
 
 	return true;
 	
@@ -81,7 +94,10 @@ void _2DGameApp::update(float deltaTime) {
 	if (m_timer2 > 2.0f)//0.5f)
 	{
 		m_timer2 = 0;
-		worm.worm_states = (rand() % 3);
+		for (auto& worm : worm_box)
+		{
+			worm.worm_states = (rand() % 3);
+		}
 	}
 	//colour changing todo move
 	//0.0 - 1.0
@@ -93,10 +109,13 @@ void _2DGameApp::update(float deltaTime) {
 	if (m_colour.B > 1) { m_colour.B = 0; }
 	//END COLOUR
 	player.Update(deltaTime, walls, box);
-
-	worm.onUpdate(deltaTime, walls);
-	worm.worm_face.center.x = worm.getGlobalTransform().translation.x;
-	worm.worm_face.center.y = worm.getGlobalTransform().translation.y;
+	for (auto& worm : worm_box)
+	{
+		worm.onUpdate(deltaTime, walls);
+		worm.worm_face.center.x = worm.getGlobalTransform().translation.x;
+		worm.worm_face.center.y = worm.getGlobalTransform().translation.y;
+	}
+	
 
 	
 
@@ -117,7 +136,11 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
 	player.Draw(m_2dRenderer);
-	worm.draw(m_2dRenderer);
+	
+	for (auto& worm : worm_box)
+	{
+		worm.draw(m_2dRenderer);
+	}
 
 	Vector2 intersect_point_sphere;
 	Vector2 reflection_sphere;

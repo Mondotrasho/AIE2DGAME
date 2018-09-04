@@ -8,6 +8,8 @@ Worm::Worm()
 
 Worm::Worm(const char* WormImage, const char* worm_body_image)
 {
+
+
 	load(WormImage);
 	m_body1.load(worm_body_image);
 	m_body2.load(worm_body_image);
@@ -119,21 +121,37 @@ if (m_body1.getLocalTransform().x_axis.y > 0) {
 	m_body5.rotate(-0.3f* deltaTime);
 	m_body6.rotate(-0.3f* deltaTime);
 }
+
 for (auto p : planes)
 {
-
+	//top and bottom planes
 	if (p.N.x == 0 && p.distanceTo(worm_face.closestPoint(p.closestPoint(worm_face.center))) < 10)
 	{
-		auto facing = getLocalTransform()[1];
-		translate(facing.x*-velocity.x, facing.y*-velocity.y);
-		velocity.y = -velocity.y * 1;
+		if (p.N.y == 1) {
+			auto facing = getLocalTransform()[1];
+			translate(facing.x, facing.y*-velocity.y + 1.5f);
+			updateTransform();
+		}
+		if (p.N.y == -1) {
+			auto facing = getLocalTransform()[1];
+			translate(facing.x, facing.y*-velocity.y - 1.5f);
+			updateTransform();
+		}
+		
 	}
-
+	//left and right planes
 	if (p.N.y == 0 && p.distanceTo(worm_face.closestPoint(p.closestPoint(worm_face.center))) < 10)
 	{
-		auto facing = getLocalTransform()[1];
-		translate(facing.x*-velocity.x, facing.y*-velocity.y);
-		velocity.x = -velocity.x * 1;
+		if (p.N.x == 1) {
+			auto facing = getLocalTransform()[1];
+			translate(facing.x*-velocity.x, facing.y + 1.5f);
+			updateTransform();
+		}
+		if (p.N.x == -1) {
+			auto facing = getLocalTransform()[1];
+			translate(facing.x*-velocity.x, facing.y - 1.5f);
+			updateTransform();
+		}
 	}
 	
 }

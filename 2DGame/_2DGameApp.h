@@ -42,6 +42,7 @@ protected:
 
 	//colours
 	Vector3 m_colour;
-	Worm worm;
+	Worm w1, w2, w3, w4,w5,w6,w7,w8,w9,w10;
+	std::vector<Worm> worm_box;
 	float m_timer2;//worm timer
 };
