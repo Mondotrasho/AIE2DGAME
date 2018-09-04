@@ -47,10 +47,10 @@ bool _2DGameApp::startup() {
 	Roof = { Vector2(2, getWindowHeight() - 3),Vector2(1,getWindowHeight() - 3) };
 	Right = { Vector2(getWindowWidth() - 3, 1),Vector2(getWindowWidth() - 3,2) };
 	Left = { Vector2(3, 2),Vector2(3,1) };
-
+	
 	walls.push_back(Ground);
-	walls.push_back(Roof);
 	walls.push_back(Right);
+	walls.push_back(Roof);
 	walls.push_back(Left);
 
 	worm_box.push_back(w1);

@@ -1,6 +1,16 @@
 #include "Worm.h"
 #include "Input.h"
+int minmax(int i)
+{
+	int max = 3;
+	int min = 0;
 
+
+	if (i > max) { return min; }
+	if (i < min) { return max; }
+
+	return i ;
+}
 
 Worm::Worm()
 {
@@ -121,42 +131,71 @@ if (m_body1.getLocalTransform().x_axis.y > 0) {
 	m_body5.rotate(-0.3f* deltaTime);
 	m_body6.rotate(-0.3f* deltaTime);
 }
-
-for (auto p : planes)
-{
-	//top and bottom planes
-	if (p.N.x == 0 && p.distanceTo(worm_face.closestPoint(p.closestPoint(worm_face.center))) < 10)
+float multi = 1.0f;
+	for (int i = 0; i < 4; ++i)
 	{
-		if (p.N.y == 1) {
-			auto facing = getLocalTransform()[1];
-			translate(facing.x, facing.y*-velocity.y + 1.5f);
-			updateTransform();
-		}
-		if (p.N.y == -1) {
-			auto facing = getLocalTransform()[1];
-			translate(facing.x, facing.y*-velocity.y - 1.5f);
-			updateTransform();
-		}
-		
-	}
-	//left and right planes
-	if (p.N.y == 0 && p.distanceTo(worm_face.closestPoint(p.closestPoint(worm_face.center))) < 10)
-	{
-		if (p.N.x == 1) {
-			auto facing = getLocalTransform()[1];
-			translate(facing.x*-velocity.x, facing.y + 1.5f);
-			updateTransform();
-		}
-		if (p.N.x == -1) {
-			auto facing = getLocalTransform()[1];
-			translate(facing.x*-velocity.x, facing.y - 1.5f);
-			updateTransform();
-		}
-	}
-	
-}
-;
 
+		//top and bottom planes
+		if (planes.at(i).N.x == 0 && planes.at(i).distanceTo(worm_face.closestPoint(planes.at(i).closestPoint(worm_face.center))) < 10)
+		{
+			if (planes.at(i).distanceTo(worm_face.closestPoint(planes.at(i).closestPoint(worm_face.center))) && planes.at(minmax(i+1)).distanceTo(worm_face.closestPoint(planes.at(minmax(i + 1)).closestPoint(worm_face.center))))
+			{
+				if (planes.at(i).N.y == 1 && planes.at(minmax(i + 1)).N.x == 1) {
+					auto facing = getLocalTransform()[1];
+					translate(facing.x*-velocity.x + multi, facing.y + multi);
+					updateTransform();
+
+				}
+				if (planes.at(i).N.y == 1 && planes.at(minmax(i + 1)).N.x == -1) {
+					auto facing = getLocalTransform()[1];
+					translate(facing.x*-velocity.x - multi, facing.y + multi);
+					updateTransform();
+
+				}
+			}
+			if (planes.at(i).N.y == 1) {
+				auto facing = getLocalTransform()[1];
+				translate(facing.x, facing.y*-velocity.y + multi);
+				updateTransform();
+			}
+			if (planes.at(i).N.y == -1) {
+				auto facing = getLocalTransform()[1];
+				translate(facing.x, facing.y*-velocity.y - multi);
+				updateTransform();
+			}
+
+		}
+		//left and right planes
+		if (planes.at(i).N.y == 0 && planes.at(i).distanceTo(worm_face.closestPoint(planes.at(i).closestPoint(worm_face.center))) < 10)
+		{
+			if (planes.at(i).distanceTo(worm_face.closestPoint(planes.at(i).closestPoint(worm_face.center)))&& planes.at(minmax(i + 1)).distanceTo(worm_face.closestPoint(planes.at(minmax(i + 1)).closestPoint(worm_face.center))))
+			{
+				if (planes.at(i).N.x == 1 && planes.at(minmax(i + 1)).N.y == 1) {
+					auto facing = getLocalTransform()[1];
+					translate(facing.x*-velocity.x + multi, facing.y + multi);
+					updateTransform();
+
+				}
+				if (planes.at(i).N.x == 1 && planes.at(minmax(i + 1)).N.y == -1) {
+					auto facing = getLocalTransform()[1];
+					translate(facing.x*-velocity.x + multi, facing.y - multi);
+					updateTransform();
+
+				}
+			}
+			if (planes.at(i).N.x == 1) {
+				auto facing = getLocalTransform()[1];
+				translate(facing.x*-velocity.x + multi, facing.y );
+				updateTransform();
+
+			}
+			if (planes.at(i).N.x == -1) {
+				auto facing = getLocalTransform()[1];
+				translate(facing.x*-velocity.x - multi, facing.y );
+				updateTransform();
+			}
+		}
+	}
 auto facing = getLocalTransform()[1];
 translate(facing.x*velocity.x, facing.y*velocity.y);
 
