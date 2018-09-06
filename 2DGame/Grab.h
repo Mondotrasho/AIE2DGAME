@@ -5,12 +5,11 @@
 inline void Grab(Grapple* grapps, float deltaTime, std::vector<GrapplePoint>& Targets)
 {
 	aie::Input* input = aie::Input::getInstance();
-	
-	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
+	if (input->isMouseButtonDown(0))
 	{	
 		grapps->state = 2;				
 	}
-	if (input->isKeyUp(aie::INPUT_KEY_SPACE) && grapps->state != 2)
+	if (input->isMouseButtonUp(0) && grapps->state != 2)
 	{
 		grapps->state = 0;
 		grapps->target = nullptr;
