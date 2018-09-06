@@ -17,7 +17,7 @@ bool _2DGameApp::startup() {
 	
 	m_2dRenderer = new aie::Renderer2D();
 
-	g_systemFont = new aie::Font("./font/consolas.ttf", 32);
+	g_systemFont = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
@@ -25,6 +25,8 @@ bool _2DGameApp::startup() {
 
 	m_timer = 0;
 
+	//m_binaryTree.insert(11);
+	//m_binaryTree.insert(12);
 	return true;
 }
 
@@ -49,7 +51,7 @@ void _2DGameApp::update(float deltaTime) {
 	}
 	if (ImGui::Button("Remove", ImVec2(50, 0)))
 	{
-		m_binaryTree.remove(value);
+		m_binaryTree.remove(m_binaryTree.Root(), value);
 	}
 	if (ImGui::Button("Find", ImVec2(50, 0)))
 	{
