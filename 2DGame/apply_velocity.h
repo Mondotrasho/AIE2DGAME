@@ -20,7 +20,7 @@ inline void apply_velocity(Grapple& Player,Vector2& velocity, float deltatime,fl
 		if (distance > original_distance)
 		{
 			velocity = perpindicular_dir * perpindicular_dir.dot(velocity);
-			Player.set_ray().origin = Player.target->intersect_point - (Player.get_ray().direction * Player.intercept_distance);
+			Player.set_ray().origin = Player.intersect_point - (Player.get_ray().direction * Player.intercept_distance);
 		}
 	}
 };
