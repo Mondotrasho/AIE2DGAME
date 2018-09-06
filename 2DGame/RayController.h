@@ -22,21 +22,13 @@ inline void raycontroller(Ray& m_ray, float& m_rayAngle, Vector2& velocity, Plan
 	if (input->isKeyDown(aie::INPUT_KEY_A)) {
 		velocity.x -= 4;
 	}
-	//// use Q/E keys to rotate ray
-	//if (input->isKeyDown(aie::INPUT_KEY_Q))
-	//{
-	//	m_rayAngle -= deltaTime;
-	//}
-	//if (input->isKeyDown(aie::INPUT_KEY_E))
-	//{
-	//	m_rayAngle += deltaTime;
-	//}
 	
 	Vector2 a = Vector2{ (float)input->getMouseX(),(float)input->getMouseY() };
-	//auto v = a.angle_between(m_ray.origin);
 	a = a - m_ray.origin;
 	a.normalise();
+
 	if (grapstate != 1) {
 		m_ray.direction = a;
 	}
+	
 };

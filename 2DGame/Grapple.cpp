@@ -17,7 +17,8 @@ Grapple::Grapple(Vector2 &origin, Vector2 &direction)
 	m_ray = { origin, direction, m_length };
 
 	m_rayAngle = atan2(direction.y, direction.x); //remember y then x with atan
-
+	target = nullptr;
+	state = 0;
 }
 
 Grapple::~Grapple()
@@ -39,22 +40,6 @@ void Grapple::Draw(aie::Renderer2D* renderer)
 
 void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<GrapplePoint>& points)
 {
-	//fall to ground
-	for (auto p : plane)
-	{
-
-		if (p.N.x == 0 && p.distanceTo(m_ray.origin) > 10)
-		{
-			velocity.y -= 300 * deltatime;
-		}
-
-		/*if (p.N.y == 0 && p.distanceTo(m_ray.origin) > 10)
-		{
-		velocity.x -= 200 * deltatime;
-		}*/
-	}
-	;
-
 	//move
 	raycontroller(m_ray, m_rayAngle, velocity, plane[0], deltatime, state);
 
@@ -62,6 +47,7 @@ void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<Gra
 	//grab check
 	Grab(this, deltatime, points);
 	if (state == 2) { point_hitcheck(this, points); }
+	
 	//keep above ground
 	for (auto p : plane)
 	{
@@ -72,12 +58,12 @@ void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<Gra
 			//bot
 			if (p.N.y == 1)
 			{
-				m_ray.origin.y += 10;// velocity.y = 0;
+				
 			}
 			//top
 			if (p.N.y == -1)
 			{
-				m_ray.origin.y -= 10;// velocity.y = 0;
+				
 			}
 		}
 
@@ -88,12 +74,12 @@ void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<Gra
 			//left
 			if (p.N.x == 1)
 			{
-				m_ray.origin.x += 10;// velocity.x = 0;
+				
 			}
 			//right
 			if (p.N.x == -1)
 			{
-				m_ray.origin.x -= 10;// velocity.x = 0;
+				
 			}
 		}
 
