@@ -35,6 +35,7 @@ public:
 	void raycontroller(Ray & m_ray, float & m_rayAngle, Vector2 & velocity, Plane ground, float deltaTime, bool grapstate);
 	void point_hitcheck(Grapple* Player, std::vector<GrapplePoint>& Points);
 	void apply_velocity(Grapple& Player, Vector2& velocity, float deltatime, float decay);
+	void Grab(Grapple* grapps, float deltaTime, std::vector<GrapplePoint>& Targets);
 
 	Vector2 get_velocity() { return velocity; }
 	Vector2& set_velocity() { return velocity; }

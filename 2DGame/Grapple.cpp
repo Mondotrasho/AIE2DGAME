@@ -1,7 +1,7 @@
-#include "Grapple.h"
 #include "Renderer2D.h"
-#include "Grab.h"
-#include <glm/detail/func_geometric.inl>
+#include "Input.h"
+#include "Grapple.h"
+#include "GrapplePoint.h"
 
 #ifndef PI
 #define PI 3.14159265359;
@@ -187,3 +187,17 @@ void Grapple::apply_velocity(Grapple& Player, Vector2& velocity, float deltatime
 		}
 	}
 }
+void Grapple::Grab(Grapple* grapps, float deltaTime, std::vector<GrapplePoint>& Targets)
+{
+	aie::Input* input = aie::Input::getInstance();
+	if (input->isMouseButtonDown(0) && grapps->state == 0)
+	{
+
+		grapps->state = 2;
+	}
+	if (input->isMouseButtonUp(0) && grapps->state == 1)
+	{
+		grapps->state = 0;
+		grapps->target = nullptr;
+	}
+};
