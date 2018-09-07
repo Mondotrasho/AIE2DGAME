@@ -8,7 +8,7 @@ inline void apply_velocity(Grapple& Player,Vector2& velocity, float deltatime,fl
 	auto perpindicular_dir = Vector2(-Player.get_ray().direction.y, Player.get_ray().direction.x).normalised();
 	Player.set_ray().origin += velocity * deltatime;
 	//decay
-	velocity -= (velocity * deltatime) / decay;
+	//velocity -= (velocity * deltatime) / decay;
 	velocity.y += deltatime * gravity.y;
 	//velocity.y -= 200 * deltatime;
 	//move
