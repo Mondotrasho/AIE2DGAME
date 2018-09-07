@@ -61,6 +61,7 @@ bool _2DGameApp::startup() {
 	worm_box.push_back(w8);
 	worm_box.push_back(w9);
 	worm_box.push_back(w10);
+
 	for (auto& worm : worm_box)
 	{
 		worm.setup("../bin/textures/snake_head.png", "../bin/textures/snake_bod.png");
@@ -145,7 +146,7 @@ void _2DGameApp::draw() {
 	
 	for (auto& Grappleable : box)
 	{
-		Grappleable.Draw(m_2dRenderer, test);
+		Grappleable.Draw(m_2dRenderer);
 		
 		if (player.get_ray().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
 		{

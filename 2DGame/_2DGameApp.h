@@ -28,7 +28,6 @@ protected:
 
 	//GrapplePoint stuff
 	std::vector<GrapplePoint> box;
-	Grapple test = { Vector2(-1000,-1000),Vector2(-1000,-1000) };
 
 	//player stuff
 	Grapple player;

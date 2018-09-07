@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Grapple.h"
-#include "Renderer2D.h"
 #include "Sphere.h"
 
 
@@ -13,7 +12,7 @@ public:
 	~GrapplePoint();
 
 	//jobs
-	void Draw(aie::Renderer2D *renderer,Grapple& grapple);
+	void Draw(aie::Renderer2D *renderer);
 	void update(float Deltatime);
 
 	bool intersect(Sphere sphere);
