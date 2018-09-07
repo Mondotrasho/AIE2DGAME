@@ -44,9 +44,6 @@
     <ClInclude Include="_2DGameApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PointController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Grapple.h">
       <Filter>Header Files</Filter>
     </ClInclude>

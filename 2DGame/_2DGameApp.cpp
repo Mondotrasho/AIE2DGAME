@@ -2,11 +2,11 @@
 
 #include "_2DGameApp.h"
 #include "Font.h"
-#include "PointController.h"
 #include "RandomXY.h"
 #include <ctime>
 #include "Curves.h"
 #include "draw_boundries.h"
+#include "Input.h"
 
 _2DGameApp::_2DGameApp()
 {
