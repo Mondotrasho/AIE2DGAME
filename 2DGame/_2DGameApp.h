@@ -5,6 +5,7 @@
 #include "GrapplePoint.h"
 #include "Worm.h"
 #include "LevelManager.h"
+#include "WormManager.h"
 
 
 class _2DGameApp : public aie::Application {
@@ -34,8 +35,7 @@ protected:
 	std::vector<Vector2> vecs;
 
 	//worm stuff
-	std::vector<Worm> worm_box;
-	float m_timer2;//worm timer
+	WormManager worm_manager;
 
 	//level stuff
 	LevelManager level;

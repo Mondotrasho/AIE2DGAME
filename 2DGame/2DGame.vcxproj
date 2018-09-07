@@ -173,6 +173,7 @@
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SpriteObject.cpp" />
     <ClCompile Include="Worm.cpp" />
+    <ClCompile Include="WormManager.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -184,6 +185,7 @@
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SpriteObject.h" />
     <ClInclude Include="Worm.h" />
+    <ClInclude Include="WormManager.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>

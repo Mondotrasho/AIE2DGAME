@@ -31,7 +31,6 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_timer = 0;
-	m_timer2 = 0;
 
 	player = { startypoint, directionypoint};
 
@@ -52,26 +51,7 @@ bool _2DGameApp::startup() {
 	walls.push_back(Roof);
 	walls.push_back(Left);
 
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-
-	for (auto& worm : worm_box)
-	{
-		worm.setup("../bin/textures/snake_head.png", "../bin/textures/snake_bod.png");
-
-		// center the Worm
-		worm.setPosition(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
-		worm.worm_face.center = Vector2(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
-		worm.worm_face.radius = 30;
-		worm.worm_states = 0;
-	}
+	worm_manager.Startup(*this);
 
 	return true;
 	
@@ -89,29 +69,12 @@ void _2DGameApp::shutdown() {
 void _2DGameApp::update(float deltaTime) {
 
 	m_timer += deltaTime;
-	m_timer2 += deltaTime;
-	if (m_timer2 > 2.0f)//0.5f)
-	{
-		m_timer2 = 0;
-		for (auto& worm : worm_box)
-		{
-			worm.worm_states = (rand() % 3);
-		}
-	}
 
 	level.RandomizeColours(deltaTime);
 	
 	player.Update(deltaTime, walls, box);
-	for (auto& worm : worm_box)
-	{
-		worm.onUpdate(deltaTime, walls);
-		worm.worm_face.center.x = worm.getGlobalTransform().translation.x;
-		worm.worm_face.center.y = worm.getGlobalTransform().translation.y;
-	}
 	
-
-	
-
+	worm_manager.Update(deltaTime, walls);
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -129,11 +92,8 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 	m_2dRenderer->setRenderColour(level.GetRed(),level.GetGreen(),level.GetBlue());
 	player.Draw(m_2dRenderer);
-	
-	for (auto& worm : worm_box)
-	{
-		worm.draw(m_2dRenderer);
-	}
+
+	worm_manager.Draw(m_2dRenderer);
 
 	Vector2 intersect_point_sphere;
 	Vector2 reflection_sphere;
@@ -198,7 +158,7 @@ void _2DGameApp::draw() {
 	
 
 	char Score[32];
-	std::string s = std::to_string(int(m_timer2));
+	std::string s = std::to_string(int(worm_manager.GetTime()));
 	char cstr[32];
 	strcpy(cstr, s.c_str());
 	// output some text, uses the last used colour

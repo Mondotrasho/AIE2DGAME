@@ -115,6 +115,7 @@ void Grapple::GrapplePointHitCheck(Grapple* Player, std::vector<GrapplePoint>& P
 {
 	Vector2 intersect_point_sphere;
 	Vector2 reflection_sphere;
+	//TODO PROBLEM This grabs the first in the vector NOT the first the grapple would hit
 	for (auto& Grappleable : Points)
 	{
 		if (Player->GetRay().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
