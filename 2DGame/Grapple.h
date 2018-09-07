@@ -1,7 +1,11 @@
 #pragma once
-
 #include "Ray.h"
 
+enum state
+{	not_grappled,
+	grappled,
+	firing
+};
 
 class GrapplePoint;
 
@@ -16,7 +20,7 @@ public:
 	Grapple(Vector2 &origin ,Vector2 &direction);
 	~Grapple();
 
-	int state; //0 == not 1 == is Grappled 2 == firing
+	int state; 
 	GrapplePoint* target;
 	float intercept_distance;
 	Vector2 intersect_point;
@@ -32,7 +36,7 @@ public:
 	Ray get_ray();
 	float get_angle_deg();
 
-	void raycontroller(Ray & m_ray, float & m_rayAngle, Vector2 & velocity, Plane ground, float deltaTime, bool grapstate);
+	void raycontroller(Ray& m_ray, float& m_rayAngle, Vector2& velocity, const Plane& ground, float deltaTime, int grapstate);
 	void point_hitcheck(Grapple* Player, std::vector<GrapplePoint>& Points);
 	void apply_velocity(Grapple& Player, Vector2& velocity, float deltatime, float decay);
 	void Grab(Grapple* grapps, float deltaTime, std::vector<GrapplePoint>& Targets);

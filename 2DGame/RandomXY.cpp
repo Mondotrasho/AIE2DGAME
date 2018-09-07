@@ -1,6 +1,5 @@
 #include "RandomXY.h"
 #include <cstdlib>
-#include <ctime>
 
 
 Vector2 RandomXY::random_on_screen() //todo make this change by resolution of the game

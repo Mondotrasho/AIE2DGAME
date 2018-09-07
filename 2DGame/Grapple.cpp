@@ -12,10 +12,11 @@ Grapple::Grapple(Vector2 &origin, Vector2 &direction)
 	m_length = 250;
 
 	m_ray = { origin, direction, m_length };
-
+	//point the m_ray angle
 	m_rayAngle = atan2(direction.y, direction.x); //remember y then x with atan
+	//empty target
 	target = nullptr;
-	state = 0;
+	state = not_grappled;
 }
 
 Grapple::~Grapple()
@@ -46,7 +47,7 @@ void Grapple::Update(float deltatime, std::vector<Plane>& plane, std::vector<Gra
 	//grappling
 	//grab check
 	Grab(this, deltatime, points);
-	if (state == 2) { point_hitcheck(this, points); }
+	if (state == firing) { point_hitcheck(this, points); }
 	
 	//keep above ground
 	for (auto p : plane)
@@ -106,7 +107,7 @@ float Grapple::get_angle_deg()
 	return m_rayAngle * temp;
 }
 
-void Grapple::raycontroller(Ray& m_ray, float& m_rayAngle, Vector2& velocity, Plane ground, float deltaTime, bool grapstate)
+void Grapple::raycontroller(Ray& m_ray, float& m_rayAngle, Vector2& velocity, const Plane& ground, float deltaTime, int grapstate)
 {
 
 	// input example
@@ -131,7 +132,7 @@ void Grapple::raycontroller(Ray& m_ray, float& m_rayAngle, Vector2& velocity, Pl
 	a = a - m_ray.origin;
 	a.normalise();
 
-	if (grapstate != 1) {
+	if (grapstate != grappled) {
 		m_ray.direction = a;
 	}
 
@@ -144,7 +145,7 @@ void Grapple::point_hitcheck(Grapple* Player, std::vector<GrapplePoint>& Points)
 	{
 		if (Player->get_ray().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
 		{
-			Player->state = 1;
+			Player->state = grappled;
 			Player->target = &Grappleable;
 			Player->intersect_point = intersect_point_sphere;
 			auto v = intersect_point_sphere - Player->get_ray().origin;
@@ -168,7 +169,7 @@ void Grapple::apply_velocity(Grapple& Player, Vector2& velocity, float deltatime
 	//move
 
 	//if grappled  and the length of the r
-	if (Player.state == 1)
+	if (Player.state == grappled)
 	{
 		float distance = Player.get_ray().origin.distance(Player.intersect_point);
 		float original_distance = Player.intercept_distance;
@@ -190,14 +191,14 @@ void Grapple::apply_velocity(Grapple& Player, Vector2& velocity, float deltatime
 void Grapple::Grab(Grapple* grapps, float deltaTime, std::vector<GrapplePoint>& Targets)
 {
 	aie::Input* input = aie::Input::getInstance();
-	if (input->isMouseButtonDown(0) && grapps->state == 0)
+	if (input->isMouseButtonDown(0) && grapps->state == not_grappled)
 	{
 
-		grapps->state = 2;
+		grapps->state = firing;
 	}
-	if (input->isMouseButtonUp(0) && grapps->state == 1)
+	if (input->isMouseButtonUp(0) && grapps->state == grappled)
 	{
-		grapps->state = 0;
+		grapps->state = not_grappled;
 		grapps->target = nullptr;
 	}
 };
