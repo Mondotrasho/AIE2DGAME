@@ -7,6 +7,7 @@
 #include "Curves.h"
 #include "Input.h"
 #include "LevelManager.h"
+#include <winerror.h>
 
 _2DGameApp::_2DGameApp()
 {
@@ -51,16 +52,15 @@ bool _2DGameApp::startup() {
 	walls.push_back(Roof);
 	walls.push_back(Left);
 
-	worm_box.push_back(w1);
-	worm_box.push_back(w2);
-	worm_box.push_back(w3);
-	worm_box.push_back(w4);
-	worm_box.push_back(w5);
-	worm_box.push_back(w6);
-	worm_box.push_back(w7);
-	worm_box.push_back(w8);
-	worm_box.push_back(w9);
-	worm_box.push_back(w10);
+	worm_box.push_back(Worm());
+	worm_box.push_back(Worm());
+	worm_box.push_back(Worm());
+	worm_box.push_back(Worm());
+	worm_box.push_back(Worm());
+	worm_box.push_back(Worm());
+	worm_box.push_back(Worm());
+	worm_box.push_back(Worm());
+	worm_box.push_back(Worm());
 
 	for (auto& worm : worm_box)
 	{

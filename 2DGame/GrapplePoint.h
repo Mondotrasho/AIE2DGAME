@@ -13,19 +13,18 @@ public:
 
 	//jobs
 	void Draw(aie::Renderer2D *renderer);
-	void update(float Deltatime);
+	void update(float Deltatime); //todo Impliment
 
-	bool intersect(Sphere sphere);
-	bool intersect(AABB box);
-	bool intersect(Ray ray);
-	bool intersect(Plane plane);
-	//body.intersects(m_sphere, &intersect_point_sphere, &reflection_sphere)
+	bool intersect(Sphere sphere);//todo Impliment
+	bool intersect(AABB box);//todo Impliment
+	bool intersect(Ray ray);//todo Impliment
+	bool intersect(Plane plane);//todo Impliment
+	//body.intersects(m_sphere, &intersect_point_sphere, &reflection_sphere) //todo Impliment
 
-	void intersect(Grapple& grapple);
+	void intersect(Grapple& grapple); //todo Impliment
 
 	//parts
 	Sphere body;
-
 	Vector2 intersect_point;
 	Vector2 reflection;
 

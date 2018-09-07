@@ -13,10 +13,10 @@ class Worm  : public SpriteObject{
 	Worm(const char* WormImage, const char* worm_body_image);
 	virtual ~Worm();
 	
-	// load sprites and attach Worm
+	// OTHER load sprites and attach Worm
 	void setup(const char* WormImage, const char* worm_body_image);
 
-	// update Worm/Worm movement
+	// update Worm/WormBody movement
 	virtual void onUpdate(float deltaTime,std::vector<Plane>& planes);
 
 	int worm_states;
