@@ -5,8 +5,8 @@
 #include "RandomXY.h"
 #include <ctime>
 #include "Curves.h"
-#include "draw_boundries.h"
 #include "Input.h"
+#include "LevelManager.h"
 
 _2DGameApp::_2DGameApp()
 {
@@ -26,7 +26,6 @@ bool _2DGameApp::startup() {
 	Vector2 startypoint = { 640, 360 }; // X = 640 Y = 360
 	Vector2 directionypoint = { 0.7f, 0.7f }; //start pointing up 0.7 of the way and across 0.7 of the way
 
-	m_colour = { 0.3f,0.7f,0.0f };
 
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
@@ -98,15 +97,9 @@ void _2DGameApp::update(float deltaTime) {
 			worm.worm_states = (rand() % 3);
 		}
 	}
-	//colour changing todo move
-	//0.0 - 1.0
-	m_colour.R += deltaTime / 2;
-	if (m_colour.R > 1) { m_colour.R = 0; }
-	m_colour.G += deltaTime / 2;
-	if (m_colour.G > 1) { m_colour.G = 0; }
-	m_colour.B += deltaTime / 2;
-	if (m_colour.B > 1) { m_colour.B = 0; }
-	//END COLOUR
+
+	level.RandomizeColours(deltaTime);
+	
 	player.Update(deltaTime, walls, box);
 	for (auto& worm : worm_box)
 	{
@@ -133,7 +126,7 @@ void _2DGameApp::draw() {
 	
 	// begin drawing sprites
 	m_2dRenderer->begin();
-	m_2dRenderer->setRenderColour(m_colour.R, m_colour.G, m_colour.B);
+	m_2dRenderer->setRenderColour(level.GetRed(),level.GetGreen(),level.GetBlue());
 	player.Draw(m_2dRenderer);
 	
 	for (auto& worm : worm_box)
@@ -200,7 +193,7 @@ void _2DGameApp::draw() {
 	}
 
 	//m_2dRenderer->drawCircle(worm.worm_face.center.x, worm.worm_face.center.y, worm.worm_face.radius);
-	draw_boundries(walls, m_2dRenderer);
+	level.draw_boundries(walls, m_2dRenderer,*this);
 	
 
 	char Score[32];

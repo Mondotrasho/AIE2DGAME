@@ -39,6 +39,9 @@
     <ClCompile Include="Worm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_2DGameApp.h">
@@ -62,7 +65,7 @@
     <ClInclude Include="Worm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="draw_boundries.h">
+    <ClInclude Include="LevelManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

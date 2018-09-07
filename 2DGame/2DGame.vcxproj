@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="Grapple.cpp" />
     <ClCompile Include="GrapplePoint.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="RandomXY.cpp" />
     <ClCompile Include="SceneObject.cpp" />
     <ClCompile Include="SpriteObject.cpp" />
@@ -176,9 +177,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="draw_boundries.h" />
     <ClInclude Include="Grapple.h" />
     <ClInclude Include="GrapplePoint.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="RandomXY.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SpriteObject.h" />
