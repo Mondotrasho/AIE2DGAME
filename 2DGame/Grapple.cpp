@@ -31,6 +31,8 @@ void Grapple::Draw(aie::Renderer2D* renderer)
 	//comfy dot at origin
 	renderer->drawCircle((m_ray.origin.x), (m_ray.origin.y), 10);
 
+	//Draw Sprite //todo add
+
 	//Ray for Debugging
 	renderer->drawLine(m_ray.origin.x, m_ray.origin.y,		//line
 		m_ray.origin.x + m_ray.direction.x *m_ray.length,	//starting HERE THIS way by LENGTH
