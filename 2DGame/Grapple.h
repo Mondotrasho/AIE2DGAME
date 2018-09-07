@@ -31,7 +31,11 @@ public:
 	float get_angle();
 	Ray get_ray();
 	float get_angle_deg();
+
 	void raycontroller(Ray & m_ray, float & m_rayAngle, Vector2 & velocity, Plane ground, float deltaTime, bool grapstate);
+	void point_hitcheck(Grapple* Player, std::vector<GrapplePoint>& Points);
+	void apply_velocity(Grapple& Player, Vector2& velocity, float deltatime, float decay);
+
 	Vector2 get_velocity() { return velocity; }
 	Vector2& set_velocity() { return velocity; }
 	Ray& set_ray() { return m_ray; }

@@ -2,8 +2,6 @@
 #include "Renderer2D.h"
 #include "Grab.h"
 #include <glm/detail/func_geometric.inl>
-#include "apply_velocity.h"
-#include "point_hitcheck.h"
 
 #ifndef PI
 #define PI 3.14159265359;
@@ -137,4 +135,55 @@ void Grapple::raycontroller(Ray& m_ray, float& m_rayAngle, Vector2& velocity, Pl
 		m_ray.direction = a;
 	}
 
-};
+}
+void Grapple::point_hitcheck(Grapple* Player, std::vector<GrapplePoint>& Points)
+{
+	Vector2 intersect_point_sphere;
+	Vector2 reflection_sphere;
+	for (auto& Grappleable : Points)
+	{
+		if (Player->get_ray().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
+		{
+			Player->state = 1;
+			Player->target = &Grappleable;
+			Player->intersect_point = intersect_point_sphere;
+			auto v = intersect_point_sphere - Player->get_ray().origin;
+			Player->set_ray().direction = v.normalised();
+			//todo make sure its anchored to the point not the middle
+			Player->intercept_distance = v.magnitude();
+			return;
+		}
+	}
+}
+void Grapple::apply_velocity(Grapple& Player, Vector2& velocity, float deltatime, float decay)
+{
+	Vector2 gravity = { 0,-200 };
+
+	auto perpindicular_dir = Vector2(-Player.get_ray().direction.y, Player.get_ray().direction.x).normalised();
+	Player.set_ray().origin += velocity * deltatime;
+	//decay
+	//velocity -= (velocity * deltatime) / decay;
+	velocity.y += deltatime * gravity.y;
+	//velocity.y -= 200 * deltatime;
+	//move
+
+	//if grappled  and the length of the r
+	if (Player.state == 1)
+	{
+		float distance = Player.get_ray().origin.distance(Player.intersect_point);
+		float original_distance = Player.intercept_distance;
+
+		Vector2 a = Player.intersect_point;
+		a = a - Player.get_ray().origin;
+		a.normalise();
+		Player.set_ray().direction = a;
+
+
+		if (distance > original_distance)
+		{
+			velocity = perpindicular_dir * perpindicular_dir.dot(velocity);
+			Player.set_ray().origin = Player.intersect_point - Player.get_ray().direction * Player.intercept_distance;
+
+		}
+	}
+}

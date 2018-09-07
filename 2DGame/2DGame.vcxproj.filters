@@ -56,12 +56,6 @@
     <ClInclude Include="Grab.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="apply_velocity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="point_hitcheck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
