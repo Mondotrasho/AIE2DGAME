@@ -139,8 +139,8 @@ void _2DGameApp::draw() {
 	Vector2 reflection_sphere;
 
 
-	auto rad = player.get_angle();
-	auto deg = player.get_angle_deg();
+	auto rad = player.GetAngleRad();
+	auto deg = player.GetAngleDeg();
 
 	float t = 0;
 	
@@ -148,22 +148,22 @@ void _2DGameApp::draw() {
 	{
 		Grappleable.Draw(m_2dRenderer);
 		
-		if (player.get_ray().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
+		if (player.GetRay().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
 		{
 			m_2dRenderer->setRenderColour(.3f, .3f, .3f);
 			m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
 			auto temp1 = Vector2(intersect_point_sphere.x, intersect_point_sphere.y - 100);
 			
 			vecs.push_back(intersect_point_sphere);
-			if (player.get_angle_deg() > 180) {
-				vecs.push_back(Vector2(intersect_point_sphere.x + (reflection_sphere.x / 2), intersect_point_sphere.y - (player.get_ray().origin.distance(intersect_point_sphere)) / 4));
+			if (player.GetAngleDeg() > 180) {
+				vecs.push_back(Vector2(intersect_point_sphere.x + (reflection_sphere.x / 2), intersect_point_sphere.y - (player.GetRay().origin.distance(intersect_point_sphere)) / 4));
 			}
 			else
 			{
-				vecs.push_back(Vector2(intersect_point_sphere.x - (reflection_sphere.x / 2), intersect_point_sphere.y - (player.get_ray().origin.distance(intersect_point_sphere)) / 4));
+				vecs.push_back(Vector2(intersect_point_sphere.x - (reflection_sphere.x / 2), intersect_point_sphere.y - (player.GetRay().origin.distance(intersect_point_sphere)) / 4));
 			}
 
-				vecs.push_back(player.get_ray().origin);
+				vecs.push_back(player.GetRay().origin);
 
 
 			Vector2 first = Curves::CardinalSpline(vecs.data(),vecs.size(), 1 / 50.0f, 0.001);
