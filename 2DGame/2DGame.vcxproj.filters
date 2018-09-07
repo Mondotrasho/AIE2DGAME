@@ -47,9 +47,6 @@
     <ClInclude Include="PointController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RayController.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Grapple.h">
       <Filter>Header Files</Filter>
     </ClInclude>

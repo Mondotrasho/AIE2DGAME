@@ -2,7 +2,6 @@
 
 #include "_2DGameApp.h"
 #include "Font.h"
-#include "RayController.h"
 #include "PointController.h"
 #include "RandomXY.h"
 #include <ctime>

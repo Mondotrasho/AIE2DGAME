@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2.h"
+#include "Input.h"
 
 inline void pointcontroller(Vector2& point, float delta_time)
 {

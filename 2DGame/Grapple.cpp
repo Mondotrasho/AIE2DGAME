@@ -1,6 +1,5 @@
 #include "Grapple.h"
 #include "Renderer2D.h"
-#include "RayController.h"
 #include "Grab.h"
 #include <glm/detail/func_geometric.inl>
 #include "apply_velocity.h"
@@ -28,12 +27,15 @@ Grapple::~Grapple()
 void Grapple::Draw(aie::Renderer2D* renderer)
 {
 	renderer->setRenderColour(.3f, .3f, .3f);
+	//comfy dot at origin
+	renderer->drawCircle((m_ray.origin.x), (m_ray.origin.y), 10);
 
-	renderer->drawCircle((m_ray.origin.x), (m_ray.origin.y), 10); //comfy dot at origin
-	renderer->drawLine(m_ray.origin.x, m_ray.origin.y,		//line
-		m_ray.origin.x + m_ray.direction.x *m_ray.length,	//starting HERE THIS way by LENGTH
-		m_ray.origin.y + m_ray.direction.y *m_ray.length,   //starting HERE THIS way by LENGTH
-		5);
+	//renderer->drawLine(m_ray.origin.x, m_ray.origin.y,		//line
+	//	m_ray.origin.x + m_ray.direction.x *m_ray.length,	//starting HERE THIS way by LENGTH
+	//	m_ray.origin.y + m_ray.direction.y *m_ray.length,   //starting HERE THIS way by LENGTH
+	//	5);
+
+	//velocity Lines for debugging
 	renderer->drawLine(m_ray.origin.x, m_ray.origin.y, m_ray.origin.x, m_ray.origin.y + velocity.y);
 	renderer->drawLine(m_ray.origin.x, m_ray.origin.y, m_ray.origin.x + velocity.x, m_ray.origin.y);
 }
@@ -105,3 +107,34 @@ float Grapple::get_angle_deg()
 	while (m_rayAngle > 6.283185307) { m_rayAngle -= 6.283185307; }
 	return m_rayAngle * temp;
 }
+
+void Grapple::raycontroller(Ray& m_ray, float& m_rayAngle, Vector2& velocity, Plane ground, float deltaTime, bool grapstate)
+{
+
+	// input example
+	aie::Input* input = aie::Input::getInstance();
+
+	// use W/S/A/D keys to move ray
+	if (input->isKeyDown(aie::INPUT_KEY_W) && ground.distanceTo(m_ray.origin) < 20) {
+		velocity.y += 50;
+	}
+	if (input->isKeyDown(aie::INPUT_KEY_S))
+	{
+		//velocity.y -= 4;
+	}
+	if (input->isKeyDown(aie::INPUT_KEY_D)) {
+		velocity.x += 4;
+	}
+	if (input->isKeyDown(aie::INPUT_KEY_A)) {
+		velocity.x -= 4;
+	}
+
+	Vector2 a = Vector2{ (float)input->getMouseX(),(float)input->getMouseY() };
+	a = a - m_ray.origin;
+	a.normalise();
+
+	if (grapstate != 1) {
+		m_ray.direction = a;
+	}
+
+};

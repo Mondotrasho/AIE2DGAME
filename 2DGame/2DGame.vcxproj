@@ -184,7 +184,6 @@
     <ClInclude Include="PointController.h" />
     <ClInclude Include="point_hitcheck.h" />
     <ClInclude Include="RandomXY.h" />
-    <ClInclude Include="RayController.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SpriteObject.h" />
     <ClInclude Include="Worm.h" />
