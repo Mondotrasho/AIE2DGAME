@@ -4,7 +4,7 @@
 #include <windows.h>
 
 
-BinaryTree::BinaryTree(): non_point_root(0)
+BinaryTree::BinaryTree() : non_point_root(0)
 {
 	m_pRoot = nullptr;
 	m_node = nullptr;
@@ -19,25 +19,26 @@ bool BinaryTree::isEmpty() const
 
 void BinaryTree::insert(int a_nValue)
 {
-//		If the tree is empty, the value is inserted at the root
+	//		If the tree is empty, the value is inserted at the root
 	TreeNode* toAdd = new TreeNode(a_nValue);
-	if(isEmpty())
+	if (isEmpty())
 	{
 		non_point_root = *toAdd;
 		m_pRoot = &non_point_root;
 		return;
 	}
-	
-//		Set the current node to the root
+
+	//		Set the current node to the root
 	auto parent = m_node;
 	m_node = m_pRoot;
-//		While the current node is not null
+	//		While the current node is not null
 	while (m_node != nullptr) {
 		//		If the value to be inserted is less than the value in the current node
-		if(toAdd->getData() < m_node->getData())
+		if (toAdd->getData() < m_node->getData())
 		{
 			parent = m_node;
-			m_node = m_node->getLeft();
+			m_node = m_node->L;
+			
 			continue;
 			//		Set the current node to the left child and continue
 		}
@@ -45,7 +46,8 @@ void BinaryTree::insert(int a_nValue)
 		if (toAdd->getData() > m_node->getData())
 		{
 			parent = m_node;
-			m_node = m_node->getRight();
+			m_node = m_node->R;
+			
 			continue;
 			//		Set the current node to the right child and continue
 		}
@@ -55,68 +57,121 @@ void BinaryTree::insert(int a_nValue)
 			//		The value is already in the tree, so exit
 			return;
 		}
-		
-		
-		
+
+
+
 	}
-//Get the parent of the current node (before it was set to null)
-//todo dunno if I need this
-//If value to be inserted is less than parent
-	if(toAdd->getData() < parent->getData())
+	//Get the parent of the current node (before it was set to null)
+	//todo dunno if I need this
+	//If value to be inserted is less than parent
+	if (toAdd->getData() < parent->getData())
 	{
 		//insert value as left child node
-		parent->setLeft(toAdd);
+		auto temp = parent;
+		parent->L = toAdd;
+		parent->L->m_parent = temp;
 		return;
 	}
-	parent->setRight(toAdd);
+	auto temp1 = parent;
+	parent->R = toAdd;
+	parent->R->m_parent = temp1;
 	//otherwise insert value as right child node
 }
 
 TreeNode* BinaryTree::remove(TreeNode* root, int a_nValue)
 {
+	
 	if (root == nullptr) return root;
 	else if (a_nValue < root->getData())
-		root->m_left = remove(root->m_left, a_nValue);
+		root->L = remove(root->L, a_nValue);
 	else if (a_nValue> root->getData())
-		root->m_right = remove(root->m_right, a_nValue);
+		root->R = remove(root->R, a_nValue);
 	else
 	{
 		//No child
-		if (root->m_right == nullptr && root->m_left == nullptr)
+		if (root->R == nullptr && root->L == nullptr)
 		{
-			delete root;
 			root = nullptr;
-		}
+			delete root;
+			return nullptr;
+			}
 		//One child 
-		else if (root->m_left == nullptr)
+		//Child is right as there is no left
+		else if (root->L == nullptr)
 		{
+			//store the place we are
 			TreeNode* temp = root;
-			root = root->m_right;
+			//move the right leaf to where we are
+			root = root->R;
+			//delete where we were
 			delete temp;
 		}
-		else if (root->m_right == nullptr)
+		//child is left as there is no right
+		else if (root->R == nullptr)
 		{
+			//store where we were
 			TreeNode* temp = root;
-			root = root->m_left;
+			//move the left leaf to where we are
+			root = root->L;
+			//delete the old one
 			delete temp;
 		}
 		//two child
 		else
 		{
-			TreeNode* set = nullptr;
+			TreeNode* smallestLeft = nullptr;
+			TreeNode* NodetoRemove;
+			TreeNode* ParentofSmall = nullptr;
 
-			if (root->m_left == nullptr)  set = nullptr;
-
-			while (root->m_left->m_right != nullptr)
+			//this is the one we are removing so its where we are at atm
+			NodetoRemove = root;
+			ParentofSmall = root;
+			//make where we are one right so we are only seeing larger
+			root = m_pRoot->R;
+			
+			//while there is a left node move left
+			while(root->L != nullptr)
 			{
-				root->m_left = root->m_left->m_right;// root->m_left->m_right;
+				//store where we are thats the parent of the smallest
+				ParentofSmall = root;
+				//move where we are to the left once
+				root = root->L;
+				//store the smallest where we were
+				
 			}
+			smallestLeft = root;
+			m_pRoot->m_value = smallestLeft->m_value;
 
-			set = root->m_left;
-			//set->m_left = root->m_left->m_left;
-			//set->m_right = root->m_left->m_right;
-			root->m_value = set->m_value;
-			root->m_left = remove(root->m_left, set->getData());
+				//No child
+				if (root->R == nullptr && root->L == nullptr)
+				{
+					root = nullptr;
+					delete root;
+					return nullptr;
+				}
+			//One child 
+			//Child is right as there is no left
+				else if (root->L == nullptr)
+				{
+					//store the place we are
+					TreeNode* temp = root;
+					//move the right leaf to where we are
+					root = root->R;
+					root->m_parent = temp->m_parent;
+					//delete where we were
+					delete temp;
+				}
+			//child is left as there is no right
+				else if (root->R == nullptr)
+				{
+					//store where we were
+					TreeNode* temp = root;
+					//move the left leaf to where we are
+					root = root->L;
+					root->m_parent = temp->m_parent;
+					//delete the old one
+					delete temp;
+				}
 		}
 	}
 	return root;
@@ -127,14 +182,14 @@ TreeNode* BinaryTree::remove(TreeNode* root, int a_nValue)
 	//findNode(a_nValue, current, parent);
 	////	If the current node has a right branch,	then
 	//auto temp = *current;
-	//if(temp->m_right != nullptr)
+	//if(temp->R != nullptr)
 	//{	//	find the minimum value in the right branch by iterating down the left branch of the
 	//	//	current node’s right child until there are no more left branch nodes
 	//	while (m_pRoot-> != nullptr){
 
 	//	}
 	//}
-	
+
 	//	copy the value from this minimum node to the current node
 	//	find the minimum node’s parent node(the parent of the node you are deleting)
 	//	if you are deleting the parent’s left node
@@ -165,27 +220,25 @@ TreeNode* BinaryTree::find(int a_nValue)
 
 }
 
-void BinaryTree::draw(aie::Renderer2D* renderer, TreeNode* selected)
-{
-	draw(renderer, m_pRoot, 640, 680, 640, selected);
-}
+
 
 bool BinaryTree::findNode(int a_nSearchValue, TreeNode** ppOutNode, TreeNode** ppOutParent)
 {
 	//The find() function could be implemented as a recursive function or using a while loop.If you find
 	//	the former easier, you may wish to modify your class accordingly.
 	//	Set the current node to the root
-	//m_pRoot = m_node;
+	//where we were aka the parent of where we are
+	TreeNode* parent = nullptr;
+	//where we are starting at the root
 	m_node = m_pRoot;
 	//	While the current node is not null
 	while (m_node != nullptr)
 	{
 		//	if the search value equals the current node value,
-		if(m_node->getData() == a_nSearchValue)
+		if (m_node->getData() == a_nSearchValue)
 		{
 			//		return the current node and its parent
 			ppOutNode = &m_node;
-			auto parent = m_node->getParent();
 			ppOutParent = &parent;
 			return true;
 		}
@@ -195,41 +248,43 @@ bool BinaryTree::findNode(int a_nSearchValue, TreeNode** ppOutNode, TreeNode** p
 		//		If the search value is less than the current node
 		if (m_node->getData() > a_nSearchValue)
 		{
+			//update parent
+			parent = m_node;
 			//		set the current node to the left child
-			m_node = m_node->getLeft();
+			m_node = m_node->L;
 			continue;
-		
+
 		}
+		//update parent
+		parent = m_node;
 		//		otherwise set the current node to the right child
-		m_node = m_node->getRight();
+		m_node = m_node->R;
 		//		end While
 	}
 	//		If the loop exits, then a match was not found, so return false
 	return false;
 }
 
+void BinaryTree::draw(aie::Renderer2D* renderer, TreeNode* selected)
+{
+	draw(renderer, m_pRoot, 640, 680, 640, selected);
+}
 void BinaryTree::draw(aie::Renderer2D* renderer, TreeNode* pNode, int x, int y,int horizontalSpacing, TreeNode* selected)
 {
 	horizontalSpacing /= 2;
-
 	if (pNode) {
-
-		if (pNode->getLeft() != nullptr) 
-		{	
+		if (pNode->hasLeft()) {
 			renderer->setRenderColour(1, 0, 0);
 			renderer->drawLine(x, y, x - horizontalSpacing, y - 80);
-			draw(renderer, pNode->getLeft(), x - horizontalSpacing,
+			draw(renderer, pNode->L, x - horizontalSpacing,
 				y - 80, horizontalSpacing, selected);
-			
 		}
-		if (pNode->getRight() != nullptr) 
-		{
+		if (pNode->hasRight()) {
 			renderer->setRenderColour(1, 0, 0);
 			renderer->drawLine(x, y, x + horizontalSpacing, y - 80);
-			draw(renderer, pNode->getRight(), x + horizontalSpacing,
+			draw(renderer, pNode->R, x + horizontalSpacing,
 				y - 80, horizontalSpacing, selected);
 		}
-
 		pNode->draw(renderer, x, y, (selected == pNode));
 	}
 }

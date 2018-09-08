@@ -25,8 +25,15 @@ bool _2DGameApp::startup() {
 
 	m_timer = 0;
 
-	//m_binaryTree.insert(11);
-	//m_binaryTree.insert(12);
+	m_binaryTree.insert(10);
+	m_binaryTree.insert(5);
+	m_binaryTree.insert(7);
+	m_binaryTree.insert(15);
+	m_binaryTree.insert(17);
+	m_binaryTree.insert(12);
+	m_binaryTree.insert(14);
+		
+	//m_binaryTree.remove(m_binaryTree.Root(), 10);
 	return true;
 }
 
