@@ -18,7 +18,7 @@ public:
 	TreeNode* remove(TreeNode* node,int a_nValue);
 	TreeNode* find(int a_nValue);
 	void draw(aie::Renderer2D* renderer, TreeNode* selected = nullptr);
-	TreeNode* Root() { return m_pRoot; }
+	TreeNode*& Root() { return m_pRoot; }
 private:
 	//Find the node with the specified value.
 	bool findNode(int a_nSearchValue, TreeNode** ppOutNode,	TreeNode** ppOutParent);

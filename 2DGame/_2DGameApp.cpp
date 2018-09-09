@@ -59,6 +59,7 @@ void _2DGameApp::update(float deltaTime) {
 	if (ImGui::Button("Remove", ImVec2(50, 0)))
 	{
 		m_binaryTree.remove(m_binaryTree.Root(), value);
+		
 	}
 	if (ImGui::Button("Find", ImVec2(50, 0)))
 	{

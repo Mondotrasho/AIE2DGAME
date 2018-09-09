@@ -20,7 +20,7 @@ bool BinaryTree::isEmpty() const
 void BinaryTree::insert(int a_nValue)
 {
 	//		If the tree is empty, the value is inserted at the root
-	TreeNode* toAdd = new TreeNode(a_nValue);
+	auto toAdd = new TreeNode(a_nValue);
 	if (isEmpty())
 	{
 		non_point_root = *toAdd;
@@ -125,10 +125,10 @@ TreeNode* BinaryTree::remove(TreeNode* root, int a_nValue)
 
 			//this is the one we are removing so its where we are at atm
 			NodetoRemove = root;
-			ParentofSmall = root;
-			//make where we are one right so we are only seeing larger
-			root = m_pRoot->R;
 			
+			//make where we are one right so we are only seeing larger
+			root = NodetoRemove->R;
+			ParentofSmall = root->getParent();
 			//while there is a left node move left
 			while(root->L != nullptr)
 			{
@@ -140,69 +140,22 @@ TreeNode* BinaryTree::remove(TreeNode* root, int a_nValue)
 				
 			}
 			smallestLeft = root;
-			m_pRoot->m_value = smallestLeft->m_value;
-
-				//No child
-				if (root->R == nullptr && root->L == nullptr)
-				{
-					root = nullptr;
-					delete root;
-					return nullptr;
-				}
-			//One child 
-			//Child is right as there is no left
-				else if (root->L == nullptr)
-				{
-					//store the place we are
-					TreeNode* temp = root;
-					//move the right leaf to where we are
-					root = root->R;
-					root->m_parent = temp->m_parent;
-					//delete where we were
-					delete temp;
-				}
-			//child is left as there is no right
-				else if (root->R == nullptr)
-				{
-					//store where we were
-					TreeNode* temp = root;
-					//move the left leaf to where we are
-					root = root->L;
-					root->m_parent = temp->m_parent;
-					//delete the old one
-					delete temp;
-				}
+			auto valofsmall = smallestLeft->m_value;
+			//need to set NtR val
+			
+			//need to set NTR right children Left will be left
+			
+			remove(m_pRoot, valofsmall);
+			
+			//remove(root, root->m_value);
+			NodetoRemove->m_value = valofsmall;
+			//SUPER IMPORTANT OTHER WISE CHANGE IS LOST
+			root = NodetoRemove;
+			
 		}
 	}
 	return root;
 
-	////	find the value in the tree, obtaining a pointer to the node and its parent
-	//TreeNode** current = nullptr;
-	//TreeNode** parent = nullptr;
-	//findNode(a_nValue, current, parent);
-	////	If the current node has a right branch,	then
-	//auto temp = *current;
-	//if(temp->R != nullptr)
-	//{	//	find the minimum value in the right branch by iterating down the left branch of the
-	//	//	current node’s right child until there are no more left branch nodes
-	//	while (m_pRoot-> != nullptr){
-
-	//	}
-	//}
-
-	//	copy the value from this minimum node to the current node
-	//	find the minimum node’s parent node(the parent of the node you are deleting)
-	//	if you are deleting the parent’s left node
-	//		set this left child of the parent to the right child of the minimum
-	//		node
-	//		if you are deleting the parent’s right node
-	//			set the right child of the parent to the minimum node’s right child
-	//			If the current node has no right branch
-	//			if we are deleting the parent’s left child, set the left child of the parent to the left
-	//				child of the current node
-	//				If we are deleting the parent’s right child, set the right child of the parent to the left
-	//				child of the current node
-	//				If we are deleting the root, the root becomes the left child of the current node
 
 }
 

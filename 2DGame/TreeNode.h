@@ -1,5 +1,6 @@
 #ifndef TREENODE_H
 #define TREENODE_H
+#include <cassert>
 
 namespace aie {
 	class Renderer2D;
@@ -10,11 +11,27 @@ class TreeNode
 public:
 	TreeNode( int value);//TreeNode* parent
 	~TreeNode() = default;
-	bool hasLeft() const { return (L != nullptr); }
-	bool hasRight() const { return (R != nullptr); }
+	bool hasLeft() const
+	{
+		//assert(m_value != NULL);
+		return !(L == nullptr);
+	}
+	bool hasRight() const
+	{
+		//assert(m_value != NULL);
+		return !(R == nullptr);
+	}
 	int getData() { return m_value; }
-	TreeNode* getLeft() { if (L != nullptr) return L; }
-	TreeNode* getRight() { if (L != nullptr) return R; }
+	TreeNode*& getLeft()
+	{
+		if (L != nullptr) return L;
+		//assert(L == nullptr);
+	}
+	TreeNode*& getRight()
+	{
+		if (R != nullptr) return R;
+		//assert(R == nullptr);
+	}
 	void setData(int value) { m_value = value; }
 	void setLeft(TreeNode* node) { L = node; }
 	void setRight(TreeNode* node) { R = node; }
