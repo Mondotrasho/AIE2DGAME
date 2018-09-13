@@ -11,18 +11,12 @@ WormManager::~WormManager()
 {
 }
 
-bool WormManager::Startup(aie::Application& application)
+bool WormManager::Startup(aie::Application& application,float difficulty)
 {
-
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
+	for (int i = 0; i < difficulty; ++i)
+	{
+		worm_box.push_back(Worm());
+	}
 
 	for (auto& worm : worm_box)
 	{

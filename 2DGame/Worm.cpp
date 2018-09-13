@@ -49,9 +49,7 @@ Worm::Worm(const char* WormImage, const char* worm_body_image)
 
 }
 
-Worm::~Worm()
-{
-}
+Worm::~Worm() = default;
 
 
 void Worm::setup(const char* WormImage, const char* worm_body_image)
@@ -200,4 +198,13 @@ auto facing = getLocalTransform()[1];
 translate(facing.x*velocity.x, facing.y*velocity.y);
 updateTransform();
 
+}
+
+bool Worm::checkCollision(Vector2 origin)
+{
+	if (origin.distance(worm_face.center) < worm_face.radius)
+	{
+		return true;
+	}
+	return false;
 }

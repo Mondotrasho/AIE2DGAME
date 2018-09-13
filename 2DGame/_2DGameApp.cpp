@@ -31,8 +31,8 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_timer = 0;
-
-	player = { startypoint, directionypoint};
+	auto temp = Vector2(startypoint.x - 300, startypoint.y);
+	player = { temp, directionypoint};
 
 	RandomXY randomer;
 
@@ -50,9 +50,9 @@ bool _2DGameApp::startup() {
 	walls.push_back(Right);
 	walls.push_back(Roof);
 	walls.push_back(Left);
-
-	worm_manager.Startup(*this);
-
+	difficulty = 2.0f;
+	worm_manager.Startup(*this,difficulty);
+	
 	return true;
 	
 }
@@ -73,7 +73,25 @@ void _2DGameApp::update(float deltaTime) {
 	level.RandomizeColours(deltaTime);
 	
 	player.Update(deltaTime, walls, box);
-	
+
+	if (m_timer > difficulty)//0.5f)
+	{
+		for (auto& worm : worm_manager.worm_box)
+		{
+			worm.velocity.x += 1.0f;
+			worm.velocity.y += 1.0f;
+		}
+		difficulty += difficulty;
+	}
+	for (auto &worm : worm_manager.worm_box)
+	{
+		if(worm.checkCollision(player.m_ray.origin))
+		{
+			system("pause");
+		}
+	}
+
+	//difficulty
 	worm_manager.Update(deltaTime, walls);
 
 	// input example
