@@ -19,3 +19,40 @@ Vector2 RandomXY::random_in_range(float minX, float maxX, float minY, float maxY
 
 		return Vector2(x,y );
 }
+
+Vector2 RandomXY::random_on_edge()
+{
+	//1280, 720
+	//pick entry side
+	//0 == left 1 == right 2 == up 3 == down
+	auto leftorrightorupordow = rand() / 4;
+
+	//if left
+	if (leftorrightorupordow == 0)
+	{
+		auto x = 80;
+		auto y = 100 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (720 - 100)));
+		return Vector2(x, y);
+	}
+	if (leftorrightorupordow == 1)
+	{
+		auto x = 1200;
+		auto y = 100 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (720 - 100)));
+		return Vector2(x, y);
+	}
+	//if up
+	if (leftorrightorupordow == 2)
+	{
+		auto x = 100 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (1280 - 100)));
+		auto y = 700;
+		return Vector2(x, y);
+	}
+	if (leftorrightorupordow == 3)
+	{
+		auto x = 100 + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (1280 - 100)));
+		auto y = 20;
+		return Vector2(x, y);
+	}
+	
+	
+}

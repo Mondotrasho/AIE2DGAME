@@ -1,5 +1,6 @@
 #include "WormManager.h"
 #include "Application.h"
+#include "RandomXY.h"
 
 
 WormManager::WormManager() : m_timer(0)
@@ -15,14 +16,7 @@ bool WormManager::Startup(aie::Application& application)
 {
 
 	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
-	worm_box.push_back(Worm());
+	
 
 	for (auto& worm : worm_box)
 	{
@@ -50,6 +44,8 @@ void WormManager::Update(float deltaTime, std::vector<Plane>& planes)
 		}
 	}
 
+	if(deltaTime ) //todo add add worm to update when delta time > x create new worm
+
 	for (auto& worm : worm_box)
 	{
 		worm.onUpdate(deltaTime, planes);
@@ -67,4 +63,19 @@ void WormManager::Draw(aie::Renderer2D* render)
 		worm.draw(render);
 	}
 }
+
+void WormManager::addWorm(aie::Application& application)
+{
+	worm_box.push_back(Worm());
+	worm_box.back().setup("../bin/textures/snake_head.png", "../bin/textures/snake_bod.png");
+
+	RandomXY randomer;
+	auto temp = randomer.random_on_edge();
+	// center the Worm
+	worm_box.back().setPosition(temp.x, temp.y);
+	worm_box.back().worm_face.center = Vector2(temp.x, temp.y);
+	worm_box.back().worm_face.radius = 30;
+	worm_box.back().worm_states = 0;
+}
+
 

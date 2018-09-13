@@ -73,8 +73,10 @@ void _2DGameApp::update(float deltaTime) {
 	level.RandomizeColours(deltaTime);
 	
 	player.Update(deltaTime, walls, box);
-	
+	worm_manager.addWorm(*this); //move this to worm manager???
 	worm_manager.Update(deltaTime, walls);
+
+	
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
