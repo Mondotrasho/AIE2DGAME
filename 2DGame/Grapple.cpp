@@ -31,15 +31,15 @@ void Grapple::Draw(aie::Renderer2D* renderer)
 	//comfy dot at origin
 	renderer->drawCircle((m_ray.origin.x), (m_ray.origin.y), 10);
 
-	//Ray for Debugging
-	renderer->drawLine(m_ray.origin.x, m_ray.origin.y,		//line
-		m_ray.origin.x + m_ray.direction.x *m_ray.length,	//starting HERE THIS way by LENGTH
-		m_ray.origin.y + m_ray.direction.y *m_ray.length,   //starting HERE THIS way by LENGTH
-		5);
+	////Ray for Debugging
+	//renderer->drawLine(m_ray.origin.x, m_ray.origin.y,		//line
+	//	m_ray.origin.x + m_ray.direction.x *m_ray.length,	//starting HERE THIS way by LENGTH
+	//	m_ray.origin.y + m_ray.direction.y *m_ray.length,   //starting HERE THIS way by LENGTH
+	//	5);
 
-	//velocity Lines for debugging
-	renderer->drawLine(m_ray.origin.x, m_ray.origin.y, m_ray.origin.x, m_ray.origin.y + velocity.y);
-	renderer->drawLine(m_ray.origin.x, m_ray.origin.y, m_ray.origin.x + velocity.x, m_ray.origin.y);
+	////velocity Lines for debugging
+	//renderer->drawLine(m_ray.origin.x, m_ray.origin.y, m_ray.origin.x, m_ray.origin.y + velocity.y);
+	//renderer->drawLine(m_ray.origin.x, m_ray.origin.y, m_ray.origin.x + velocity.x, m_ray.origin.y);
 }
 
 void Grapple::Update(float deltatime, std::vector<Plane>& planes, std::vector<GrapplePoint>& points)

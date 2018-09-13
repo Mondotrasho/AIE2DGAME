@@ -126,19 +126,19 @@ void _2DGameApp::draw() {
 	{
 		Grappleable.Draw(m_2dRenderer);
 		
-		if (player.GetRay().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere))
+		if ( player.state == grappled) //player.GetRay().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere) &&
 		{
-			m_2dRenderer->setRenderColour(.3f, .3f, .3f);
+			m_2dRenderer->setRenderColour(.9f, .8f, .3f);
 			m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
 			auto temp1 = Vector2(intersect_point_sphere.x, intersect_point_sphere.y - 100);
 			
-			vecs.push_back(intersect_point_sphere);
+			vecs.push_back(player.intersect_point);
 			if (player.GetAngleDeg() > 180) {
-				vecs.push_back(Vector2(intersect_point_sphere.x + (reflection_sphere.x / 2), intersect_point_sphere.y - (player.GetRay().origin.distance(intersect_point_sphere)) / 4));
+				vecs.push_back(Vector2(player.intersect_point.x + (reflection_sphere.x / 2), player.intersect_point.y - (player.GetRay().origin.distance(player.intersect_point)) / 4));
 			}
 			else
 			{
-				vecs.push_back(Vector2(intersect_point_sphere.x - (reflection_sphere.x / 2), intersect_point_sphere.y - (player.GetRay().origin.distance(intersect_point_sphere)) / 4));
+				vecs.push_back(Vector2(player.intersect_point.x - (reflection_sphere.x / 2), player.intersect_point.y - (player.GetRay().origin.distance(player.intersect_point)) / 4));
 			}
 
 				vecs.push_back(player.GetRay().origin);
