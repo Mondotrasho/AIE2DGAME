@@ -12,7 +12,7 @@ public:
 	~WormManager();
 	bool Startup(aie::Application& application);
 	void shutdown();
-	void Update(float deltaTime, std::vector<Plane>& planes);
+	void Update(float deltaTime, std::vector<Plane>& planes, aie::Application& application);
 	void Draw(aie::Renderer2D* render);
 	float GetTime() const { return m_timer; }
 
@@ -21,5 +21,6 @@ public:
 	std::vector<Worm> worm_box;
 
 	float m_timer;
+	float m_spawn_timer;
 };
 

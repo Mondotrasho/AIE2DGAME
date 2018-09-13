@@ -25,7 +25,7 @@ Vector2 RandomXY::random_on_edge()
 	//1280, 720
 	//pick entry side
 	//0 == left 1 == right 2 == up 3 == down
-	auto leftorrightorupordow = rand() / 4;
+	auto leftorrightorupordow = rand() % 4;
 
 	//if left
 	if (leftorrightorupordow == 0)
