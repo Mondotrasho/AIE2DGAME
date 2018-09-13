@@ -1,5 +1,6 @@
 #pragma once
 #include "Ray.h"
+#include "SpriteObject.h"
 
 enum state
 {	not_grappled,
@@ -61,5 +62,7 @@ public:
 	Vector2 velocity;
 	Vector2 gravity = { 0,-200 }; //todo make this changable on construction
 	Vector2 decay = { 0,0 }; //todo make this changable on construction
+
+	aie::Texture* picture;
 };
 

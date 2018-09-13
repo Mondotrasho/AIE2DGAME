@@ -31,6 +31,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_timer = 0;
+	m_timer2 = 0;
 	auto temp = Vector2(startypoint.x - 300, startypoint.y);
 	player = { temp, directionypoint};
 
@@ -50,7 +51,7 @@ bool _2DGameApp::startup() {
 	walls.push_back(Right);
 	walls.push_back(Roof);
 	walls.push_back(Left);
-	difficulty = 2.0f;
+	difficulty = 10.0f;
 	worm_manager.Startup(*this,difficulty);
 	
 	return true;
@@ -69,6 +70,7 @@ void _2DGameApp::shutdown() {
 void _2DGameApp::update(float deltaTime) {
 
 	m_timer += deltaTime;
+	m_timer2 += deltaTime;
 
 	level.RandomizeColours(deltaTime);
 	
@@ -87,7 +89,7 @@ void _2DGameApp::update(float deltaTime) {
 	{
 		if(worm.checkCollision(player.m_ray.origin))
 		{
-			system("pause");
+			//system("pause");
 		}
 	}
 
@@ -108,7 +110,9 @@ void _2DGameApp::draw() {
 	
 	// begin drawing sprites
 	m_2dRenderer->begin();
-	m_2dRenderer->setRenderColour(level.GetRed(),level.GetGreen(),level.GetBlue());
+	//m_2dRenderer->setRenderColour(level.GetRed(),level.GetGreen(),level.GetBlue());
+	m_2dRenderer->setRenderColour(0.5, 0.5, 1);
+
 	player.Draw(m_2dRenderer);
 
 	worm_manager.Draw(m_2dRenderer);
@@ -129,7 +133,7 @@ void _2DGameApp::draw() {
 		if ( player.state == grappled) //player.GetRay().intersects(Grappleable.body, &intersect_point_sphere, &reflection_sphere) &&
 		{
 			m_2dRenderer->setRenderColour(.9f, .8f, .3f);
-			m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
+			//m_2dRenderer->drawCircle((intersect_point_sphere.x), (intersect_point_sphere.y), 10);
 			auto temp1 = Vector2(intersect_point_sphere.x, intersect_point_sphere.y - 100);
 			
 			vecs.push_back(player.intersect_point);
@@ -155,28 +159,28 @@ void _2DGameApp::draw() {
 				
 			}
 			m_2dRenderer->setRenderColour(1, 0, 0);
-			m_2dRenderer->drawCircle(vecs[0].x, vecs[0].y, 2);
-			m_2dRenderer->setRenderColour(0, 1, 0);
-			m_2dRenderer->drawCircle(vecs[1].x, vecs[1].y, 2);
+		//	m_2dRenderer->drawCircle(vecs[0].x, vecs[0].y, 2);
+		//	m_2dRenderer->setRenderColour(0, 1, 0);
+			//m_2dRenderer->drawCircle(vecs[1].x, vecs[1].y, 2);
 			m_2dRenderer->setRenderColour(0, 0, 1);
-			m_2dRenderer->drawCircle(vecs[2].x, vecs[2].y, 2);
+		//	m_2dRenderer->drawCircle(vecs[2].x, vecs[2].y, 2);
 			
 			
 
 			vecs.clear();
 			auto temp = reflection_sphere + intersect_point_sphere;
-			m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
+			//m_2dRenderer->drawLine((intersect_point_sphere.x), (intersect_point_sphere.y), temp.x, temp.y);
 		
 
 		}
 	}
 
 	//m_2dRenderer->drawCircle(worm.worm_face.center.x, worm.worm_face.center.y, worm.worm_face.radius);
-	level.draw_boundries(walls, m_2dRenderer,*this);
+	//level.draw_boundries(walls, m_2dRenderer,*this);
 	
 
 	char Score[32];
-	std::string s = std::to_string(int(worm_manager.GetTime()));
+	std::string s = std::to_string(int(m_timer2));
 	char cstr[32];
 	strcpy(cstr, s.c_str());
 	// output some text, uses the last used colour
@@ -185,7 +189,7 @@ void _2DGameApp::draw() {
 	m_2dRenderer->drawText(m_font, cstr, 30, 720 - 100);
 	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
-	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
+	m_2dRenderer->drawText(m_font, "SCORE", 100, 720 - 100);
 
 	// done drawing sprites
 	m_2dRenderer->end();

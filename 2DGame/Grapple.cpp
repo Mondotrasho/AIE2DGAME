@@ -19,6 +19,8 @@ Grapple::Grapple(Vector2 &origin, Vector2 &direction)
 												  //empty target
 	target = nullptr;
 	state = not_grappled;
+
+	picture = new aie::Texture( "../bin/textures/orange-spider.png");
 }
 
 Grapple::~Grapple()
@@ -29,8 +31,9 @@ void Grapple::Draw(aie::Renderer2D* renderer)
 	//colour
 	renderer->setRenderColour(.3f, .3f, .3f);
 	//comfy dot at origin
-	renderer->drawCircle((m_ray.origin.x), (m_ray.origin.y), 10);
+	//renderer->drawCircle((m_ray.origin.x), (m_ray.origin.y), 10);
 
+	renderer->drawSprite(picture, (m_ray.origin.x)-25, (m_ray.origin.y)-25, 50, 50, 0, 0, 0, 0);
 	////Ray for Debugging
 	//renderer->drawLine(m_ray.origin.x, m_ray.origin.y,		//line
 	//	m_ray.origin.x + m_ray.direction.x *m_ray.length,	//starting HERE THIS way by LENGTH

@@ -26,6 +26,7 @@ protected:
 	aie::Renderer2D*	m_2dRenderer;
 	aie::Font*	m_font;//FPS FONT
 	float m_timer;//DELTA TIME MEMBER VAR
+	float m_timer2;
 
 	//GrapplePoint stuff
 	std::vector<GrapplePoint> box;
