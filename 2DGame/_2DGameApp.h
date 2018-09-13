@@ -36,6 +36,7 @@ protected:
 
 	//worm stuff
 	WormManager worm_manager;
+	float spawnrate; 
 
 	//level stuff
 	LevelManager level;

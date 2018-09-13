@@ -11,7 +11,7 @@ class Worm  : public SpriteObject{
 	
 	// load sprites and attach Worm
 	Worm(const char* WormImage, const char* worm_body_image);
-	virtual ~Worm();
+	virtual ~Worm() = default;
 	
 	// OTHER load sprites and attach Worm
 	void setup(const char* WormImage, const char* worm_body_image);
@@ -19,8 +19,9 @@ class Worm  : public SpriteObject{
 	// update Worm/WormBody movement
 	virtual void onUpdate(float deltaTime,std::vector<Plane>& planes);
 
-	int worm_states;
+	int worm_states{};
 	Sphere worm_face;
+	bool done{}; //is the worm setup
 	private:
 
 	SpriteObject m_body1, m_body2, m_body3, m_body4, m_body5, m_body6;

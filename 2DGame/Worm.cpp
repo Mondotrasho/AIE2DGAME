@@ -14,6 +14,7 @@ int minmax(int i)
 
 Worm::Worm()
 {
+	done = false;
 }
 
 Worm::Worm(const char* WormImage, const char* worm_body_image)
@@ -47,10 +48,6 @@ Worm::Worm(const char* WormImage, const char* worm_body_image)
 	m_body5.addChild(&m_body6);
 
 
-}
-
-Worm::~Worm()
-{
 }
 
 

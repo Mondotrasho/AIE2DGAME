@@ -31,6 +31,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_timer = 0;
+	spawnrate = 10.0f;
 
 	player = { startypoint, directionypoint};
 
@@ -50,6 +51,8 @@ bool _2DGameApp::startup() {
 	walls.push_back(Right);
 	walls.push_back(Roof);
 	walls.push_back(Left);
+
+	worm_manager.worm_box.push_back(Worm());
 
 	worm_manager.Startup(*this);
 
@@ -71,12 +74,19 @@ void _2DGameApp::update(float deltaTime) {
 	m_timer += deltaTime;
 
 	level.RandomizeColours(deltaTime);
-	
+
+	if (m_timer > spawnrate)//0.5f)
+	{
+		spawnrate += 10.0f;
+		//worm_manager.worm_box.push_back(Worm());
+		worm_manager.adder(*this);
+		//addWorm(application);
+	}
+
 	player.Update(deltaTime, walls, box);
 	//worm_manager.addWorm(*this); //move this to worm manager???
 	worm_manager.Update(deltaTime, walls, *this);
 
-	
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
