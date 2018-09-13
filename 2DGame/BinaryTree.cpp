@@ -141,10 +141,7 @@ TreeNode* BinaryTree::remove(TreeNode* root, int a_nValue)
 			}
 			smallestLeft = root;
 			auto valofsmall = smallestLeft->m_value;
-			//need to set NtR val
-			
-			//need to set NTR right children Left will be left
-			
+			//need to set NtR val later so save		
 			remove(m_pRoot, valofsmall);
 			
 			//remove(root, root->m_value);
