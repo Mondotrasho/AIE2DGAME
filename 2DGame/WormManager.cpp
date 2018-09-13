@@ -9,13 +9,12 @@ WormManager::WormManager() : m_timer(0) , m_spawn_timer(0)
 
 
 WormManager::~WormManager()
-{
-}
+= default;
 
 bool WormManager::Startup(aie::Application& application)
 {
 
-	worm_box.push_back(Worm());
+	//worm_box.push_back(Worm());
 	
 
 	for (auto& worm : worm_box)
@@ -34,21 +33,13 @@ bool WormManager::Startup(aie::Application& application)
 void WormManager::adder(aie::Application& application)
 {
 	worm_box.push_back(Worm());
-
-
-	for (auto& worm : worm_box)
-	{
-		if (!worm.done){
-			worm.setup("../bin/textures/snake_head.png", "../bin/textures/snake_bod.png");
-		// center the Worm
-		worm.setPosition(application.getWindowWidth() / 2.f, application.getWindowHeight() / 2.f);
-		worm.worm_face.center = Vector2(application.getWindowWidth() / 2.f, application.getWindowHeight() / 2.f);
-		worm.worm_face.radius = 30;
-		worm.worm_states = 0;
-		worm.done = true;
-	}
-
-	}
+	worm_box.back().setup("../bin/textures/snake_head.png", "../bin/textures/snake_bod.png");
+	worm_box.back().setPosition(application.getWindowWidth() / 2.f, application.getWindowHeight() / 2.f);
+	worm_box.back().worm_face.center = Vector2(application.getWindowWidth() / 2.f, application.getWindowHeight() / 2.f);
+	worm_box.back().worm_face.radius = 30;
+	worm_box.back().worm_states = 0;
+	worm_box.back().done = true;
+	
 }
 void WormManager::Update(float deltaTime, std::vector<Plane>& planes, aie::Application& application)
 {
@@ -71,7 +62,7 @@ void WormManager::Update(float deltaTime, std::vector<Plane>& planes, aie::Appli
 		
 	
 
-	for (auto& worm : worm_box)
+	for (auto worm : worm_box)
 	{
 		worm.onUpdate(deltaTime, planes);
 		worm.worm_face.center.x = worm.getGlobalTransform().translation.x;

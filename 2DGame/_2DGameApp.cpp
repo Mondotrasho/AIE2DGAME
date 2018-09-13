@@ -31,7 +31,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_timer = 0;
-	spawnrate = 10.0f;
+	spawnrate = 1.0f;
 
 	player = { startypoint, directionypoint};
 
@@ -52,7 +52,7 @@ bool _2DGameApp::startup() {
 	walls.push_back(Roof);
 	walls.push_back(Left);
 
-	worm_manager.worm_box.push_back(Worm());
+	//worm_manager.worm_box.push_back(Worm());
 
 	worm_manager.Startup(*this);
 

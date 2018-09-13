@@ -11,7 +11,7 @@ class Worm  : public SpriteObject{
 	
 	// load sprites and attach Worm
 	Worm(const char* WormImage, const char* worm_body_image);
-	virtual ~Worm() = default;
+	virtual ~Worm();
 	
 	// OTHER load sprites and attach Worm
 	void setup(const char* WormImage, const char* worm_body_image);

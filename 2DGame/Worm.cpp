@@ -50,6 +50,10 @@ Worm::Worm(const char* WormImage, const char* worm_body_image)
 
 }
 
+Worm::~Worm()
+{
+}
+
 
 void Worm::setup(const char* WormImage, const char* worm_body_image)
 {
