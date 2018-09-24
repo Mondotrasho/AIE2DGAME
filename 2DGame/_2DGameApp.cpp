@@ -123,6 +123,9 @@ void _2DGameApp::draw() {
 	
 	// begin drawing sprites
 	m_2dRenderer->begin();
+	//back drop
+	m_2dRenderer->setRenderColour(0.5, 0.5, 0.5);
+	m_2dRenderer->drawBox(getWindowWidth() / 2, getWindowHeight() / 2, getWindowWidth(), getWindowHeight(), 0, 100);
 	//m_2dRenderer->setRenderColour(level.GetRed(),level.GetGreen(),level.GetBlue());
 	m_2dRenderer->setRenderColour(0.5, 0.5, 1);
 
@@ -190,7 +193,7 @@ void _2DGameApp::draw() {
 
 	//m_2dRenderer->drawCircle(worm.worm_face.center.x, worm.worm_face.center.y, worm.worm_face.radius);
 	//level.draw_boundries(walls, m_2dRenderer,*this);
-	
+	m_2dRenderer->setRenderColour(0.5, 0.5, 1);
 
 	char Score[32];
 	std::string s = std::to_string(int(m_timer2));
