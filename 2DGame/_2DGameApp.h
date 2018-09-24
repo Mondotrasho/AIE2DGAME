@@ -43,4 +43,7 @@ protected:
 	LevelManager level;
 	Plane Ground, Roof, Right, Left;
 	std::vector<Plane> walls;
+
+	//game over
+	bool end;
 };
