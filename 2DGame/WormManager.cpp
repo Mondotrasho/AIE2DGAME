@@ -1,5 +1,8 @@
 #include "WormManager.h"
 #include "Application.h"
+#include <cassert>
+#include <iostream>
+#include <fstream>
 
 
 WormManager::WormManager() : m_timer(0)
@@ -13,20 +16,36 @@ WormManager::~WormManager()
 
 bool WormManager::Startup(aie::Application& application,float difficulty)
 {
-	for (int i = 0; i < difficulty; ++i)
+	//CHECK FILE exists
+	std::string filename = "../bin/textures/snake_head.png";
+	std::ifstream src(filename.c_str());
+
+	std::string filename2 = "../bin/textures/snake_bod.png";
+	std::ifstream src2(filename.c_str());
+	if (src && src2)
 	{
-		worm_box.push_back(Worm());
+		src.close();
+		src2.close();
+		for (int i = 0; i < difficulty; ++i)
+		{
+			worm_box.push_back(Worm());
+		}
+
+		for (auto& worm : worm_box)
+		{
+			worm.setup("../bin/textures/snake_head.png", "../bin/textures/snake_bod.png");
+
+			// center the Worm
+			worm.setPosition(application.getWindowWidth() / 2.f, application.getWindowHeight() / 2.f);
+			worm.worm_face.center = Vector2(application.getWindowWidth() / 2.f, application.getWindowHeight() / 2.f);
+			worm.worm_face.radius = 30;
+			worm.worm_states = 0;
+		}
 	}
-
-	for (auto& worm : worm_box)
+	else
 	{
-		worm.setup("../bin/textures/snake_head.png", "../bin/textures/snake_bod.png");
-
-		// center the Worm
-		worm.setPosition(application.getWindowWidth() / 2.f, application.getWindowHeight() / 2.f);
-		worm.worm_face.center = Vector2(application.getWindowWidth() / 2.f, application.getWindowHeight() / 2.f);
-		worm.worm_face.radius = 30;
-		worm.worm_states = 0;
+		//the textures are not there
+		assert(0);
 	}
 	return true;
 }

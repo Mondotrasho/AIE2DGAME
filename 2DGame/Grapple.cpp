@@ -2,6 +2,9 @@
 #include "Input.h"
 #include "Grapple.h"
 #include "GrapplePoint.h"
+#include <iostream>
+#include <fstream>
+#include <cassert>
 
 //Pi for conversions between angles
 #ifndef PI
@@ -19,8 +22,18 @@ Grapple::Grapple(Vector2 &origin, Vector2 &direction)
 												  //empty target
 	target = nullptr;
 	state = not_grappled;
-
-	picture = new aie::Texture( "../bin/textures/orange-spider.png");
+	//CHECK FILE exists
+	std::string filename = "../bin/textures/orange-spider.png";
+	std::ifstream src(filename.c_str());
+	if(src)
+	{
+		src.close();
+		picture = new aie::Texture("../bin/textures/orange-spider.png");
+	}
+	else
+	{	//the textures are not there
+		assert(0);
+	}
 }
 
 Grapple::~Grapple()

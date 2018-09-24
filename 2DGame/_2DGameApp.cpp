@@ -8,6 +8,8 @@
 #include "Input.h"
 #include "LevelManager.h"
 #include <winerror.h>
+#include <iostream>
+#include <fstream>
 
 _2DGameApp::_2DGameApp()
 {
@@ -27,8 +29,19 @@ bool _2DGameApp::startup() {
 	Vector2 startypoint = { 640, 360 }; // X = 640 Y = 360
 	Vector2 directionypoint = { 0.7f, 0.7f }; //start pointing up 0.7 of the way and across 0.7 of the way
 
-
-	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
+	//CHECK FILE exists
+	std::string filename = "../bin/font/consolas.ttf";
+	std::ifstream src(filename.c_str());
+	if (src)
+	{
+		src.close();
+		m_font = new aie::Font("../bin/font/consolas.ttf", 32);
+	}
+	else
+	{	//the textures are not there
+		assert(0);
+	}
+	
 
 	m_timer = 0;
 	m_timer2 = 0;
