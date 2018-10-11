@@ -3,11 +3,11 @@
 #include "Application.h"
 #include "Renderer2D.h"
 
-class _2DGameApp : public aie::Application {
+class App2D : public aie::Application {
 public:
 
-	_2DGameApp();
-	virtual ~_2DGameApp();
+	App2D();
+	virtual ~App2D();
 
 	virtual bool startup();
 	virtual void shutdown();
@@ -18,8 +18,6 @@ public:
 protected:
 
 	aie::Renderer2D*	m_2dRenderer;
-	aie::Texture*		m_texture;
-	aie::Texture*		m_shipTexture;
 	aie::Font*			m_font;
 
 	float m_cameraX, m_cameraY;
