@@ -1,15 +1,15 @@
 #ifndef FOLLOWBEHAVIOUR_H
 #define FOLLOWBEHAVIOUR_H
 
-#include "Behaviour.h"
+#include "IBehaviour.h"
 
 
 
-class FollowBehaviour : public Behaviour {
+class FollowBehaviour : public IBehaviour {
 public:
 	FollowBehaviour();
 	virtual ~FollowBehaviour();
-	eBehaviourResult update(GameObject* gameObject, float deltaTime) override;
+	eBehaviourResult update(Agent* agent, float deltaTime) override;
 	void setSpeed(float speed) { m_speed = speed; }
 	void setTarget(GameObject* gameObject) { m_target = gameObject; }
 private:

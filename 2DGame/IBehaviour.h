@@ -1,5 +1,5 @@
-#ifndef BEHAVIOUR_H
-#define BEHAVIOUR_H
+#ifndef IBEHAVIOUR_H
+#define IBEHAVIOUR_H
 
 class GameObject;
 
@@ -8,12 +8,12 @@ enum eBehaviourResult {
 	FAILURE,
 	RUNNING
 };
-class Behaviour {
+class IBehaviour {
 public:
 	// empty constructors and destructors for base class
-	Behaviour() = default;
-	virtual ~Behaviour() = default;
-	// pure virtual function for executing the behaviour
+	IBehaviour() = default;
+	virtual ~IBehaviour() = default;
+	// pure virtual function for executing theIBehaviour
 	virtual eBehaviourResult update(GameObject* gameObject, float deltaTime) = 0;
 };
-#endif // BEHAVIOUR_H
+#endif //IBehaviour_H

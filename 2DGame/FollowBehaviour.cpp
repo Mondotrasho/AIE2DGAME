@@ -13,7 +13,7 @@ FollowBehaviour::~FollowBehaviour()
 {
 }
 
-eBehaviourResult FollowBehaviour::update(GameObject* gameObject, float deltaTime)
+eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
 {
 	aie::Input* input = aie::Input::getInstance();
 
@@ -21,7 +21,7 @@ eBehaviourResult FollowBehaviour::update(GameObject* gameObject, float deltaTime
 	auto mouseX = input->getMouseX();
 	auto mouseY = input->getMouseY();
 	Vector2 mousePos = { static_cast<float>(mouseX) , static_cast<float>(mouseY) };
-	gameObject->getPosition(&x, &y);
+	agent->getPosition(&x, &y);
 	Vector2 pos = { x,y };
 	Vector2 dir = pos - mousePos;
 	float distance = dir.magnitude();
@@ -32,12 +32,13 @@ eBehaviourResult FollowBehaviour::update(GameObject* gameObject, float deltaTime
 
 		auto temp = pos - dir * deltaTime * 50.0f;
 
-		gameObject->setPosition(temp.x, temp.y);
+		agent->setPosition(temp.x, temp.y);
 	}
 
 	return eBehaviourResult::SUCCESS;
 
-	//Function execute
+	//Function update
+
 	//	If the target is invalid, return eBehaviourResult::FAILURE
 	//	Get the coordinates of the target agent
 	//	Get this agent’s coordinates

@@ -2,7 +2,7 @@
 #define GAMEOBJECT_H
 
 #include <vector>
-#include "Behaviour.h"
+#include "IBehaviour.h"
 
 class GameObject {
 public:
@@ -13,15 +13,15 @@ public:
 	void getPosition(float* x, float* y) const { *x = m_x; *y = m_y; }
 	void translate(float x, float y) { m_x += x; m_y += y; }
 	// add a behaviour
-	void addBehaviour(Behaviour* behaviour);
-	// update game object and execute behaviours
+	void addBehaviour(IBehaviour* behaviour);
+	// update game object and update behaviours
 	virtual void update(float deltaTime);
 protected:
 	float m_x, m_y;
-	std::vector<Behaviour*> m_behaviours;
+	std::vector<IBehaviour*> m_behaviours;
 };
 
-inline void GameObject::addBehaviour(Behaviour* behaviour)
+inline void GameObject::addBehaviour(IBehaviour* behaviour)
 {
 	m_behaviours.push_back(behaviour);
 }

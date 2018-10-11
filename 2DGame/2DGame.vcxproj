@@ -175,10 +175,19 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Agent.h" />
     <ClInclude Include="App2D.h" />
-    <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="AttackState.h" />
+    <ClInclude Include="IBehaviour.h" />
+    <ClInclude Include="Condition.h" />
+    <ClInclude Include="FiniteStateMachine.h" />
     <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="IdleState.h" />
+    <ClInclude Include="KeyboardBehaviour.h" />
+    <ClInclude Include="State.h" />
+    <ClInclude Include="Transition.h" />
+    <ClInclude Include="WithinRangeCondition.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathsLib\MathsLib\MathsLib.vcxproj">

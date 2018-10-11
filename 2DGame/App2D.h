@@ -4,6 +4,8 @@
 #include "Renderer2D.h"
 #include "FollowBehaviour.h"
 #include "GameObject.h"
+#include "FiniteStateMachine.h"
+#include "KeyboardBehaviour.h"
 
 class App2D : public aie::Application {
 public:
@@ -26,7 +28,7 @@ protected:
 	float m_timer;
 
 	GameObject m_player;
-	FollowBehaviour m_playerFollowBehaviour;
+	KeyboardBehaviour m_playerBehaviour;
 	GameObject m_enemy;
-	FollowBehaviour m_followBehaviour;
+	FiniteStateMachine m_enemyBehaviour;
 };
