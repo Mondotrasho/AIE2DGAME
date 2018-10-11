@@ -2,6 +2,8 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
+#include "FollowBehaviour.h"
+#include "GameObject.h"
 
 class App2D : public aie::Application {
 public:
@@ -23,4 +25,8 @@ protected:
 	float m_cameraX, m_cameraY;
 	float m_timer;
 
+	GameObject m_player;
+	FollowBehaviour m_playerFollowBehaviour;
+	GameObject m_enemy;
+	FollowBehaviour m_followBehaviour;
 };

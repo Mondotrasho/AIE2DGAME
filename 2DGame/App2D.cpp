@@ -23,6 +23,15 @@ bool App2D::startup() {
 	m_cameraY = 0;
 	m_timer = 0;
 
+	m_playerFollowBehaviour.setSpeed(100);
+	m_playerFollowBehaviour.setTarget(&m_enemy);
+
+	m_followBehaviour.setSpeed(100);
+	m_followBehaviour.setTarget(&m_player);
+
+	m_player.setPosition(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f);
+	m_player.addBehaviour(&m_playerFollowBehaviour);
+	m_enemy.addBehaviour(&m_followBehaviour);
 	return true;
 }
 
@@ -35,7 +44,8 @@ void App2D::shutdown() {
 void App2D::update(float deltaTime) {
 
 	m_timer += deltaTime;
-
+	m_player.update(deltaTime);
+	m_enemy.update(deltaTime);
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
@@ -56,7 +66,15 @@ void App2D::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-
+	float x = 0, y = 0;
+	// draw player as a green circle
+	m_player.getPosition(&x, &y);
+	m_2dRenderer->setRenderColour(0, 1, 0);
+	m_2dRenderer->drawCircle(x, y, 10);
+	// draw enemy as a red circle
+	m_enemy.getPosition(&x, &y);
+	m_2dRenderer->setRenderColour(1, 0, 0);
+	m_2dRenderer->drawCircle(x, y, 10);
 
 	// output some text, uses the last used colour
 	char fps[32];

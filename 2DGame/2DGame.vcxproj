@@ -122,6 +122,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +158,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,10 +171,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App2D.cpp" />
+    <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App2D.h" />
+    <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="FollowBehaviour.h" />
+    <ClInclude Include="GameObject.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MathsLib\MathsLib\MathsLib.vcxproj">
+      <Project>{c0502cd6-8391-4b50-ab79-c9d39b15c5fa}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
