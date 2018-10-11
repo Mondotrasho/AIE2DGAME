@@ -1,6 +1,7 @@
 #ifndef BEHAVIOUR_H
 #define BEHAVIOUR_H
-#include "GameObject.h"
+
+class GameObject;
 
 enum eBehaviourResult {
 	SUCCESS,
@@ -13,6 +14,6 @@ public:
 	Behaviour() = default;
 	virtual ~Behaviour() = default;
 	// pure virtual function for executing the behaviour
-	virtual eBehaviourResult execute(GameObject* gameObject, float deltaTime) = 0;
+	virtual eBehaviourResult update(GameObject* gameObject, float deltaTime) = 0;
 };
 #endif // BEHAVIOUR_H

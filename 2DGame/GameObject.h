@@ -6,8 +6,8 @@
 
 class GameObject {
 public:
-	GameObject();
-	virtual ~GameObject();
+	GameObject() = default;
+	virtual ~GameObject() = default;
 	// movement functions
 	void setPosition(float x, float y) { m_x = x; m_y = y; }
 	void getPosition(float* x, float* y) const { *x = m_x; *y = m_y; }
@@ -20,6 +20,19 @@ protected:
 	float m_x, m_y;
 	std::vector<Behaviour*> m_behaviours;
 };
+
+inline void GameObject::addBehaviour(Behaviour* behaviour)
+{
+	m_behaviours.push_back(behaviour);
+}
+
+inline void GameObject::update(float deltaTime)
+{
+	for (auto behaviour : m_behaviours)
+	{
+		behaviour->update(this, deltaTime);
+	}
+}
 
 
 #endif // GAMEOBJECT_H
