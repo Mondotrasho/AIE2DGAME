@@ -167,10 +167,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App2D.cpp" />
+    <ClCompile Include="Behaviour.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App2D.h" />
+    <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="GameObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
