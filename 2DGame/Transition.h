@@ -14,7 +14,7 @@ public:
 
 	State* getTargetState() { return m_target; }
 
-	bool hasTriggered(GameObject* gameObject) {	return m_condition->test(gameObject);}
+	bool hasTriggered(Agent* agent) {	return m_condition->test(agent);}
 
 private:
 	State* m_target;

@@ -6,27 +6,26 @@
 
 class AttackState : public State {
 public:
-	AttackState(GameObject* target, float speed);
+	AttackState(Agent* target, float speed);
 	virtual ~AttackState() = default;
-	virtual void update(GameObject* gameObject, float deltaTime);
+	virtual void update(Agent* agent, float deltaTime);
 
 private:
 	float m_speed;
-	GameObject* m_target;
+	Agent* m_target;
 };
 
-inline AttackState::AttackState(GameObject* target, float speed): m_target(target), m_speed(speed)
+inline AttackState::AttackState(Agent* target, float speed): m_target(target), m_speed(speed)
 {
 	m_target = target;
 	m_speed = speed;
 }
 
-inline void AttackState::update(GameObject* gameObject, float deltaTime)
+inline void AttackState::update(Agent* agent, float deltaTime)
 {
-	Vector2 you;
-	m_target->getPosition(&you.x, &you.y);
-	Vector2 me;
-	gameObject->getPosition(&me.x, &me.y);
+	Vector2 you = m_target->getPosition();
+	Vector2 me = agent->getPosition();
+
 	float distance = abs(you.x - me.x) + abs(you.y - me.y) ;
 
 	Vector2 dir = me - you;
@@ -37,7 +36,7 @@ inline void AttackState::update(GameObject* gameObject, float deltaTime)
 
 		auto newpos = me - dir * deltaTime * m_speed;
 
-		gameObject->setPosition(newpos.x, newpos.y);
+		agent->setPosition(newpos);
 	}
 }
 #endif // ATTACKSTATE_H

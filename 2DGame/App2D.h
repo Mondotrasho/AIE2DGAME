@@ -27,9 +27,9 @@ protected:
 	float m_cameraX, m_cameraY;
 	float m_timer;
 
-	GameObject m_player;
+	Agent m_player;
 	KeyboardBehaviour m_playerBehaviour;
 
-	GameObject m_enemy;
+	Agent m_enemy;
 	FiniteStateMachine m_enemyBehaviour;
 };

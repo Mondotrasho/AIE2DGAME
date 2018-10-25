@@ -14,27 +14,27 @@ FollowBehaviour::~FollowBehaviour()
 {
 }
 
-eBehaviourResult FollowBehaviour::update(GameObject* agent, float deltaTime)
+eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
 {
 	aie::Input* input = aie::Input::getInstance();
 
-	float x = 0, y = 0;
+	
 	auto mouseX = input->getMouseX();
 	auto mouseY = input->getMouseY();
 	Vector2 mousePos = { static_cast<float>(mouseX) , static_cast<float>(mouseY) };
 	
-	agent->getPosition(&x, &y);
-	Vector2 pos = { x,y };
-	Vector2 dir = pos - mousePos;
+	Vector2 agentpos =  agent->getPosition();
+	
+	Vector2 dir = agentpos - mousePos;
 	float distance = dir.magnitude();
 
 	if (distance > 0)
 	{
 		dir = dir.normalised();
 
-		auto temp = pos - dir * deltaTime * 50.0f;
+		auto temp = agentpos - dir * deltaTime * 50.0f;
 
-		agent->setPosition(temp.x, temp.y);
+		agent->setPosition(temp);
 	}
 
 	return eBehaviourResult::SUCCESS;

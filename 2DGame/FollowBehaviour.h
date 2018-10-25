@@ -10,12 +10,12 @@ class FollowBehaviour : public IBehaviour {
 public:
 	FollowBehaviour();
 	virtual ~FollowBehaviour();
-	eBehaviourResult update(GameObject* agent, float deltaTime) override;
+	eBehaviourResult update(Agent* agent, float deltaTime);
 	void setSpeed(float speed) { m_speed = speed; }
-	void setTarget(GameObject* gameObject) { m_target = gameObject; }
+	void setTarget(Agent* agent) { m_target = agent; }
 private:
 	float m_speed;
-	GameObject* m_target;
+	Agent* m_target;
 };
 
 

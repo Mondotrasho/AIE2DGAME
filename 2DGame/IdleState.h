@@ -9,6 +9,6 @@ public:
 	IdleState() = default;
 	virtual ~IdleState() = default;
 
-	virtual void update(GameObject* gameObject, float deltaTime) {}
+	void update(Agent* agent, float deltaTime) override {}
 };
 #endif // IDLESTATE_H

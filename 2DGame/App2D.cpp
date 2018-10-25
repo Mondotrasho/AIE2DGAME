@@ -25,16 +25,16 @@ bool App2D::startup() {
 
 	m_playerBehaviour.setSpeed(400);
 	m_player.addBehaviour(&m_playerBehaviour);
-	m_player.setPosition(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f);
+	m_player.setPosition(Vector2( getWindowWidth() * 0.5f, getWindowHeight() * 0.5f));
 
 	m_enemy.addBehaviour(&m_enemyBehaviour);
-	m_enemy.setPosition(100, 100);
+	m_enemy.setPosition(Vector2(100, 100));
 
 	// created new states
 	auto attackState = new AttackState(&m_player, 150);
 	auto idleState = new IdleState();
 	// create the condition, setting the player as the target
-	auto withinRangeCondition = new WithinRangeCondition(&m_player, 200);
+	auto withinRangeCondition = new WithinRangeCondition(&m_player, 20000);
 	// create the transition, this will transition to the attack state when the
 	// withinRange condition is met
 	auto toAttackTransition = new Transition(attackState, withinRangeCondition);
@@ -49,6 +49,8 @@ bool App2D::startup() {
 	m_enemyBehaviour.addTransition(toAttackTransition);
 	// set the current state of the FSM
 	m_enemyBehaviour.setCurrentState(idleState);
+
+	m_timer = 0;
 	return true;
 }
 
@@ -84,21 +86,23 @@ void App2D::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-	float x = 0, y = 0;
+	
 	// draw player as a green circle
-	m_player.getPosition(&x, &y);
+	Vector2 playerPos =  m_player.getPosition();
 	m_2dRenderer->setRenderColour(0, 1, 0);
-	m_2dRenderer->drawCircle(x, y, 10);
+	m_2dRenderer->drawCircle(playerPos.x, playerPos.y, 10);
 	// draw enemy as a red circle
-	m_enemy.getPosition(&x, &y);
+	Vector2 enemyPos =  m_enemy.getPosition();
 	m_2dRenderer->setRenderColour(1, 0, 0);
-	m_2dRenderer->drawCircle(x, y, 10);
+	m_2dRenderer->drawCircle(enemyPos.x, enemyPos.y, 10);
 
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
 	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
+	m_2dRenderer->drawText(m_font, "velocity ", 0, 720 - 64);
+	m_2dRenderer->drawText(m_font, ("Force "), 0, 720 - 64);
 
 	// done drawing sprites
 	m_2dRenderer->end();

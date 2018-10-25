@@ -33,7 +33,7 @@ public:
 
 	void setCurrentState(State* state) { m_currentState = state; }
 
-	virtual eBehaviourResult update(GameObject* gameObject, float deltaTime);
+	eBehaviourResult update(Agent* agent, float deltaTime) override;
 
 protected:
 
@@ -44,19 +44,19 @@ protected:
 	State* m_currentState;
 };
 
-inline eBehaviourResult FiniteStateMachine::update(GameObject* gameObject,float deltaTime) {
+inline eBehaviourResult FiniteStateMachine::update(Agent* agent,float deltaTime) {
 
 	if (m_currentState != nullptr) {
 
-		Transition* transition = m_currentState->getTriggeredTransition(gameObject);
+		Transition* transition = m_currentState->getTriggeredTransition(agent);
 
 		if (transition != nullptr) {
-			m_currentState->exit(gameObject);
+			m_currentState->exit(agent);
 			m_currentState = transition->getTargetState();
-			m_currentState->init(gameObject);
+			m_currentState->init(agent);
 		}
 
-		m_currentState->update(gameObject, deltaTime);
+		m_currentState->update(agent, deltaTime);
 		return eBehaviourResult::SUCCESS;
 	}
 

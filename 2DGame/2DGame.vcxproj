@@ -178,6 +178,9 @@
     <ClInclude Include="Agent.h" />
     <ClInclude Include="App2D.h" />
     <ClInclude Include="AttackState.h" />
+    <ClInclude Include="SeekForce.h" />
+    <ClInclude Include="SteeringBehaviour.h" />
+    <ClInclude Include="SteeringForce.h" />
     <ClInclude Include="IBehaviour.h" />
     <ClInclude Include="Condition.h" />
     <ClInclude Include="FiniteStateMachine.h" />
