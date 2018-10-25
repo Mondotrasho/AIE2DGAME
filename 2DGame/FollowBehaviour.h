@@ -4,12 +4,13 @@
 #include "IBehaviour.h"
 
 
+class Agent;
 
 class FollowBehaviour : public IBehaviour {
 public:
 	FollowBehaviour();
 	virtual ~FollowBehaviour();
-	eBehaviourResult update(Agent* agent, float deltaTime) override;
+	eBehaviourResult update(GameObject* agent, float deltaTime) override;
 	void setSpeed(float speed) { m_speed = speed; }
 	void setTarget(GameObject* gameObject) { m_target = gameObject; }
 private:

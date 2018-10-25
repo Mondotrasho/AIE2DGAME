@@ -2,6 +2,7 @@
 #include "Input.h"
 #include "GameObject.h"
 #include "Vector2.h"
+#include "Agent.h"
 
 
 FollowBehaviour::FollowBehaviour()
@@ -13,7 +14,7 @@ FollowBehaviour::~FollowBehaviour()
 {
 }
 
-eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
+eBehaviourResult FollowBehaviour::update(GameObject* agent, float deltaTime)
 {
 	aie::Input* input = aie::Input::getInstance();
 
@@ -21,6 +22,7 @@ eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
 	auto mouseX = input->getMouseX();
 	auto mouseY = input->getMouseY();
 	Vector2 mousePos = { static_cast<float>(mouseX) , static_cast<float>(mouseY) };
+	
 	agent->getPosition(&x, &y);
 	Vector2 pos = { x,y };
 	Vector2 dir = pos - mousePos;

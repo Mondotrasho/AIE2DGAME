@@ -29,6 +29,7 @@ protected:
 
 	GameObject m_player;
 	KeyboardBehaviour m_playerBehaviour;
+
 	GameObject m_enemy;
 	FiniteStateMachine m_enemyBehaviour;
 };

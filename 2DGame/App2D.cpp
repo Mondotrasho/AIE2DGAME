@@ -15,7 +15,11 @@ App2D::~App2D() {
 }
 
 bool App2D::startup() {
+
 	m_2dRenderer = new aie::Renderer2D();
+
+	m_cameraX = 0;
+	m_cameraY = 0;
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
@@ -58,7 +62,8 @@ void App2D::update(float deltaTime) {
 
 	m_timer += deltaTime;
 	m_player.update(deltaTime);
-	m_enemy.update(deltaTime);
+	m_enemy.update(deltaTime);
+
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
@@ -87,7 +92,7 @@ void App2D::draw() {
 	// draw enemy as a red circle
 	m_enemy.getPosition(&x, &y);
 	m_2dRenderer->setRenderColour(1, 0, 0);
-	m_2dRenderer->drawCircle(x, y, 10);
+	m_2dRenderer->drawCircle(x, y, 10);
 
 	// output some text, uses the last used colour
 	char fps[32];

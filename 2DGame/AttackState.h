@@ -6,13 +6,20 @@
 
 class AttackState : public State {
 public:
-	AttackState(GameObject* target, float speed) : m_target(target), m_speed(speed) {}
+	AttackState(GameObject* target, float speed);
 	virtual ~AttackState() = default;
 	virtual void update(GameObject* gameObject, float deltaTime);
+
 private:
 	float m_speed;
 	GameObject* m_target;
 };
+
+inline AttackState::AttackState(GameObject* target, float speed): m_target(target), m_speed(speed)
+{
+	m_target = target;
+	m_speed = speed;
+}
 
 inline void AttackState::update(GameObject* gameObject, float deltaTime)
 {
@@ -28,7 +35,7 @@ inline void AttackState::update(GameObject* gameObject, float deltaTime)
 	{
 		dir = dir.normalised();
 
-		auto newpos = me - dir * deltaTime * 50.0f;
+		auto newpos = me - dir * deltaTime * m_speed;
 
 		gameObject->setPosition(newpos.x, newpos.y);
 	}

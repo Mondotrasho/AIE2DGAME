@@ -5,8 +5,10 @@
 
 class IdleState : public State {
 public:
+
 	IdleState() = default;
 	virtual ~IdleState() = default;
+
 	virtual void update(GameObject* gameObject, float deltaTime) {}
 };
 #endif // IDLESTATE_H

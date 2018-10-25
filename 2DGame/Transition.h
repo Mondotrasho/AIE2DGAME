@@ -8,13 +8,14 @@ class GameObject;
 
 class Transition {
 public:
-	Transition(State* target, Condition* condition) : m_target(target),
-		m_condition(condition) {}
+	Transition(State* target, Condition* condition) : m_target(target),m_condition(condition) {}
+
 	~Transition() {}
+
 	State* getTargetState() { return m_target; }
-	bool hasTriggered(GameObject* gameObject) {
-		return m_condition->test(gameObject);
-	}
+
+	bool hasTriggered(GameObject* gameObject) {	return m_condition->test(gameObject);}
+
 private:
 	State* m_target;
 	Condition* m_condition;
