@@ -171,12 +171,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App2D.cpp" />
+    <ClCompile Include="BlackBoard.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App2D.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="BlackBoard.h" />
     <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GameObject.h" />
   </ItemGroup>
