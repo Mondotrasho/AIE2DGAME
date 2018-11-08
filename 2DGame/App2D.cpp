@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
+#include "imgui.h"
 
 App2D::App2D() {
 
@@ -24,14 +25,18 @@ bool App2D::startup() {
 	m_timer = 0;
 
 	m_playerFollowBehaviour.setSpeed(100);
-	m_playerFollowBehaviour.setTarget(&m_enemy);
+	m_playerFollowBehaviour.setTarget(&Mouse);
 
 	m_followBehaviour.setSpeed(100);
 	m_followBehaviour.setTarget(&m_player);
 
 	m_player.setPosition(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f);
+	m_enemy.setPosition(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f - 100.0f);
 	m_player.addBehaviour(&m_playerFollowBehaviour);
-	m_enemy.addBehaviour(&m_followBehaviour);
+	m_enemy.addBehaviour(&m_followBehaviour);
+
+	Mouse.setPosition(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+
 	return true;
 }
 
@@ -45,7 +50,8 @@ void App2D::update(float deltaTime) {
 
 	m_timer += deltaTime;
 	m_player.update(deltaTime);
-	m_enemy.update(deltaTime);
+	m_enemy.update(deltaTime);
+	Mouse.setPosition(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
@@ -69,12 +75,13 @@ void App2D::draw() {
 	float x = 0, y = 0;
 	// draw player as a green circle
 	m_player.getPosition(&x, &y);
-	m_2dRenderer->setRenderColour(0, 1, 0);
+	m_2dRenderer->setRenderColour(1, 1, 0);
 	m_2dRenderer->drawCircle(x, y, 10);
 	// draw enemy as a red circle
 	m_enemy.getPosition(&x, &y);
 	m_2dRenderer->setRenderColour(1, 0, 0);
-	m_2dRenderer->drawCircle(x, y, 10);
+	m_2dRenderer->drawCircle(x, y, 10);
+
 
 	// output some text, uses the last used colour
 	char fps[32];

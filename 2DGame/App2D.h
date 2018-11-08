@@ -29,4 +29,6 @@ protected:
 	FollowBehaviour m_playerFollowBehaviour;
 	GameObject m_enemy;
 	FollowBehaviour m_followBehaviour;
+
+	GameObject Mouse;
 };
