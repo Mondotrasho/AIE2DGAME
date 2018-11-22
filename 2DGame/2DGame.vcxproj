@@ -173,7 +173,6 @@
     <ClCompile Include="App2D.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PathFindingDjikstra.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App2D.h" />

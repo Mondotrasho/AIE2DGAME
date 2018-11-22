@@ -45,7 +45,7 @@ public:
 				{
 					edge.m_target->G = currentNode->G + edge.Cost;
 					edge.m_target->N = currentNode;
-					edge.m_target->H = edge.m_target->Pos.distance(endNode->Pos);
+					edge.m_target->H = edge.m_target->Pos.distance_sqr(endNode->Pos);
 					edge.m_target->F = edge.m_target->G + edge.m_target->H;
 				}
 

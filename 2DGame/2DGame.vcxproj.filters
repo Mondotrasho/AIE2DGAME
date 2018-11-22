@@ -24,9 +24,6 @@
     <ClCompile Include="FollowBehaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PathFindingDjikstra.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App2D.h">

@@ -4,6 +4,9 @@
 #include "Renderer2D.h"
 #include "FollowBehaviour.h"
 #include "GameObject.h"
+#include "Node.h"
+#include "PathFindingDjikstra.h"
+#include "AStar.h"
 
 class App2D : public aie::Application {
 public:
@@ -31,4 +34,9 @@ protected:
 	FollowBehaviour m_followBehaviour;
 
 	GameObject Mouse;
+
+	PathFindingDjikstra Djiki;
+	AStar star;
+	std::vector<Node> nodes;
+	bool mode = false;
 };

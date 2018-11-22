@@ -74,5 +74,30 @@ public:
 
 	PathFindingDjikstra();
 	~PathFindingDjikstra();
+	void Draw(const std::list<Node*>& list, aie::Renderer2D* renderer2_d);
 };
 
+inline PathFindingDjikstra::PathFindingDjikstra()
+{
+}
+
+inline PathFindingDjikstra::~PathFindingDjikstra()
+{
+}
+
+inline void PathFindingDjikstra::Draw(const std::list<Node*>& list, aie::Renderer2D* m_2dRenderer)
+{
+	std::list<Node*> DjikiPath = list;
+
+	Node * first = DjikiPath.front();
+	Node * second = DjikiPath.front();
+
+	DjikiPath.pop_front();
+	while (!DjikiPath.empty()) {
+		first = second;
+		second = DjikiPath.front();
+		DjikiPath.pop_front();
+		m_2dRenderer->setRenderColour(0, 0, 1);
+		m_2dRenderer->drawLine(first->Pos.x, first->Pos.y, second->Pos.x, second->Pos.y, 10);
+	}
+}

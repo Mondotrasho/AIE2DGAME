@@ -1,8 +1,10 @@
 #pragma once
-#include "Node.h"
 
-struct Edge
-{
+
+class Node;
+
+class Edge
+{public:
 	Node* m_target{ nullptr };
 	float Cost{ 0 };
 
