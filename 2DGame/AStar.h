@@ -1,15 +1,15 @@
 #pragma once
+#include "Vector2.h"
 #include <vector>
 #include <set>
 #include <queue>
 #include <list>
 #include "Node.h"
-#include "Edge.h"
 
-class PathFindingDjikstra
+class AStar
 {
 public:
-	std::list<Node*> dijkstrasSearch(Node* startNode, Node* endNode)
+	std::list<Node*> AStarSearch(Node* startNode, Node* endNode)
 	{
 		//Let openList be a List of Nodes
 		//	Let closedList be a List of Nodes
@@ -72,7 +72,7 @@ public:
 	}
 
 
-	PathFindingDjikstra();
-	~PathFindingDjikstra();
+	AStar();
+	~AStar();
 };
 

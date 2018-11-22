@@ -177,9 +177,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App2D.h" />
+    <ClInclude Include="AStar.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="PathFindingDjikstra.h" />
   </ItemGroup>
   <ItemGroup>

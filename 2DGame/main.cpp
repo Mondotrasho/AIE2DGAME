@@ -1,5 +1,6 @@
 #include "App2D.h"
 #include "PathFindingDjikstra.h"
+#include "Edge.h"
 
 int main() {
 	PathFindingDjikstra Djiki;
