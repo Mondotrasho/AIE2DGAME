@@ -12,7 +12,7 @@ App2D::~App2D() {
 }
 
 bool App2D::startup() {
-	
+	//Hex system
 	m_2dRenderer = new aie::Renderer2D();
 
 	// TODO: remember to change this when redistributing a build!
