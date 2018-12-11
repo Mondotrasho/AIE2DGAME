@@ -23,6 +23,9 @@ bool App2D::startup() {
 	m_cameraY = 0;
 	m_timer = 0;
 
+	hex = new Hex{ 100,100,100 };
+	
+
 	return true;
 }
 
@@ -56,8 +59,12 @@ void App2D::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-
-
+	Layout layout = Layout(layout_pointy,Point(1,1),Point(1,1));
+	std::vector<Point> a = hex->polygon_corners(layout, *hex);
+	for (auto point : a)
+	{
+		m_2dRenderer->drawCircle(point.x, point.y, 10);
+	}
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());

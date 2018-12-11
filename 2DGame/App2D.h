@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
+#include "Hex.h"
 
 class App2D : public aie::Application {
 public:
@@ -22,5 +23,7 @@ protected:
 
 	float m_cameraX, m_cameraY;
 	float m_timer;
+
+	Hex* hex;
 
 };
