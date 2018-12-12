@@ -59,11 +59,11 @@ void App2D::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-	Layout layout = Layout(layout_pointy,Point(1,1),Point(1,1));
+	Layout layout = Layout(layout_flat,Point(5,5),Point(1,1));
 	std::vector<Point> a = hex->polygon_corners(layout, *hex);
 	for (auto point : a)
 	{
-		m_2dRenderer->drawCircle(point.x, point.y, 10);
+		m_2dRenderer->drawCircle(point.x, point.y, 0.5f);
 	}
 	// output some text, uses the last used colour
 	char fps[32];
