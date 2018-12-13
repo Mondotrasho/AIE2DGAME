@@ -25,5 +25,5 @@ protected:
 	float m_timer;
 
 	Hex* hex;
-
+	Hex* otherhex;
 };
