@@ -26,6 +26,8 @@ bool App2D::startup() {
 	hex = new Hex{ 0,0,0 };
 	otherhex = new Hex(2, 0, -2);
 
+	mode = 0;
+
 	return true;
 }
 
@@ -41,9 +43,13 @@ void App2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-
-
-
+	if (input->isKeyDown(aie::INPUT_KEY_KP_0)) { mode = 0; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_1)) { mode = 1; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_2)) { mode = 2; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_3)) { mode = 3; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_4)) { mode = 4; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_5)) { mode = 5; }
+	
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -61,15 +67,20 @@ void App2D::draw() {
 	
 
 	// draw your stuff here!
-	Layout layout = Layout(layout_pointy,Point(20,20),Point(getWindowWidth()/2,getWindowHeight()/2));
+	Layout layout = Layout(layout_flat,Point(20,20),Point(getWindowWidth()/2,getWindowHeight()/2));
 
 	std::vector<Hex> hexes;
-	for (int j = 0; j < 20; ++j)
+	for (int k = 0; k < 1; ++k)
 	{
-		for (int i = 0; i < 6; ++i)
+
+
+		for (int j = 0; j < 1; ++j)
 		{
-			hexes.push_back(hex->hex_neighbor(hex->hex_add(*hex,Hex(j-10,0, -j-10)), i));
-		}		
+			for (int i = 0; i < 6; ++i)
+			{
+				hexes.push_back(hex->hex_neighbor(hex->hex_add(*hex, Hex(j -k, k)), mode));
+			}
+		}
 	}
 	std::vector<std::vector<Point>> list;
 	for (auto aHex : hexes)
@@ -85,10 +96,18 @@ void App2D::draw() {
 	{
 		for (auto coords : point)
 		{
-			m_2dRenderer->drawCircle(coords.x, coords.y, 3);
+			//m_2dRenderer->drawCircle(coords.x, coords.y, 3);
 		}
 	}
+	auto center = hex->polygon_corners(layout, *hex);
 	
+		m_2dRenderer->drawLine(center[0].x, center[0].y, center[1].x, center[1].y, 1);
+		m_2dRenderer->drawLine(center[1].x, center[1].y, center[2].x, center[2].y, 1);
+		m_2dRenderer->drawLine(center[2].x, center[2].y, center[3].x, center[3].y, 1);
+		m_2dRenderer->drawLine(center[3].x, center[3].y, center[4].x, center[4].y, 1);
+		m_2dRenderer->drawLine(center[4].x, center[4].y, center[5].x, center[5].y, 1);
+		m_2dRenderer->drawLine(center[5].x, center[5].y, center[0].x, center[0].y, 1);
+
 	//red
 	m_2dRenderer->setRenderColour(1, 0, 0);
 	for (auto point : list)

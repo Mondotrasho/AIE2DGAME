@@ -26,4 +26,5 @@ protected:
 
 	Hex* hex;
 	Hex* otherhex;
+	int mode;
 };
