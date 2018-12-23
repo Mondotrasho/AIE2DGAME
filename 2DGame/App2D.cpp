@@ -43,12 +43,12 @@ void App2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-	if (input->isKeyDown(aie::INPUT_KEY_KP_0)) { mode = 0; }
-	if (input->isKeyDown(aie::INPUT_KEY_KP_1)) { mode = 1; }
-	if (input->isKeyDown(aie::INPUT_KEY_KP_2)) { mode = 2; }
-	if (input->isKeyDown(aie::INPUT_KEY_KP_3)) { mode = 3; }
-	if (input->isKeyDown(aie::INPUT_KEY_KP_4)) { mode = 4; }
-	if (input->isKeyDown(aie::INPUT_KEY_KP_5)) { mode = 5; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_1)) { mode = 0; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_2)) { mode = 1; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_3)) { mode = 2; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_4)) { mode = 3; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_5)) { mode = 4; }
+	if (input->isKeyDown(aie::INPUT_KEY_KP_6)) { mode = 5; }
 	
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -96,7 +96,7 @@ void App2D::draw() {
 	{
 		for (auto coords : point)
 		{
-			//m_2dRenderer->drawCircle(coords.x, coords.y, 3);
+			m_2dRenderer->drawCircle(coords.x, coords.y, 3);
 		}
 	}
 	auto center = hex->polygon_corners(layout, *hex);
