@@ -68,63 +68,12 @@ void App2D::draw() {
 
 	// draw your stuff here!
 	Layout layout = Layout(layout_flat,Point(20,20),Point(getWindowWidth()/2,getWindowHeight()/2));
-
-	std::vector<Hex> hexes;
-	for (int k = 0; k < 1; ++k)
-	{
-
-
-		for (int j = 0; j < 1; ++j)
-		{
-			for (int i = 0; i < 6; ++i)
-			{
-				hexes.push_back(hex->hex_neighbor(hex->hex_add(*hex, Hex(j -k, k)), mode));
-			}
-		}
-	}
-	std::vector<std::vector<Point>> list;
-	for (auto aHex : hexes)
-	{
-		list.push_back(aHex.polygon_corners(layout, aHex));
-	}
-
 	
-
-	//green
-	m_2dRenderer->setRenderColour(0, 1, 0);
-	for (auto point : list)
-	{
-		for (auto coords : point)
-		{
-			m_2dRenderer->drawCircle(coords.x, coords.y, 3);
-		}
-	}
-	auto center = hex->polygon_corners(layout, *hex);
-	
-		m_2dRenderer->drawLine(center[0].x, center[0].y, center[1].x, center[1].y, 1);
-		m_2dRenderer->drawLine(center[1].x, center[1].y, center[2].x, center[2].y, 1);
-		m_2dRenderer->drawLine(center[2].x, center[2].y, center[3].x, center[3].y, 1);
-		m_2dRenderer->drawLine(center[3].x, center[3].y, center[4].x, center[4].y, 1);
-		m_2dRenderer->drawLine(center[4].x, center[4].y, center[5].x, center[5].y, 1);
-		m_2dRenderer->drawLine(center[5].x, center[5].y, center[0].x, center[0].y, 1);
-
-	//red
-	m_2dRenderer->setRenderColour(1, 0, 0);
-	for (auto point : list)
-	{
-		
-			m_2dRenderer->drawLine(point[0].x, point[0].y, point[1].x, point[1].y, 1);
-			m_2dRenderer->drawLine(point[1].x, point[1].y, point[2].x, point[2].y, 1);
-			m_2dRenderer->drawLine(point[2].x, point[2].y, point[3].x, point[3].y, 1);
-			m_2dRenderer->drawLine(point[3].x, point[3].y, point[4].x, point[4].y, 1);
-			m_2dRenderer->drawLine(point[4].x, point[4].y, point[5].x, point[5].y, 1);
-			m_2dRenderer->drawLine(point[5].x, point[5].y, point[0].x, point[0].y, 1);
-		
-	}
-
-
 	//blue
 	m_2dRenderer->setRenderColour(0, 0, 1);
+
+
+
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
