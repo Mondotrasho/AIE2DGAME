@@ -26,5 +26,12 @@ protected:
 
 	Hex* hex;
 	Hex* otherhex;
+	Hex* mousehex;
 	int mode;
+
+	Vector2 active;
+	bool pausing;
+	float pauseTimer;
+
+	Vector2 mousepos;
 };
