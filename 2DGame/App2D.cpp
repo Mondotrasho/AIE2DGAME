@@ -160,44 +160,18 @@ void App2D::draw() {
 	auto fractionalpoint = mousehex->pixel_to_hex(layout, Point(mousepos.x, mousepos.y));
 	fractionalpoint = FractionalHex(fractionalpoint.q , fractionalpoint.r , fractionalpoint.s );
 	//draw text
-	const char* qVal = new const char();
-	const char* qValplus = new const char();
-	const char* qValminus = new const char();
-	const char* rVal = new const char();
-	const char* rValplus = new const char();
-	const char* rValminus = new const char();
-	const char* sVal = new const char();
-	const char* sValplus = new const char();
-	const char* sValminus = new const char();
-	std::string qstring = "Q   : " + std::to_string( fractionalpoint.q);
-	std::string qstringplus = "Q + : " + std::to_string(fractionalpoint.q + 0.49f);
-	std::string qstringminus = "Q - : " + std::to_string(fractionalpoint.q - 0.49f);
-	std::string rstring = "R   : " + std::to_string(fractionalpoint.r);
-	std::string rstringplus = "R + : " + std::to_string(fractionalpoint.r + 0.49f);
-	std::string rstringminus = "R - : " + std::to_string(fractionalpoint.r - 0.49f);
-	std::string sstring = "S   : " + std::to_string(fractionalpoint.s);
-	std::string sstringplus = "S + : " + std::to_string(fractionalpoint.s + 0.49f);
-	std::string sstringminus = "S - : " + std::to_string(fractionalpoint.s - 0.49f);
-	qVal = qstring.c_str();
-	qValplus = qstringplus.c_str();
-	qValminus = qstringminus.c_str();
-	rVal = rstring.c_str();
-	rValplus = rstringplus.c_str();
-	rValminus = rstringminus.c_str();
-	sVal = sstring.c_str();
-	sValplus = sstringplus.c_str();
-	sValminus = sstringminus.c_str();
-	m_2dRenderer->drawText(m_font, qVal, 0, 520 - 64);
-	m_2dRenderer->drawText(m_font, qValplus, 0, 495 - 64);
-	m_2dRenderer->drawText(m_font, qValminus, 0, 470 - 64);
+	
+	m_2dRenderer->drawText(m_font, ("Q   : " + std::to_string(fractionalpoint.q)).c_str(), 0, 520 - 64);
+	m_2dRenderer->drawText(m_font, ("Q + : " + std::to_string(fractionalpoint.q + 0.49f)).c_str(), 0, 495 - 64);
+	m_2dRenderer->drawText(m_font, ("Q - : " + std::to_string(fractionalpoint.q - 0.49f)).c_str(), 0, 470 - 64);
 
-	m_2dRenderer->drawText(m_font, rVal, 0, 420 - 64);
-	m_2dRenderer->drawText(m_font, rValplus, 0, 395 - 64);
-	m_2dRenderer->drawText(m_font, rValminus, 0, 370 - 64);
+	m_2dRenderer->drawText(m_font, ("R   : " + std::to_string(fractionalpoint.r)).c_str(), 0, 420 - 64);
+	m_2dRenderer->drawText(m_font, ("R + : " + std::to_string(fractionalpoint.r + 0.49f)).c_str(), 0, 395 - 64);
+	m_2dRenderer->drawText(m_font, ("R - : " + std::to_string(fractionalpoint.r - 0.49f)).c_str(), 0, 370 - 64);
 
-	m_2dRenderer->drawText(m_font, sVal, 0, 320 - 64);
-	m_2dRenderer->drawText(m_font, sValplus, 0, 295 - 64);
-	m_2dRenderer->drawText(m_font, sValminus, 0, 270 - 64);
+	m_2dRenderer->drawText(m_font, ("S   : " + std::to_string(fractionalpoint.s)).c_str(), 0, 320 - 64);
+	m_2dRenderer->drawText(m_font, ("S + : " + std::to_string(fractionalpoint.s + 0.49f)).c_str(), 0, 295 - 64);
+	m_2dRenderer->drawText(m_font, ("S - : " + std::to_string(fractionalpoint.s - 0.49f)).c_str(), 0, 270 - 64);
 
 
 	mousehex = new Hex(fractionalpoint.q, fractionalpoint.r) ;
