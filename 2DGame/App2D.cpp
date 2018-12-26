@@ -18,41 +18,23 @@ bool App2D::startup() {
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
-
-	m_cameraX = 0;
-	m_cameraY = 0;
-	m_timer = 0;
-
-	hex = new Hex{ 0,0,0 };
-	mousehex = new Hex{ 0,0,0 };
-	fractionalpoint = new FractionalHex(0,0,0);
-
-	KeyboardDrivenHexPos = new std::vector<Point>;
-	MouseDrivenHexPos = new std::vector<Point>;
-	mode = 0;
+	
+	//Grid layout orientation then size and position
 	GridLayout = new Layout(layout_pointy, Point(20, 20), Point(getWindowWidth() / 2, getWindowHeight() / 2));
-	list = new std::vector<std::vector<Point>>;
-	hexes = new std::vector<Hex>;
-	for (int k = -5; k < 5; ++k)
+
+	//fill hex grid vector using the Q or HEIGHT and the R or WIDTH to generate
+	for (auto k = -GridHeight /2; k <  GridHeight / 2; ++k)
 	{
-
-
-		for (int j = -5; j < 5; ++j)
+		for (auto j = -GridWidth / 2; j < GridWidth / 2; ++j)
 		{
-			for (int i = 0; i < 6; ++i)
-			{
-				hexes->push_back(hex->hex_neighbor(hex->hex_add(*hex, Hex(j - k, k)), mode));
-			}
+			HexGrid->push_back(HexCenter->hex_neighbor(Hex::hex_add(*HexCenter, Hex(j - k, k)), HexDirection));
 		}
 	}
-	for (auto aHex : *hexes)
+	//find the corners of all the hexes we created for the grid
+	for (const auto& a_hex : *HexGrid)
 	{
-		list->push_back(aHex.polygon_corners(*GridLayout, aHex));
+		HexGridCorners->push_back(a_hex.polygon_corners(*GridLayout, a_hex));
 	}
-
-	active = Vector2(0, 0);
-	pausing = false;
-	pauseTimer = 0;
 
 	return true;
 }
@@ -74,25 +56,25 @@ void App2D::update(float deltaTime) {
 	if (!pausing) {
 		if (input->isKeyDown(aie::INPUT_KEY_KP_4))
 		{
-			active.x = 1;
+			keyboardpos.x += 1;
 			pausing = true;
 			pauseTimer = 0.1f;
 		}
 		if (input->isKeyDown(aie::INPUT_KEY_KP_1))
 		{
-			active.x = -1;
+			keyboardpos.x += -1;
 			pausing = true;
 			pauseTimer = 0.1f;
 		}
 		if (input->isKeyDown(aie::INPUT_KEY_KP_5))
 		{
-			active.y = 1;
+			keyboardpos.y += 1;
 			pausing = true;
 			pauseTimer = 0.1f;
 		}
 		if (input->isKeyDown(aie::INPUT_KEY_KP_2))
 		{
-			active.y = -1;
+			keyboardpos.y += -1;
 			pausing = true;
 			pauseTimer = 0.1f;
 		}
@@ -105,19 +87,22 @@ void App2D::update(float deltaTime) {
 			pausing = false;
 		}
 	}
-	hex = new Hex(hex->q + active.x, hex->r + active.y);
-	active = Vector2(0, 0);
-	*KeyboardDrivenHexPos = hex->polygon_corners(*GridLayout, *hex);
+	//set the keyboard pos to be the 
+	*KeyboardHexCorners = Hex(keyboardpos.x, keyboardpos.y).polygon_corners(*GridLayout, Hex(keyboardpos.x, keyboardpos.y));
+
 
 	//mouse driven hex updates
-	int* num1 = new int(0);
-	int* num2 = new int(0);
-	input->getMouseXY(num1, num2);
-	mousepos = Vector2(*num1, *num2);
-	*fractionalpoint = mousehex->pixel_to_hex(*GridLayout, Point(mousepos.x, mousepos.y));
-	*fractionalpoint = FractionalHex(fractionalpoint->q, fractionalpoint->r, fractionalpoint->s);
-	mousehex = new Hex(fractionalpoint->q, fractionalpoint->r);
-	*MouseDrivenHexPos = mousehex->polygon_corners(*GridLayout, *mousehex);
+	//retrieve mouse coords
+	input->getMouseXY(MouseXGetter, MouseYGetter);
+	mousepos = Vector2(*MouseXGetter, *MouseYGetter);
+
+	//find the fractional position of the hex
+	*MouseHex = Hex::pixel_to_hex(*GridLayout, Point(mousepos.x, mousepos.y));
+
+	//find corners of the hex it is in
+	*MouseHexCorners = Hex(MouseHex->q, MouseHex->r).polygon_corners(*GridLayout, Hex(MouseHex->q, MouseHex->r));
+
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -138,7 +123,7 @@ void App2D::draw() {
 	m_2dRenderer->setRenderColour(0, 1, 0);
 
 	//draw the grid of hexes from the list we generated in the startup	
-	for (auto point : *list)
+	for (auto point : *HexGridCorners)
 	{
 		m_2dRenderer->drawLine(point[0].x, point[0].y, point[1].x, point[1].y, 1);
 		m_2dRenderer->drawLine(point[1].x, point[1].y, point[2].x, point[2].y, 1);
@@ -152,35 +137,35 @@ void App2D::draw() {
 	m_2dRenderer->setRenderColour(0, 0, 1);
 
 	//draw the keyboard driven Hex	
-	m_2dRenderer->drawLine(KeyboardDrivenHexPos->operator[](0).x, KeyboardDrivenHexPos->operator[](0).y, KeyboardDrivenHexPos->operator[](1).x, KeyboardDrivenHexPos->operator[](1).y, 1);
-	m_2dRenderer->drawLine(KeyboardDrivenHexPos->operator[](1).x, KeyboardDrivenHexPos->operator[](1).y, KeyboardDrivenHexPos->operator[](2).x, KeyboardDrivenHexPos->operator[](2).y, 1);
-	m_2dRenderer->drawLine(KeyboardDrivenHexPos->operator[](2).x, KeyboardDrivenHexPos->operator[](2).y, KeyboardDrivenHexPos->operator[](3).x, KeyboardDrivenHexPos->operator[](3).y, 1);
-	m_2dRenderer->drawLine(KeyboardDrivenHexPos->operator[](3).x, KeyboardDrivenHexPos->operator[](3).y, KeyboardDrivenHexPos->operator[](4).x, KeyboardDrivenHexPos->operator[](4).y, 1);
-	m_2dRenderer->drawLine(KeyboardDrivenHexPos->operator[](4).x, KeyboardDrivenHexPos->operator[](4).y, KeyboardDrivenHexPos->operator[](5).x, KeyboardDrivenHexPos->operator[](5).y, 1);
-	m_2dRenderer->drawLine(KeyboardDrivenHexPos->operator[](5).x, KeyboardDrivenHexPos->operator[](5).y, KeyboardDrivenHexPos->operator[](0).x, KeyboardDrivenHexPos->operator[](0).y, 1);
+	m_2dRenderer->drawLine(KeyboardHexCorners->operator[](0).x, KeyboardHexCorners->operator[](0).y, KeyboardHexCorners->operator[](1).x, KeyboardHexCorners->operator[](1).y, 1);
+	m_2dRenderer->drawLine(KeyboardHexCorners->operator[](1).x, KeyboardHexCorners->operator[](1).y, KeyboardHexCorners->operator[](2).x, KeyboardHexCorners->operator[](2).y, 1);
+	m_2dRenderer->drawLine(KeyboardHexCorners->operator[](2).x, KeyboardHexCorners->operator[](2).y, KeyboardHexCorners->operator[](3).x, KeyboardHexCorners->operator[](3).y, 1);
+	m_2dRenderer->drawLine(KeyboardHexCorners->operator[](3).x, KeyboardHexCorners->operator[](3).y, KeyboardHexCorners->operator[](4).x, KeyboardHexCorners->operator[](4).y, 1);
+	m_2dRenderer->drawLine(KeyboardHexCorners->operator[](4).x, KeyboardHexCorners->operator[](4).y, KeyboardHexCorners->operator[](5).x, KeyboardHexCorners->operator[](5).y, 1);
+	m_2dRenderer->drawLine(KeyboardHexCorners->operator[](5).x, KeyboardHexCorners->operator[](5).y, KeyboardHexCorners->operator[](0).x, KeyboardHexCorners->operator[](0).y, 1);
 
 	//change colour to Red
 	m_2dRenderer->setRenderColour(1, 0, 0);	
 	
 	//draw the mouse hex
-	m_2dRenderer->drawLine(MouseDrivenHexPos->operator[](0).x, MouseDrivenHexPos->operator[](0).y, MouseDrivenHexPos->operator[](1).x, MouseDrivenHexPos->operator[](1).y, 1);
-	m_2dRenderer->drawLine(MouseDrivenHexPos->operator[](1).x, MouseDrivenHexPos->operator[](1).y, MouseDrivenHexPos->operator[](2).x, MouseDrivenHexPos->operator[](2).y, 1);
-	m_2dRenderer->drawLine(MouseDrivenHexPos->operator[](2).x, MouseDrivenHexPos->operator[](2).y, MouseDrivenHexPos->operator[](3).x, MouseDrivenHexPos->operator[](3).y, 1);
-	m_2dRenderer->drawLine(MouseDrivenHexPos->operator[](3).x, MouseDrivenHexPos->operator[](3).y, MouseDrivenHexPos->operator[](4).x, MouseDrivenHexPos->operator[](4).y, 1);
-	m_2dRenderer->drawLine(MouseDrivenHexPos->operator[](4).x, MouseDrivenHexPos->operator[](4).y, MouseDrivenHexPos->operator[](5).x, MouseDrivenHexPos->operator[](5).y, 1);
-	m_2dRenderer->drawLine(MouseDrivenHexPos->operator[](5).x, MouseDrivenHexPos->operator[](5).y, MouseDrivenHexPos->operator[](0).x, MouseDrivenHexPos->operator[](0).y, 1);
+	m_2dRenderer->drawLine(MouseHexCorners->operator[](0).x, MouseHexCorners->operator[](0).y, MouseHexCorners->operator[](1).x, MouseHexCorners->operator[](1).y, 1);
+	m_2dRenderer->drawLine(MouseHexCorners->operator[](1).x, MouseHexCorners->operator[](1).y, MouseHexCorners->operator[](2).x, MouseHexCorners->operator[](2).y, 1);
+	m_2dRenderer->drawLine(MouseHexCorners->operator[](2).x, MouseHexCorners->operator[](2).y, MouseHexCorners->operator[](3).x, MouseHexCorners->operator[](3).y, 1);
+	m_2dRenderer->drawLine(MouseHexCorners->operator[](3).x, MouseHexCorners->operator[](3).y, MouseHexCorners->operator[](4).x, MouseHexCorners->operator[](4).y, 1);
+	m_2dRenderer->drawLine(MouseHexCorners->operator[](4).x, MouseHexCorners->operator[](4).y, MouseHexCorners->operator[](5).x, MouseHexCorners->operator[](5).y, 1);
+	m_2dRenderer->drawLine(MouseHexCorners->operator[](5).x, MouseHexCorners->operator[](5).y, MouseHexCorners->operator[](0).x, MouseHexCorners->operator[](0).y, 1);
 	
 	//draw text
 	//fractional point of mouse pos
-	m_2dRenderer->drawText(m_font, ("Q   : " + std::to_string(fractionalpoint->q)).c_str(), 0, 520 - 64);
-	m_2dRenderer->drawText(m_font, ("Q + : " + std::to_string(fractionalpoint->q + 0.49f)).c_str(), 0, 495 - 64);
-	m_2dRenderer->drawText(m_font, ("Q - : " + std::to_string(fractionalpoint->q - 0.49f)).c_str(), 0, 470 - 64);
-	m_2dRenderer->drawText(m_font, ("R   : " + std::to_string(fractionalpoint->r)).c_str(), 0, 420 - 64);
-	m_2dRenderer->drawText(m_font, ("R + : " + std::to_string(fractionalpoint->r + 0.49f)).c_str(), 0, 395 - 64);
-	m_2dRenderer->drawText(m_font, ("R - : " + std::to_string(fractionalpoint->r - 0.49f)).c_str(), 0, 370 - 64);
-	m_2dRenderer->drawText(m_font, ("S   : " + std::to_string(fractionalpoint->s)).c_str(), 0, 320 - 64);
-	m_2dRenderer->drawText(m_font, ("S + : " + std::to_string(fractionalpoint->s + 0.49f)).c_str(), 0, 295 - 64);
-	m_2dRenderer->drawText(m_font, ("S - : " + std::to_string(fractionalpoint->s - 0.49f)).c_str(), 0, 270 - 64);
+	m_2dRenderer->drawText(m_font, ("Q   : " + std::to_string(MouseHex->q)).c_str(), 0, 520 - 64);
+	m_2dRenderer->drawText(m_font, ("Q + : " + std::to_string(MouseHex->q + 0.49f)).c_str(), 0, 495 - 64);
+	m_2dRenderer->drawText(m_font, ("Q - : " + std::to_string(MouseHex->q - 0.49f)).c_str(), 0, 470 - 64);
+	m_2dRenderer->drawText(m_font, ("R   : " + std::to_string(MouseHex->r)).c_str(), 0, 420 - 64);
+	m_2dRenderer->drawText(m_font, ("R + : " + std::to_string(MouseHex->r + 0.49f)).c_str(), 0, 395 - 64);
+	m_2dRenderer->drawText(m_font, ("R - : " + std::to_string(MouseHex->r - 0.49f)).c_str(), 0, 370 - 64);
+	m_2dRenderer->drawText(m_font, ("S   : " + std::to_string(MouseHex->s)).c_str(), 0, 320 - 64);
+	m_2dRenderer->drawText(m_font, ("S + : " + std::to_string(MouseHex->s + 0.49f)).c_str(), 0, 295 - 64);
+	m_2dRenderer->drawText(m_font, ("S - : " + std::to_string(MouseHex->s - 0.49f)).c_str(), 0, 270 - 64);
 
 	// output some text, uses the last used colour
 	char fps[32];
