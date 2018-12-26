@@ -24,7 +24,6 @@ bool App2D::startup() {
 	m_timer = 0;
 
 	hex = new Hex{ 0,0,0 };
-	otherhex = new Hex(0, 0, 0);
 	mousehex = new Hex{ 0,0,0 };
 	fractionalpoint = new FractionalHex(0,0,0);
 
@@ -42,7 +41,7 @@ bool App2D::startup() {
 		{
 			for (int i = 0; i < 6; ++i)
 			{
-				hexes->push_back(otherhex->hex_neighbor(otherhex->hex_add(*otherhex, Hex(j - k, k)), mode));
+				hexes->push_back(hex->hex_neighbor(hex->hex_add(*hex, Hex(j - k, k)), mode));
 			}
 		}
 	}

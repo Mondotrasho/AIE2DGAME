@@ -25,7 +25,6 @@ protected:
 	float m_timer;
 
 	Hex* hex;
-	Hex* otherhex;
 	Hex* mousehex;
 	FractionalHex* fractionalpoint;
 	int mode;
