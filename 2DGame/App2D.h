@@ -27,7 +27,13 @@ protected:
 	Hex* hex;
 	Hex* otherhex;
 	Hex* mousehex;
+	FractionalHex* fractionalpoint;
 	int mode;
+	std::vector<Hex>* hexes;
+	Layout* GridLayout;
+	std::vector<Point>* KeyboardDrivenHexPos;
+	std::vector<Point>* MouseDrivenHexPos;
+	std::vector<std::vector<Point>>* list;
 
 	Vector2 active;
 	bool pausing;
