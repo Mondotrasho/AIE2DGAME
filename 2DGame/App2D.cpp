@@ -115,7 +115,16 @@ void App2D::update(float deltaTime) {
 	else
 	{
 		MouseHex->r -= 0.49f;
-		
+
+	}
+	if (MouseHex->s > 0)
+	{
+		MouseHex->s += 0.49f;
+	}
+	else
+	{
+		MouseHex->s -= 0.49f;
+
 	}
 
 
@@ -178,14 +187,14 @@ void App2D::draw() {
 	//draw text
 	//fractional point of mouse pos
 	m_2dRenderer->drawText(m_font, ("Q   : " + std::to_string(MouseHex->q)).c_str(), 0, 520 - 64);
-	m_2dRenderer->drawText(m_font, ("Q + : " + std::to_string(MouseHex->q + 0.49f)).c_str(), 0, 495 - 64);
-	m_2dRenderer->drawText(m_font, ("Q - : " + std::to_string(MouseHex->q - 0.49f)).c_str(), 0, 470 - 64);
+	m_2dRenderer->drawText(m_font, ("Q   : " + std::to_string(Hex(MouseHex->q, MouseHex->r,MouseHex->s).q)).c_str(), 0, 495 - 64);
+	//m_2dRenderer->drawText(m_font, ("Q - : " + std::to_string(MouseHex->q - 0.49f)).c_str(), 0, 470 - 64);
 	m_2dRenderer->drawText(m_font, ("R   : " + std::to_string(MouseHex->r)).c_str(), 0, 420 - 64);
-	m_2dRenderer->drawText(m_font, ("R + : " + std::to_string(MouseHex->r + 0.49f)).c_str(), 0, 395 - 64);
-	m_2dRenderer->drawText(m_font, ("R - : " + std::to_string(MouseHex->r - 0.49f)).c_str(), 0, 370 - 64);
+	m_2dRenderer->drawText(m_font, ("R   : " + std::to_string(Hex(MouseHex->q, MouseHex->r, MouseHex->s).r)).c_str(), 0, 395 - 64);
+	//m_2dRenderer->drawText(m_font, ("R - : " + std::to_string(MouseHex->r - 0.49f)).c_str(), 0, 370 - 64);
 	m_2dRenderer->drawText(m_font, ("S   : " + std::to_string(MouseHex->s)).c_str(), 0, 320 - 64);
-	m_2dRenderer->drawText(m_font, ("S + : " + std::to_string(MouseHex->s + 0.49f)).c_str(), 0, 295 - 64);
-	m_2dRenderer->drawText(m_font, ("S - : " + std::to_string(MouseHex->s - 0.49f)).c_str(), 0, 270 - 64);
+	m_2dRenderer->drawText(m_font, ("S   : " + std::to_string(Hex(MouseHex->q, MouseHex->r, MouseHex->s).s)).c_str(), 0, 295 - 64);
+	//m_2dRenderer->drawText(m_font, ("S - : " + std::to_string(MouseHex->s - 0.49f)).c_str(), 0, 270 - 64);
 
 	// output some text, uses the last used colour
 	char fps[32];
