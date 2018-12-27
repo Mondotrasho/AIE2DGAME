@@ -88,6 +88,7 @@ void App2D::update(float deltaTime) {
 		}
 	}
 	//set the keyboard pos to be the 
+
 	*KeyboardHexCorners = Hex(keyboardpos.x, keyboardpos.y).polygon_corners(*GridLayout, Hex(keyboardpos.x, keyboardpos.y));
 
 
@@ -98,6 +99,25 @@ void App2D::update(float deltaTime) {
 
 	//find the fractional position of the hex
 	*MouseHex = Hex::pixel_to_hex(*GridLayout, Point(mousepos.x, mousepos.y));
+
+	if (MouseHex->q > 0)
+	{
+		MouseHex->q += 0.49f;
+	}
+	else
+	{
+		MouseHex->q -= 0.49f;
+	}
+	if (MouseHex->r > 0)
+	{
+		MouseHex->r += 0.49f;
+	}
+	else
+	{
+		MouseHex->r -= 0.49f;
+		
+	}
+
 
 	//find corners of the hex it is in
 	*MouseHexCorners = Hex(MouseHex->q, MouseHex->r).polygon_corners(*GridLayout, Hex(MouseHex->q, MouseHex->r));

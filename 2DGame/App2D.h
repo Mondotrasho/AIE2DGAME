@@ -35,8 +35,8 @@ protected:
 	int HexDirection = 0;
 
 	//the "map"
-	int GridHeight = 10;
-	int GridWidth = 10;
+	int GridHeight = 25;
+	int GridWidth = 50;
 	std::vector<Hex>* HexGrid = new std::vector<Hex>();
 
 	//"pointy" or "flat" also controls starting position and the hex size for anything it is used with
