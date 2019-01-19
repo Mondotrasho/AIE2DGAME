@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "Hex.h"
+#include "HexSprite.h"
 
 class App2D : public aie::Application {
 public:
@@ -59,4 +60,7 @@ protected:
 	int* MouseYGetter = new int();
 
 	Hex* LineTarget = new Hex(0, 0, 0);
+
+	std::vector<HexSprite> Sprite_box;
+
 };

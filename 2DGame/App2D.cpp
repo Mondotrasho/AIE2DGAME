@@ -20,7 +20,7 @@ bool App2D::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 	
 	//Grid layout orientation then size and position
-	GridLayout = new Layout(layout_pointy, Point(20, 20), Point(getWindowWidth() / 2, getWindowHeight() / 2));
+	GridLayout = new Layout(layout_flat, Point(30, 30), Point(getWindowWidth() / 2, getWindowHeight() / 2));
 
 	//fill hex grid vector using the Q or HEIGHT and the R or WIDTH to generate
 	for (auto k = -GridHeight /2; k <  GridHeight / 2; ++k)
@@ -35,6 +35,12 @@ bool App2D::startup() {
 	{
 		HexGridCorners->push_back(a_hex.polygon_corners(*GridLayout, a_hex));
 	}
+
+	Sprite_box.push_back(HexSprite());
+	Sprite_box.back().setup("../bin/textures/Tile1.png");
+	Sprite_box.back().setPosition(getWindowWidth() / 2.f, getWindowHeight() / 2.f);
+	Sprite_box.back().Hex_states = 0;
+	Sprite_box.back().done = true;
 
 	return true;
 }
@@ -201,6 +207,15 @@ void App2D::draw() {
 	for each (auto point in points)
 	{
 		m_2dRenderer->drawCircle(point.x, point.y, 10);
+	}
+
+
+	m_2dRenderer->setRenderColour(1, 1, 1);
+	for each (auto sprite in Sprite_box)
+	{
+		auto a = LineTarget->hex_to_pixel(*GridLayout, *LineTarget);
+		sprite.translate(a.x - (getWindowWidth() / 2), a.y - (getWindowHeight() /2 ));
+		sprite.draw(m_2dRenderer);
 	}
 
 	//draw text
