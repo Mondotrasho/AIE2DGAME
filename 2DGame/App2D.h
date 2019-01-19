@@ -57,4 +57,6 @@ protected:
 
 	int* MouseXGetter = new int();
 	int* MouseYGetter = new int();
+
+	Hex* LineTarget = new Hex(0, 0, 0);
 };

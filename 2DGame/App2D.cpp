@@ -100,6 +100,10 @@ void App2D::update(float deltaTime) {
 	//find the fractional position of the hex
 	*MouseHex = Hex::pixel_to_hex(*GridLayout, Point(mousepos.x, mousepos.y));
 
+
+	auto test =LineTarget->hex_round(*MouseHex);
+	LineTarget = new Hex(test);
+
 	if (MouseHex->q > 0)
 	{
 		MouseHex->q += 0.49f;
@@ -177,13 +181,28 @@ void App2D::draw() {
 	m_2dRenderer->setRenderColour(1, 0, 0);	
 	
 	//draw the mouse hex
-	m_2dRenderer->drawLine(MouseHexCorners->operator[](0).x, MouseHexCorners->operator[](0).y, MouseHexCorners->operator[](1).x, MouseHexCorners->operator[](1).y, 1);
-	m_2dRenderer->drawLine(MouseHexCorners->operator[](1).x, MouseHexCorners->operator[](1).y, MouseHexCorners->operator[](2).x, MouseHexCorners->operator[](2).y, 1);
-	m_2dRenderer->drawLine(MouseHexCorners->operator[](2).x, MouseHexCorners->operator[](2).y, MouseHexCorners->operator[](3).x, MouseHexCorners->operator[](3).y, 1);
-	m_2dRenderer->drawLine(MouseHexCorners->operator[](3).x, MouseHexCorners->operator[](3).y, MouseHexCorners->operator[](4).x, MouseHexCorners->operator[](4).y, 1);
-	m_2dRenderer->drawLine(MouseHexCorners->operator[](4).x, MouseHexCorners->operator[](4).y, MouseHexCorners->operator[](5).x, MouseHexCorners->operator[](5).y, 1);
-	m_2dRenderer->drawLine(MouseHexCorners->operator[](5).x, MouseHexCorners->operator[](5).y, MouseHexCorners->operator[](0).x, MouseHexCorners->operator[](0).y, 1);
+	//m_2dRenderer->drawLine(MouseHexCorners->operator[](0).x, MouseHexCorners->operator[](0).y, MouseHexCorners->operator[](1).x, MouseHexCorners->operator[](1).y, 1);
+	//m_2dRenderer->drawLine(MouseHexCorners->operator[](1).x, MouseHexCorners->operator[](1).y, MouseHexCorners->operator[](2).x, MouseHexCorners->operator[](2).y, 1);
+	//m_2dRenderer->drawLine(MouseHexCorners->operator[](2).x, MouseHexCorners->operator[](2).y, MouseHexCorners->operator[](3).x, MouseHexCorners->operator[](3).y, 1);
+	//m_2dRenderer->drawLine(MouseHexCorners->operator[](3).x, MouseHexCorners->operator[](3).y, MouseHexCorners->operator[](4).x, MouseHexCorners->operator[](4).y, 1);
+	//m_2dRenderer->drawLine(MouseHexCorners->operator[](4).x, MouseHexCorners->operator[](4).y, MouseHexCorners->operator[](5).x, MouseHexCorners->operator[](5).y, 1);
+	//m_2dRenderer->drawLine(MouseHexCorners->operator[](5).x, MouseHexCorners->operator[](5).y, MouseHexCorners->operator[](0).x, MouseHexCorners->operator[](0).y, 1);
+	//
+
 	
+	std::vector<Hex> c = HexCenter->hex_linedraw(*HexCenter, *LineTarget);
+	std::vector<Vector2> points;
+	for each (auto a in c)
+	{
+		Point temppoint = a.hex_to_pixel(*GridLayout,a);
+		points.push_back(Vector2((float)temppoint.x, (float)temppoint.y));
+	}
+	//m_2dRenderer->drawLine(HexCenter->hex_to_pixel(*GridLayout, *HexCenter).x, HexCenter->hex_to_pixel(*GridLayout, *HexCenter).y, LineTarget->hex_to_pixel(*GridLayout, *LineTarget).x, LineTarget->hex_to_pixel(*GridLayout, *LineTarget).y, 1);
+	for each (auto point in points)
+	{
+		m_2dRenderer->drawCircle(point.x, point.y, 10);
+	}
+
 	//draw text
 	//fractional point of mouse pos
 	m_2dRenderer->drawText(m_font, ("Q   : " + std::to_string(MouseHex->q)).c_str(), 0, 520 - 64);
@@ -195,7 +214,6 @@ void App2D::draw() {
 	m_2dRenderer->drawText(m_font, ("S   : " + std::to_string(MouseHex->s)).c_str(), 0, 320 - 64);
 	m_2dRenderer->drawText(m_font, ("S   : " + std::to_string(Hex(MouseHex->q, MouseHex->r, MouseHex->s).s)).c_str(), 0, 295 - 64);
 	//m_2dRenderer->drawText(m_font, ("S - : " + std::to_string(MouseHex->s - 0.49f)).c_str(), 0, 270 - 64);
-
 	// output some text, uses the last used colour
 	char fps[32];
 	sprintf_s(fps, 32, "FPS: %i", getFPS());
