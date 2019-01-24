@@ -2,7 +2,6 @@
 #include "Hex.h"
 #include "HexSprite.h"
 
-
 class App2D;
 
 class DebugFunctions
@@ -26,7 +25,9 @@ public:
 			Grid 
 								= false;
 
+
 	aie::Font*			debugfont;
+
 	//grid layout
 	//"pointy" or "flat" also controls starting position and the hex size for anything it is used with
 	Layout* GridLayout;
@@ -37,6 +38,7 @@ public:
 	int HexDirection = 0;
 
 	//KeyboardControls
+	//using num pad to move a hex using the axial position on a hex
 	std::vector<Point>* KeyboardHexCorners = new std::vector<Point>();
 	Vector2 keyboardpos = Vector2(0, 0);
 	//pause for input control
@@ -44,18 +46,20 @@ public:
 	float pauseTimer = 0;
 
 	//hexGrid
-	//the "map"
+	//the "map" atm all code uses thisin its current form to lay things out code creates a "board" that everything else is placed on
 	int GridHeight = 5;
 	int GridWidth = 10;
 	std::vector<Hex>* HexGrid = new std::vector<Hex>();
 	std::vector<std::vector<Point>>* HexGridCorners = new std::vector<std::vector<Point>>();
 
 	//DrawSprite on grid
+	//this shows loading sprites ONTO the hex grid atm it has a standard scale and only works with the dafualt grid (all changes to grid scale need to be reflected in the sprite code)
 	std::vector<HexSprite> Sprite_box;
 	std::vector<HexSprite>* Sprite_box_ptr;
 	int num[100000];
 
 	//MouseControls
+	//Moust input to hex location using fractional hex to pixel conversion and rounding to HEX for final position storing
 	int* MouseXGetter = new int();
 	int* MouseYGetter = new int();
 	Hex* LineTarget = new Hex(0, 0, 0);
