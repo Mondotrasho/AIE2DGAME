@@ -24,7 +24,7 @@ HexSprite::~HexSprite()
 void HexSprite::setup(const char * HexImage)
 {
 	//shrink
-	scale(0.2,0.2);
+	scale(0.2075 / 2,0.2075 / 2);
 	//load textures
 	load(HexImage);
 	sprite.load(HexImage);
