@@ -169,6 +169,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App2D.cpp" />
+    <ClCompile Include="DebugFunctions.cpp" />
     <ClCompile Include="HexSprite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SceneObject.cpp" />
@@ -176,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App2D.h" />
+    <ClInclude Include="DebugFunctions.h" />
     <ClInclude Include="HexSprite.h" />
     <ClInclude Include="SceneObject.h" />
     <ClInclude Include="SpriteObject.h" />
