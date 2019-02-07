@@ -32,7 +32,7 @@ bool App2D::startup() {
 	m_playerFollowBehaviour.setSpeed(100);
 	m_playerFollowBehaviour.setTarget(&Mouse);
 
-	m_followBehaviour.setSpeed(100);
+	m_followBehaviour.setSpeed(75);
 	m_followBehaviour.setTarget(&m_player);
 
 	m_player.set_position(Vector2(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f));

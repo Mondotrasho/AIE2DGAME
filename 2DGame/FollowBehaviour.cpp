@@ -30,7 +30,7 @@ eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
 	{
 		dir = dir.normalised();
 
-		agent->set_position(pos - dir * deltaTime * 50.0f);
+		agent->set_position(pos - dir * deltaTime * m_speed);
 	}
 
 	return eBehaviourResult::SUCCESS;
