@@ -3,9 +3,9 @@
 #include "Font.h"
 #include "Input.h"
 #include "imgui.h"
-#include "Edge.h"
 #include "PathFindingDjikstra.h"
 #include "AStar.h"
+
 
 App2D::App2D() {
 
@@ -15,8 +15,10 @@ App2D::~App2D() {
 
 }
 
+
+
 bool App2D::startup() {
-	
+
 	m_2dRenderer = new aie::Renderer2D();
 
 	// TODO: remember to change this when redistributing a build!
@@ -45,15 +47,13 @@ bool App2D::startup() {
 	//search start
 
 
-	
-
 	//setup nodes with no connections
-	Node node0 = { "0" , Vector2{ 150,400 } };
-	Node node1 = { "1" , Vector2{ 250,400 } };
-	Node node2 = { "2" , Vector2{ 250,300 } };
-	Node node3 = { "3" , Vector2{ 250,150 } };
-	Node node4 = { "4" , Vector2{ 200,100 } };
-	Node node5 = { "5" , Vector2{ 150,150 } };
+	Node node0 = { "0", Vector2{ 150, 400 } };
+	Node node1 = { "1", Vector2{ 250, 400 } };
+	Node node2 = { "2", Vector2{ 250, 300 } };
+	Node node3 = { "3", Vector2{ 250, 150 } };
+	Node node4 = { "4", Vector2{ 200, 100 } };
+	Node node5 = { "5", Vector2{ 150, 150 } };
 	//pushback Nodes
 	nodes.push_back(node0);
 	nodes.push_back(node1);
@@ -115,7 +115,7 @@ void App2D::shutdown() {
 
 void App2D::update(float deltaTime) {
 
-	m_timer += deltaTime; 
+	m_timer += deltaTime;
 	m_player.update(deltaTime);
 	m_enemy.update(deltaTime);
 	Mouse.set_position(Vector2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
@@ -153,8 +153,8 @@ void App2D::draw() {
 	}
 
 	if (mode) {
-	auto DjikstraPath = Djiki.dijkstrasSearch(&nodes[0], &nodes[4]);
-	Djiki.Draw(DjikstraPath, m_2dRenderer);
+		auto DjikstraPath = Djiki.dijkstrasSearch(&nodes[0], &nodes[4]);
+		Djiki.Draw(DjikstraPath, m_2dRenderer);
 	}
 	if (!mode) {
 		auto StarPath = star.AStarSearch(&nodes[0], &nodes[4]);
