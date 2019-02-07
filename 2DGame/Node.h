@@ -1,6 +1,8 @@
 #pragma once
 #include "Edge.h"
 #include "Vector2.h"
+#include <string>
+#include <vector>
 
 
 class Node

@@ -170,17 +170,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Agent.cpp" />
     <ClCompile Include="App2D.cpp" />
+    <ClCompile Include="DotAgent.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Agent.h" />
     <ClInclude Include="App2D.h" />
     <ClInclude Include="AStar.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="DotAgent.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="FollowBehaviour.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="PathFindingDjikstra.h" />
   </ItemGroup>
