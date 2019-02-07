@@ -1,7 +1,12 @@
 #include "App2D.h"
-#include "Texture.h"
 #include "Font.h"
 #include "Input.h"
+#include <unordered_map>
+#include <iostream>
+#include <memory>
+#include <unordered_set>
+#include <stdlib.h>
+#include <stdlib.h>
 
 App2D::App2D() {
 
@@ -30,7 +35,19 @@ bool App2D::startup() {
 	);
 	debug_->startup(this);
 
+	int map_radius = 1;
 
+	std::unordered_set<Hex> map;
+	for (int q = -map_radius; q <= map_radius; q++) {
+		int r1 = std::max(-map_radius, -q - map_radius);
+		int r2 = std::min(map_radius, -q + map_radius);
+		for (int r = r1; r <= r2; r++) {
+			map.insert(Hex(q, r, -q - r));
+		}
+	}
+
+	heights = new std::unordered_map<Hex, float>;
+	heights->operator[](Hex(1, -2, 3) )= 4.3;
 
 	return true;
 }
