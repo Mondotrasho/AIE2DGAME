@@ -33,12 +33,14 @@ bool App2D::startup() {
 	m_followBehaviour.setSpeed(100);
 	m_followBehaviour.setTarget(&m_player);
 
-	m_player.setPosition(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f);
-	m_enemy.setPosition(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f - 100.0f);
-	m_player.addBehaviour(&m_playerFollowBehaviour);
-	m_enemy.addBehaviour(&m_followBehaviour);
+	m_player.SetPosition(Vector2(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f));
+	m_enemy.SetPosition(Vector2(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f - 100.0f));
+	m_player.AddBehaviour(&m_playerFollowBehaviour);
+	m_enemy.AddBehaviour(&m_followBehaviour);
+	m_player.SetSize(10);
+	m_enemy.SetSize(10);
 
-	Mouse.setPosition(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+	Mouse.SetPosition(Vector2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
 
 	//search start
 
@@ -114,9 +116,9 @@ void App2D::shutdown() {
 void App2D::update(float deltaTime) {
 
 	m_timer += deltaTime;
-	m_player.update(deltaTime);
-	m_enemy.update(deltaTime);
-	Mouse.setPosition(ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+	m_player.Update(deltaTime);
+	m_enemy.Update(deltaTime);
+	Mouse.SetPosition(Vector2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
@@ -138,15 +140,12 @@ void App2D::draw() {
 	m_2dRenderer->begin();
 
 	// draw your stuff here!
-	float x = 0, y = 0;
 	// draw player as a green circle
-	m_player.getPosition(&x, &y);
 	m_2dRenderer->setRenderColour(1, 1, 0);
-	m_2dRenderer->drawCircle(x, y, 10);
+	m_player.Draw(m_2dRenderer);
 	// draw enemy as a red circle
-	m_enemy.getPosition(&x, &y);
 	m_2dRenderer->setRenderColour(1, 0, 0);
-	m_2dRenderer->drawCircle(x, y, 10);
+	m_enemy.Draw(m_2dRenderer);
 	//search draw
 	for (auto node : nodes)
 	{

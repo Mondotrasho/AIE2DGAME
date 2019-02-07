@@ -1,7 +1,7 @@
 #include "FollowBehaviour.h"
 #include "Input.h"
-#include "GameObject.h"
 #include "Vector2.h"
+#include "Agent.h"
 
 
 FollowBehaviour::FollowBehaviour()
@@ -13,16 +13,16 @@ FollowBehaviour::~FollowBehaviour()
 {
 }
 
-eBehaviourResult FollowBehaviour::update(GameObject* gameObject, float deltaTime)
+eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
 {
 	aie::Input* input = aie::Input::getInstance();
 
-	float x = 0, y = 0;
-	auto mouseX = input->getMouseX();
-	auto mouseY = input->getMouseY();
-	Vector2 mousePos = { static_cast<float>(mouseX) , static_cast<float>(mouseY) };
-	gameObject->getPosition(&x, &y);
-	Vector2 pos = { x,y };
+	Vector2 mousePos = { 
+		static_cast<float>(input->getMouseX()) ,
+		static_cast<float>(input->getMouseY()) };
+	
+	Vector2 pos = agent->GetPosition();
+	
 	Vector2 dir = pos - mousePos;
 	float distance = dir.magnitude();
 
@@ -30,9 +30,7 @@ eBehaviourResult FollowBehaviour::update(GameObject* gameObject, float deltaTime
 	{
 		dir = dir.normalised();
 
-		auto temp = pos - dir * deltaTime * 50.0f;
-
-		gameObject->setPosition(temp.x, temp.y);
+		agent->SetPosition(pos - dir * deltaTime * 50.0f);
 	}
 
 	return eBehaviourResult::SUCCESS;

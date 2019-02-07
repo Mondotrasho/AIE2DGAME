@@ -7,6 +7,8 @@
 #include "Node.h"
 #include "PathFindingDjikstra.h"
 #include "AStar.h"
+#include "Agent.h"
+#include "DotAgent.h"
 
 class App2D : public aie::Application {
 public:
@@ -28,12 +30,12 @@ protected:
 	float m_cameraX, m_cameraY;
 	float m_timer;
 
-	GameObject m_player;
+	DotAgent m_player;
 	FollowBehaviour m_playerFollowBehaviour;
-	GameObject m_enemy;
+	DotAgent m_enemy;
 	FollowBehaviour m_followBehaviour;
 
-	GameObject Mouse;
+	DotAgent Mouse;
 
 	PathFindingDjikstra Djiki;
 	AStar star;
