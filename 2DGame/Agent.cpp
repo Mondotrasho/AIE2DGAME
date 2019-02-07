@@ -6,12 +6,12 @@ Agent::Agent()
 {
 }
 
-void Agent::AddBehaviour(Behaviour* behaviour)
+void Agent::add_behaviour(Behaviour* behaviour)
 {
 	m_BehaviourList.push_back(behaviour);
 }
 
-void Agent::Update(float deltaTime)
+void Agent::update(float deltaTime)
 {
 	//sense(deltaTime);
 	//think(deltaTime);

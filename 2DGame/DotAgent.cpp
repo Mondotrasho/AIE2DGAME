@@ -6,7 +6,7 @@ DotAgent::DotAgent()
 {
 }
 
-void DotAgent::Draw(aie::Renderer2D* renderer)
+void DotAgent::draw(aie::Renderer2D* renderer)
 {
 	renderer->drawCircle(m_Position.x, m_Position.y, dotSize);
 }

@@ -14,24 +14,24 @@ public:
 	virtual ~Agent() = default;
 
 	// Add a behaviour to the agent  
-	void AddBehaviour(Behaviour* behaviour); 
+	void add_behaviour(Behaviour* behaviour); 
 
 	//agent uodate partitions
 	//virtual void sense(float deltaTime);
 	//virtual void think(float deltaTime);
 	//virtual void act(float deltaTime);
-
+	
 	// Update the agent and its behaviours  
-	void Update(float deltaTime); 
+	void update(float deltaTime); 
 
 	// Draw the agent  
-	virtual void Draw(aie::Renderer2D* renderer) = 0; 
+	virtual void draw(aie::Renderer2D* renderer) = 0; 
 
 	// Movement functions  
-	void SetPosition(Vector2 position) { m_Position = position; }  
-	Vector2 GetPosition() { return m_Position; }  
-	void SetVelocity(Vector2 velocity) { m_Velocity = velocity; }  
-	Vector2 GetVelocity() { return m_Velocity; }
+	void set_position(Vector2 position) { m_Position = position; }  
+	Vector2 get_position() { return m_Position; }  
+	void set_velocity(Vector2 velocity) { m_Velocity = velocity; }  
+	Vector2 get_velocity() { return m_Velocity; }
 
 protected:
 
@@ -41,5 +41,3 @@ protected:
 	Vector2 m_Velocity;
 
 };
-
-//test

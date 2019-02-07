@@ -21,7 +21,7 @@ eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
 		static_cast<float>(input->getMouseX()) ,
 		static_cast<float>(input->getMouseY()) };
 	
-	Vector2 pos = agent->GetPosition();
+	Vector2 pos = agent->get_position();
 	
 	Vector2 dir = pos - mousePos;
 	float distance = dir.magnitude();
@@ -30,7 +30,7 @@ eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
 	{
 		dir = dir.normalised();
 
-		agent->SetPosition(pos - dir * deltaTime * 50.0f);
+		agent->set_position(pos - dir * deltaTime * 50.0f);
 	}
 
 	return eBehaviourResult::SUCCESS;

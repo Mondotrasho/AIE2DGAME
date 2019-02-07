@@ -3,11 +3,9 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "FollowBehaviour.h"
-#include "GameObject.h"
 #include "Node.h"
 #include "PathFindingDjikstra.h"
 #include "AStar.h"
-#include "Agent.h"
 #include "DotAgent.h"
 
 class App2D : public aie::Application {
