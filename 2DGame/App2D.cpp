@@ -25,13 +25,13 @@ bool App2D::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	debug_ = new DebugFunctions(	
-		1,
-		1,
-		1,
-		1,
-		1,
-		1,
-		1
+		true,
+		true,
+		true,
+		true,
+		true,
+		true,
+		true
 	);
 	debug_->startup(this);
 
