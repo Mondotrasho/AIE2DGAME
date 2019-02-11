@@ -1,11 +1,10 @@
-#include "App2D.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
+#include "App2D.h"
+#include <list>
+#include "FollowBehaviour.h"
 #include "imgui.h"
-#include "PathFindingDjikstra.h"
-#include "AStar.h"
-
 
 App2D::App2D() {
 
@@ -15,95 +14,30 @@ App2D::~App2D() {
 
 }
 
-
-
 bool App2D::startup() {
 
 	m_2dRenderer = new aie::Renderer2D();
 
-	// TODO: remember to change this when redistributing a build!
-	// the following path would be used instead: "./font/consolas.ttf"
-	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
-
-	m_cameraX = 0;
-	m_cameraY = 0;
-	m_timer = 0;
-
-	m_playerFollowBehaviour.setSpeed(100);
-	m_playerFollowBehaviour.setTarget(&Mouse);
-
-	m_followBehaviour.setSpeed(75);
-	m_followBehaviour.setTarget(&m_player);
-
-	m_player.set_position(Vector2(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f));
-	m_enemy.set_position(Vector2(getWindowWidth() * 0.5f, getWindowHeight() * 0.5f - 100.0f));
-	m_player.add_behaviour(&m_playerFollowBehaviour);
-	m_enemy.add_behaviour(&m_followBehaviour);
-	m_player.SetSize(10);
-	m_enemy.SetSize(10);
-
-	Mouse.set_position(Vector2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
-
-	//search start
+	m_font = new aie::Font("./font/consolas.ttf", 32);
+	for (auto& go : m_gameObjects) {
+		go = new Agent;
+		go->add_behaviour(&follow);
+	}
+	// generate random field
+	// (could instead generate from an image)
+	randomiseLevel(m_obstaclePercentage);
+	mouse = new Agent();
+	mouse->set_position(Vector2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
+	//follow.setTarget(&mouse);
+	//follow.setSpeed(10);
 
 
-	//setup nodes with no connections
-	Node node0 = { "0", Vector2{ 150, 400 } };
-	Node node1 = { "1", Vector2{ 250, 400 } };
-	Node node2 = { "2", Vector2{ 250, 300 } };
-	Node node3 = { "3", Vector2{ 250, 150 } };
-	Node node4 = { "4", Vector2{ 200, 100 } };
-	Node node5 = { "5", Vector2{ 150, 150 } };
-	//pushback Nodes
-	nodes.push_back(node0);
-	nodes.push_back(node1);
-	nodes.push_back(node2);
-	nodes.push_back(node3);
-	nodes.push_back(node4);
-	nodes.push_back(node5);
-	//setup edges to attach
-	std::vector<Edge> node0Edges;
-	Edge node0Edge1 = { &nodes[5], 5.0f };
-	node0Edges.push_back(node0Edge1);
-	Edge node0Edge2 = { &nodes[1], 2.0f };
-	node0Edges.push_back(node0Edge2);
-	nodes[0].Connections = node0Edges;
-
-	std::vector<Edge> node1Edges;
-	Edge node1Edge1 = { &nodes[2], 3.0f };
-	node1Edges.push_back(node1Edge1);
-	nodes[1].Connections = node1Edges;
-
-	std::vector<Edge> node2Edges;
-	Edge node2Edge1 = { &nodes[0], 3.0f };
-	node2Edges.push_back(node2Edge1);
-	Edge node2Edge2 = { &nodes[3], 1.0f };
-	node2Edges.push_back(node2Edge2);
-	nodes[2].Connections = node2Edges;
-
-	std::vector<Edge> node3Edges;
-	Edge node3Edge1 = { &nodes[4], 4.0f };
-	node3Edges.push_back(node3Edge1);
-	Edge node3Edge2 = { &nodes[5], 4.0f };
-	node3Edges.push_back(node3Edge2);
-	nodes[3].Connections = node3Edges;
-
-	//node 4 is empty
-
-	std::vector<Edge> node5Edges;
-	Edge node5Edge1 = { &nodes[4], 6.0f };
-	node5Edges.push_back(node5Edge1);
-	nodes[5].Connections = node5Edges;
-	//attach edges
-	node0.Connections = node0Edges;
-	node1.Connections = node1Edges;
-	node2.Connections = node2Edges;
-	node3.Connections = node3Edges;
-	//nodes[4].Connections = node4Edges;
-	node5.Connections = node5Edges;
-
-	//endpos;
-	//search end
+	for (auto a : m_flowField)
+	{
+		a = new Vector2();
+	}
+	flowforce = new FlowForce;
+	flowforce->setFlowField(*m_flowField, FLOWFIELD_ROWS, FLOWFIELD_COLS, FLOWFIELD_CELLSIZE);
 	return true;
 }
 
@@ -114,58 +48,221 @@ void App2D::shutdown() {
 }
 
 void App2D::update(float deltaTime) {
+	mouse->set_position(Vector2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
+	for (auto& go : m_gameObjects) {
+		// update game object
+		go->update(deltaTime);
+		go->add_force(flowforce->get_force(go));
+	}
 
-	m_timer += deltaTime;
-	m_player.update(deltaTime);
-	m_enemy.update(deltaTime);
-	Mouse.set_position(Vector2(ImGui::GetMousePos().x, ImGui::GetMousePos().y));
+	
+
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-
-	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
-		mode = !mode;
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
+
+	// randomise level
+	if (input->wasKeyPressed(aie::INPUT_KEY_R))
+		randomiseLevel(m_obstaclePercentage);
+
+	// pick goal cell
+	if (input->isMouseButtonDown(aie::INPUT_MOUSE_BUTTON_LEFT)) {
+
+		// find cell under mouse
+		int x = 0, y = 0;
+		input->getMouseXY(&x, &y);
+
+		// convert screen space to "grid space"
+		x /= FLOWFIELD_CELLSIZE;
+		y /= FLOWFIELD_CELLSIZE;
+
+		if (m_integrationField[y][x] != eFlowFieldCosts::IMPASSABLE) {
+
+			performIntergration(x, y);
+			generateFlowfield();
+		}
+	}
 }
 
 void App2D::draw() {
 
 	// wipe the screen to the background colour
 	clearScreen();
-	// set the camera position before we begin rendering
-	m_2dRenderer->setCameraPos(m_cameraX, m_cameraY);
+
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	// draw your stuff here!
-	// draw player as a green circle
-	m_2dRenderer->setRenderColour(1, 1, 0);
-	m_player.draw(m_2dRenderer);
-	// draw enemy as a red circle
-	m_2dRenderer->setRenderColour(1, 0, 0);
-	m_enemy.draw(m_2dRenderer);
-	//search draw
-	for (auto node : nodes)
-	{
-		node.Draw(m_2dRenderer);
+	// draw game objects
+	for (auto& go : m_gameObjects) {
+		go->draw(m_2dRenderer);
 	}
 
-	if (mode) {
-		auto DjikstraPath = Djiki.dijkstrasSearch(&nodes[0], &nodes[4]);
-		Djiki.Draw(DjikstraPath, m_2dRenderer);
+	// draw obstacles
+	for (int r = 0; r < FLOWFIELD_ROWS; ++r) {
+		for (int c = 0; c < FLOWFIELD_COLS; ++c) {
+			if (m_costField[r][c] == eFlowFieldCosts::IMPASSABLE) {
+				m_2dRenderer->setRenderColour(1, 0, 0);
+				m_2dRenderer->drawBox(FLOWFIELD_CELLSIZE * 0.5f + c * FLOWFIELD_CELLSIZE,
+					FLOWFIELD_CELLSIZE * 0.5f + r * FLOWFIELD_CELLSIZE,
+					FLOWFIELD_CELLSIZE, FLOWFIELD_CELLSIZE);
+			}
+			else {
+				m_2dRenderer->setRenderColour(1, 1, 0);
+				m_2dRenderer->drawLine(FLOWFIELD_CELLSIZE * 0.5f + c * FLOWFIELD_CELLSIZE,
+					FLOWFIELD_CELLSIZE * 0.5f + r * FLOWFIELD_CELLSIZE,
+					FLOWFIELD_CELLSIZE * 0.5f + c * FLOWFIELD_CELLSIZE + m_flowField[r][c].x * 16,
+					FLOWFIELD_CELLSIZE * 0.5f + r * FLOWFIELD_CELLSIZE + m_flowField[r][c].y * 16);
+			}
+		}
 	}
-	if (!mode) {
-		auto StarPath = star.AStarSearch(&nodes[0], &nodes[4]);
-		star.Draw(StarPath, m_2dRenderer);
-	}
-	// output some text, uses the last used colour
-	char fps[32];
-	sprintf_s(fps, 32, "FPS: %i", getFPS());
-	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
-	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 
 	// done drawing sprites
 	m_2dRenderer->end();
+}
+
+void App2D::randomiseLevel(float obstaclePercentage) {
+
+	// randomly place obstacles
+	for (int r = 0; r < FLOWFIELD_ROWS; ++r) {
+		for (int c = 0; c < FLOWFIELD_COLS; ++c) {
+
+			// a really bad random percentage calculator
+			if (rand() % 100 < int(100 * obstaclePercentage))
+				m_costField[r][c] = eFlowFieldCosts::IMPASSABLE;
+			else
+				m_costField[r][c] = eFlowFieldCosts::WALKABLE;
+
+			m_integrationField[r][c] = 0;
+			m_flowField[r][c].x = 0;
+			m_flowField[r][c].y = 0;
+		}
+	}
+
+	// safely place game objects
+	for (auto& go : m_gameObjects) {
+		int index = 0;
+		do {
+			index = rand() % (FLOWFIELD_ROWS * FLOWFIELD_COLS);
+		} while (m_costField[index / FLOWFIELD_COLS][index % FLOWFIELD_COLS] == eFlowFieldCosts::IMPASSABLE);
+
+		go->set_position(Vector2(FLOWFIELD_CELLSIZE * 0.5f + (index % FLOWFIELD_COLS) * FLOWFIELD_CELLSIZE, FLOWFIELD_CELLSIZE * 0.5f + (index / FLOWFIELD_COLS) * FLOWFIELD_CELLSIZE));
+	}
+}
+
+void App2D::getCellNeighbours(int x, int y, std::vector<int>& neighbours) {
+
+	neighbours.clear();
+
+	// 8 potential neighbours
+	// TIP: this could be improved by ignoring diagonal 
+	// neighbours that should be blocked by impassable cells
+	for (int r = -1; r <= 1; ++r) {
+		for (int c = -1; c <= 1; ++c) {
+			if (x == c &&
+				y == r)
+				continue;
+
+			if ((x + c) >= 0 &&
+				(x + c) <= (FLOWFIELD_COLS - 1) &&
+				(y + r) >= 0 &&
+				(y + r) <= (FLOWFIELD_ROWS - 1) &&
+				m_costField[y + r][x + c] != eFlowFieldCosts::IMPASSABLE) {
+				neighbours.push_back(x + c);
+				neighbours.push_back(y + r);
+			}
+		}
+	}
+}
+
+void App2D::performIntergration(int goalX, int goalY) {
+	// perform a dijkstra's search towards goal cell, 
+	// starting from goal cell spreading outwards
+
+	// reset integration field
+	for (int r = 0; r < FLOWFIELD_ROWS; ++r)
+		for (int c = 0; c < FLOWFIELD_COLS; ++c)
+			m_integrationField[r][c] = FLT_MAX;
+	// push goal into open list
+	std::list<std::pair<int, int>> openList;
+	openList.push_front({ goalX, goalY });
+	m_integrationField[goalY][goalX] = 0;
+	std::vector<int> neighbours(16);
+	// do search
+	while (openList.empty() == false) {
+		auto current = openList.front();
+		openList.pop_front();
+		// get neighbours of popped cell and iterate over them
+		getCellNeighbours(current.first, current.second, neighbours);
+		unsigned int neighbourCount = neighbours.size();
+		for (unsigned int i = 0; i < neighbourCount; i += 2) {
+			// calculate new travel cost
+			// current is a std::pair<int,int> representing x and y
+			float cost = m_integrationField[current.second][current.first] +
+				m_costField[neighbours[i + 1]][neighbours[i]];
+			// compare if score was lower
+			if (cost < m_integrationField[neighbours[i + 1]][neighbours[i]]) {
+				// create a new std::pair for the neighbour
+				std::pair<int, int> neighbour = { neighbours[i],
+					neighbours[i + 1] };
+				// check if they should be added to the open list
+				auto iter = std::find(openList.begin(),
+					openList.end(), neighbour);
+				if (iter == openList.end()) {
+					openList.push_back(neighbour);
+				}
+				// update the cost
+				m_integrationField[neighbours[i + 1]][neighbours[i]] = cost;
+			}
+		}
+	}
+
+}
+
+void App2D::generateFlowfield() {
+	// for each grid cell, sample neighbour costs and
+	// setup flow direction to lowest cost neighbour
+	std::vector<int> neighbours;
+	int lowestX, lowestY;
+	float lowestScore;
+	bool foundNeighbour = false;
+	for (int r = 0; r < FLOWFIELD_ROWS; ++r) {
+		for (int c = 0; c < FLOWFIELD_COLS; ++c) {
+			// reset field
+			m_flowField[r][c].x = 0;
+			m_flowField[r][c].y = 0;
+			// reset lowest score
+			lowestScore = FLT_MAX;
+			// gather neighbours
+			getCellNeighbours(c, r, neighbours);
+			unsigned int neighbourCount = neighbours.size();
+			// only set a vector if neighbours found
+			foundNeighbour = false;
+			if (neighbourCount > 0) {
+				for (unsigned int i = 0; i < neighbourCount; i += 2) {
+					int nx = neighbours[i];
+					int ny = neighbours[i + 1];
+					// is it lowest?
+					if (m_integrationField[ny][nx] < lowestScore) {
+						lowestScore = m_integrationField[ny][nx];
+						lowestX = nx;
+						lowestY = ny;
+						foundNeighbour = true;
+					}
+				}
+				// if valid neighbour found, normalise direction
+				if (foundNeighbour) {
+					float mag = float((lowestX - c) * (lowestX - c) +
+						(lowestY - r) * (lowestY - r));
+					if (mag > 0) {
+						mag = sqrt(mag);
+						m_flowField[r][c].x = (lowestX - c) / mag;
+						m_flowField[r][c].y = (lowestY - r) / mag;
+					}
+				}
+			}
+		}
+	}
 }
