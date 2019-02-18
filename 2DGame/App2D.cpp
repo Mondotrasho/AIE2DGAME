@@ -37,17 +37,17 @@ bool App2D::startup() {
 
 	int map_radius = 1;
 
-	std::unordered_set<Hex> map;
-	for (int q = -map_radius; q <= map_radius; q++) {
-		int r1 = std::max(-map_radius, -q - map_radius);
-		int r2 = std::min(map_radius, -q + map_radius);
-		for (int r = r1; r <= r2; r++) {
-			map.insert(Hex(q, r, -q - r));
-		}
-	}
+	//std::unordered_set<Hex> map;
+	//for (int q = -map_radius; q <= map_radius; q++) {
+	//	int r1 = std::max(-map_radius, -q - map_radius);
+	//	int r2 = std::min(map_radius, -q + map_radius);
+	//	for (int r = r1; r <= r2; r++) {
+	//		map.insert(Hex(q, r, -q - r));
+	//	}
+	//}
 
-	heights = new std::unordered_map<Hex, float>;
-	heights->operator[](Hex(1, -2, 3) )= 4.3;
+	//heights = new std::unordered_map<Hex, float>;
+	//heights->operator[](Hex(1, -2, 3) )= 4.3;
 
 	return true;
 }
@@ -65,6 +65,7 @@ void App2D::update(float deltaTime) {
 	aie::Input* input = aie::Input::getInstance();
 	debug_->update(deltaTime);
 
+	Time = &deltaTime;
 	
 }
 
@@ -72,6 +73,9 @@ void App2D::draw() {
 
 	// wipe the screen to the background colour
 	clearScreen();
+
+	
+
 	// set the camera position before we begin rendering
 	m_2dRenderer->setCameraPos(m_cameraX, m_cameraY);
 	// begin drawing sprites
@@ -86,6 +90,33 @@ void App2D::draw() {
 	m_2dRenderer->drawText(m_font, fps, 0, 720 - 32);
 	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 
+	m_2dRenderer->drawText(m_font,
+		("delta   : " + (std::to_string(*Time))).c_str()
+		, 100, getWindowWidth() / 2 - 100);
+
 	// done drawing sprites
 	m_2dRenderer->end();
 }
+
+struct Every
+{
+public:
+	Every(float set)
+	{
+		setamount = set;
+		original = set;
+	};
+	float setamount;
+	float original;
+	bool every(float checkamount)
+	{
+		if (checkamount >= setamount) {
+			setamount = original;
+			return true;
+		}
+		else {
+			setamount -= checkamount;
+			return false;
+		}
+	};
+};

@@ -28,6 +28,8 @@ public:
 	DebugFunctions* debug_;
 
 	std::unordered_map<Hex, float>* heights;
+
+	float* Time; //storing delta time
 protected:
 	//bool createWindow(const char* title, int width, int height, bool fullscreen) override;
 	//void destroyWindow() override;
