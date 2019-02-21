@@ -13,27 +13,17 @@ FollowBehaviour::~FollowBehaviour()
 {
 }
 
-eBehaviourResult FollowBehaviour::update(Agent* agent, float deltaTime)
+Vector2 FollowBehaviour::update(Object* agent, float deltaTime)
 {
-	aie::Input* input = aie::Input::getInstance();
-
-	Vector2 mousePos = { 
-		static_cast<float>(input->getMouseX()) ,
-		static_cast<float>(input->getMouseY()) };
-	
-	Vector2 pos = agent->get_position();
-	
-	Vector2 dir = pos - mousePos;
+	Vector2 dir =  m_target->pos - agent->get_position();
 	float distance = dir.magnitude();
 
-	if (distance > 0)
+	if (distance > 0.1f)
 	{
-		dir = dir.normalised();
-
-		agent->set_position(pos - dir * deltaTime * m_speed);
+		return dir.normalised();
 	}
 
-	return eBehaviourResult::SUCCESS;
+	return Vector2(0, 0);
 
 	//Function execute
 	//	If the target is invalid, return eBehaviourResult::FAILURE

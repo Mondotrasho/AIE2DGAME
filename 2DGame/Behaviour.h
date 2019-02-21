@@ -1,7 +1,8 @@
 #ifndef BEHAVIOUR_H
 #define BEHAVIOUR_H
+#include "Vector2.h"
 
-class Agent;
+class Object;
 
 enum eBehaviourResult {
 	SUCCESS,
@@ -18,6 +19,6 @@ public:
 	virtual ~Behaviour() = default;
 
 	// pure virtual function for executing the behaviour
-	virtual eBehaviourResult update(Agent* agent, float deltaTime) = 0;
+	virtual Vector2 update(Object* agent, float deltaTime) = 0;
 };
 #endif // BEHAVIOUR_H

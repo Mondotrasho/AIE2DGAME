@@ -11,7 +11,7 @@ SteeringForce::~SteeringForce()
 {
 }
 
-Vector2 SteeringForce::getForce(VelocityAgent agent)
+Vector2 SteeringForce::getforce(AutonomousAgent* agent)
 {
-	return agent.GetMaxforce();
+	return agent->GetMaxforce();
 }

@@ -13,7 +13,7 @@ public:
 		m_cellSize = cellSize;
 	}
 	// calculate the force that should be applied to GameObject
-	virtual Vector2 get_force(Agent* agent) const;
+	virtual Vector2 get_force(AutonomousAgent* agent) const;
 protected:
 	int m_rows, m_cols;
 	float m_cellSize;

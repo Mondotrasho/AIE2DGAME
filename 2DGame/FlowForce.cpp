@@ -1,6 +1,6 @@
 #include "FlowForce.h"
 
-Vector2 FlowForce::get_force(Agent* agent) const
+Vector2 FlowForce::get_force(AutonomousAgent* agent) const
 {
 		if (m_flowfield == nullptr)
 			return{ 0,0 };

@@ -9,7 +9,7 @@ public:
 	SteeringBehaviour() = default;
 	~SteeringBehaviour() = default;
 
-	eBehaviourResult update(Agent* agent, float deltaTime) override;
+	Vector2 update(Object* agent, float deltaTime) override;
 	SteeringForce force;
 };
 
