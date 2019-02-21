@@ -177,6 +177,7 @@
     <ClCompile Include="FlowForce.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NavMesh.cpp" />
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="SteeringBehaviour.cpp" />
     <ClCompile Include="SteeringForce.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Edge.h" />
     <ClInclude Include="FlowForce.h" />
     <ClInclude Include="FollowBehaviour.h" />
+    <ClInclude Include="NavMesh.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="PathFindingDjikstra.h" />
