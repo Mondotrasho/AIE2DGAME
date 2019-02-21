@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "AutonomousAgent.h"
 #include "FollowBehaviour.h"
+#include "NavMesh.h"
 
 class App2D : public aie::Application {
 public:
@@ -25,7 +26,5 @@ protected:
 	float m_cameraX, m_cameraY;
 	float m_timer;
 
-	Object* mouse;
-	AutonomousAgent* thing;
-	FollowBehaviour* follow;
+	NavMesh*			m_navMesh;
 };

@@ -49,12 +49,12 @@ struct GameObject {
 	std::list<Pathfinding::Node*> path;
 };
 
-class Behaviour {
+class Behaviourtute {
 public:
 
 	// empty constructors and destructors for base class
-	Behaviour() {}
-	virtual ~Behaviour() {}
+	Behaviourtute() {}
+	virtual ~Behaviourtute() {}
 
 	// pure virtual function for executing the behaviour
 	virtual bool execute(GameObject* gameObject, float deltaTime) = 0;
@@ -143,7 +143,7 @@ public:
 	};
 
 	// a behaviour that follows a path
-	class FollowPathBehaviour : public Behaviour {
+	class FollowPathBehaviour : public Behaviourtute {
 	public:
 
 		FollowPathBehaviour() {}
@@ -153,7 +153,7 @@ public:
 	};
 
 	// a behaviour that finds a new path and smooths it
-	class NewPathBehaviour : public Behaviour {
+	class NewPathBehaviour : public Behaviourtute {
 	public:
 
 		NewPathBehaviour(NavMesh* navMesh, std::list<Vector2>& smoothPath) : m_navMesh(navMesh), m_smoothPath(smoothPath) {}
