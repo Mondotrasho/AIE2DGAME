@@ -75,6 +75,7 @@ public:
 	}
 
 
+
 	AStar();
 	~AStar();
 	void Draw(const std::list<Node*>& list, aie::Renderer2D* m_2dRenderer);

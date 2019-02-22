@@ -3,38 +3,52 @@
 #include <vector>
 #include <list>
 #include "Vector2.h"
+#include "Node.h"
 
+
+// the nav mesh node
+class NavNode : public Node {
+public:
+
+	NavNode(std::string label, Vector2 pos) : Node(label, pos)
+	{
+	}
+
+	NavNode() = default;
+
+	virtual ~NavNode() {}
+
+	// edges
+	std::vector<Vector2> vertices;
+
+	// finds any vertices that are shared with the other node
+	int getAdjacentVertices(NavNode* other, Vector2* adjacent) {
+		int count = 0;
+		for (auto v : vertices) {
+			for (auto v2 : other->vertices) {
+				if (v.x == v2.x &&
+					v.y == v2.y) {
+					adjacent[count++] = v;
+					break;
+				}
+			}
+		}
+		return count;
+	}
+
+	// simple distance squared
+	static float heuristic(Node* a, Node* b) {
+		NavNode* s = (NavNode*)a;
+		NavNode* e = (NavNode*)b;
+		float x = e->Pos.x - s->Pos.x;
+		float y = e->Pos.y - s->Pos.y;
+		return x * x + y * y;
+	}
+};
 ///////////////////////////////////////////////////////////
 // NOTE: This is included just for reference
 // TODO: Replace with your own implementations!!
-namespace Pathfinding {
 
-	class Node;
-
-	// a one-way link to a node with a cost
-	class Edge {
-	public:
-
-		Edge() {}
-		Edge(Node* t, float c) : target(t), cost(c) {}
-		virtual ~Edge() {}
-
-		Node* target = nullptr;
-		float cost = 0;
-	};
-
-	// a node for any type of graph search
-	// specific implementation details (such as position etc)
-	// is implemented in derived classes
-	class Node {
-	public:
-
-		Node() {}
-		virtual ~Node() { for (auto e : edges) delete e; }
-
-		std::vector<Edge*> edges;
-	};
-}
 
 //struct Vector2 {
 //	float x, y;
@@ -46,7 +60,7 @@ struct GameObject {
 
 	// these are used by the NavMesh behaviours
 	std::list<Vector2> smoothPath;
-	std::list<Pathfinding::Node*> path;
+	std::list<NavNode*> path;
 };
 
 class Behaviourtute {
@@ -59,6 +73,21 @@ public:
 	// pure virtual function for executing the behaviour
 	virtual bool execute(GameObject* gameObject, float deltaTime) = 0;
 };
+
+class followpath : public Behaviourtute
+{
+public:
+	followpath(Vector2 Destination):destination(Destination){}
+	Vector2 destination;
+	bool execute(GameObject* gameObject, float deltaTime) override
+	{
+		if (destination.distance(gameObject->position) < 0.5) {
+			destination = gameObject->smoothPath.back();
+			gameObject->smoothPath.pop_back();
+		}
+	}
+};
+
 ///////////////////////////////////////////////////////////
 
 // forward declaring some Poly2Tri objects
@@ -88,16 +117,15 @@ public:
 	// treat them as NavMesh::Node's and smooth the path using a
 	// funneling algorithm from (http://digestingduck.blogspot.com.au/2010/03/simple-stupid-funnel-algorithm.html)
 	// we must build a list of portals first
-	static int smoothPath(const std::list<Pathfinding::Node*>& path, std::list<Vector2>& smoothPath);
+	static int smoothPath(const std::list<NavNode*>& path, std::list<Vector2>& smoothPath);
 
 	// access nodes
-	class Node;
 	unsigned int getNodeCount() const { return m_nodes.size(); }
-	const std::vector<NavMesh::Node*>& getNodes() const { return m_nodes; }
+	const std::vector<NavNode*>& getNodes() const { return m_nodes; }
 
 	// access random node or closest node to a coordinate
-	NavMesh::Node* getRandomNode() const;
-	NavMesh::Node* findClosest(float x, float y) const;
+	NavNode* getRandomNode() const;
+	NavNode* findClosest(float x, float y) const;
 
 	// access osbatcles
 	unsigned int getObstacleCount() const { return m_obstacles.size(); }
@@ -105,42 +133,7 @@ public:
 
 public:
 
-	// the nav mesh node
-	class Node : public Pathfinding::Node {
-	public:
-
-		Node() {}
-		virtual ~Node() {}
-
-		Vector2 position;
-
-		// edges
-		std::vector<Vector2> vertices;
-
-		// finds any vertices that are shared with the other node
-		int getAdjacentVertices(NavMesh::Node* other, Vector2* adjacent) {
-			int count = 0;
-			for (auto v : vertices) {
-				for (auto v2 : other->vertices) {
-					if (v.x == v2.x &&
-						v.y == v2.y) {
-						adjacent[count++] = v;
-						break;
-					}
-				}
-			}
-			return count;
-		}
-
-		// simple distance squared
-		static float heuristic(Pathfinding::Node* a, Pathfinding::Node* b) {
-			NavMesh::Node* s = (NavMesh::Node*)a;
-			NavMesh::Node* e = (NavMesh::Node*)b;
-			float x = e->position.x - s->position.x;
-			float y = e->position.y - s->position.y;
-			return x * x + y * y;
-		}
-	};
+	
 
 	// a behaviour that follows a path
 	class FollowPathBehaviour : public Behaviourtute {
@@ -190,10 +183,11 @@ protected:
 
 	// store obstacles and nav nodes
 	std::vector<Obstacle> m_obstacles;
-	std::vector<NavMesh::Node*> m_nodes;
+	std::vector<NavNode*> m_nodes;
 
 	// this is used for building the mesh
 	// uses Poly2Tri (https://github.com/greenm01/poly2tri)
 	p2t::CDT* m_cdt;
 	std::vector<std::vector<p2t::Point*>> m_polygons;
 };
+

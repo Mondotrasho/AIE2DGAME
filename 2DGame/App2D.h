@@ -27,4 +27,7 @@ protected:
 	float m_timer;
 
 	NavMesh*			m_navMesh;
+	GameObject* thing;
+	Vector2* destination = new Vector2(0,0);
+	Vector2* endpos = new Vector2(0,0);
 };

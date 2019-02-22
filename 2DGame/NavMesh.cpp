@@ -1,5 +1,6 @@
 #include "NavMesh.h"
 #include "poly2tri/poly2tri.h"
+#include "AStar.h"
 
 NavMesh::NavMesh(float width, float height) {
 
@@ -17,21 +18,20 @@ NavMesh::~NavMesh() {
 		delete node;
 }
 
-NavMesh::Node* NavMesh::getRandomNode() const {
+NavNode* NavMesh::getRandomNode() const {
 	if (m_nodes.empty())
 		return nullptr;
 
 	return m_nodes[rand() % m_nodes.size()];
 }
 
-NavMesh::Node* NavMesh::findClosest(float x, float y) const {
-
-	NavMesh::Node* closest = nullptr;
+NavNode* NavMesh::findClosest(float x, float y) const {
+	NavNode* closest = nullptr;
 	float closestDist = 2000 * 2000;
 
 	for (auto node : m_nodes) {
 
-		float dist = (node->position.x - x) * (node->position.x - x) + (node->position.y - y) * (node->position.y - y);
+		float dist = (node->Pos.x - x) * (node->Pos.x - x) + (node->Pos.y - y) * (node->Pos.y - y);
 
 		if (dist < closestDist) {
 			closest = node;
@@ -69,11 +69,50 @@ void NavMesh::build() {
 
 	m_cdt->Triangulate();
 
-#pragma message("TODO: Convert triangle mesh to path nodes!")
-
 	// first convert triangles to NavMesh::Node's
+	std::vector<p2t::Triangle*> triangles = m_cdt->GetTriangles();
+	for (auto tri : triangles) {
+		NavNode* n = new NavNode("temp",Vector2(0,0));
+		n->vertices.push_back({ (float)tri->GetPoint(0)->x,
+			(float)tri->GetPoint(0)->y });
+		n->vertices.push_back({ (float)tri->GetPoint(1)->x,
+			(float)tri->GetPoint(1)->y });
+		n->vertices.push_back({ (float)tri->GetPoint(2)->x,
+			(float)tri->GetPoint(2)->y });
+		n->Pos.x = (n->vertices[0].x + n->vertices[1].x +
+			n->vertices[2].x) / 3;
+		n->Pos.y = (n->vertices[0].y + n->vertices[1].y +
+			n->vertices[2].y) / 3;
+		m_nodes.push_back(n);
+	}
 
 	// then link nodes that share triangle edges
+	for (auto node : m_nodes) {
+		for (auto node2 : m_nodes) {
+			// ignore same node
+			if (node == node2)
+				continue;
+			// share verts?
+			int sharedVerts = 0;
+			for (auto& v : node->vertices) {
+				for (auto& v2 : node2->vertices) {
+					if (v.x == v2.x &&
+						v.y == v2.y)
+						sharedVerts++;
+				}
+			}
+			// link if two verts shared (should only ever be 0, 1 or 2)
+			if (sharedVerts == 2) {
+				float mag = (node2->Pos.x - node->Pos.x) *
+					(node2->Pos.x - node->Pos.x) +
+					(node2->Pos.y - node->Pos.y) *
+					(node2->Pos.y - node->Pos.y);
+				// add links to both nodes
+				node->Connections.push_back(Edge(node2, mag));
+				node2->Connections.push_back(Edge(node, mag));
+			}
+		}
+	}
 
 	// cleanup polygons
 	for (auto& p : m_polygons)
@@ -84,6 +123,79 @@ void NavMesh::build() {
 	// close up Poly2Tri
 	delete m_cdt;
 	m_cdt = nullptr;
+}
+
+int NavMesh::smoothPath(const std::list<NavNode*>& path, std::list<Vector2>& smoothPath)
+{
+	if (path.size() == 0)
+		return 0;
+	smoothPath.clear();
+	// build portal list
+	int index = 0;
+	Vector2* portals = new Vector2[(path.size() + 1) * 2];
+	// add start node as first portal
+	portals[index++] = ((NavNode*)path.front())->Pos;
+	portals[index++] = ((NavNode*)path.front())->Pos;
+
+	NavNode* prev = nullptr;
+	for (auto it = path.begin(); it != path.end(); ++it) {
+		if (it != path.begin()) {
+			NavNode* node = (NavNode*)*it;
+
+
+			// find vertices they share to make a portal from
+			Vector2 adjacent[2];
+			prev->getAdjacentVertices(node, adjacent);
+			// get a vector going from previous node to this one
+			float mag = (node->Pos.x - prev->Pos.x) *
+				(node->Pos.x - prev->Pos.x) +
+				(node->Pos.y - prev->Pos.y) *
+				(node->Pos.y - prev->Pos.y);
+			Vector2 fromPrev = {};
+			if (mag > 0) {
+				mag = sqrt(mag);
+				fromPrev.x = (node->Pos.x - prev->Pos.x) / mag;
+				fromPrev.y = (node->Pos.y - prev->Pos.y) / mag;
+			}
+			// now get a vector going to the first adjacent vertex on the edge
+			mag = (adjacent[0].x - prev->Pos.x) *
+				(adjacent[0].x - prev->Pos.x) +
+				(adjacent[0].y - prev->Pos.y) *
+				(adjacent[0].y - prev->Pos.y);
+			Vector2 toAdj0 = {};
+			if (mag > 0) {
+				mag = sqrt(mag);
+				toAdj0.x = (adjacent[0].x - prev->Pos.x) / mag;
+				toAdj0.y = (adjacent[0].y - prev->Pos.y) / mag;
+			}
+			if ((fromPrev.x * toAdj0.y - toAdj0.x * fromPrev.y) > 0) {
+				portals[index++] = adjacent[0];
+				portals[index++] = adjacent[1];
+			}
+			else {
+				portals[index++] = adjacent[1];
+				portals[index++] = adjacent[0];
+			}
+
+			prev = (NavNode*)*it;
+		}
+		else {
+			prev = (NavNode*)*it;
+		}
+	}
+	// add last node as end portal
+	portals[index++] = ((NavNode*)path.back())->Pos;
+	portals[index++] = ((NavNode*)path.back())->Pos;
+	// run funnelling algorithm
+	Vector2 out[100];
+	int count = stringPull(portals, index / 2, out, 100);
+	// gather up shortest path
+	for (int i = 0; i < count; i++) {
+		smoothPath.push_back(out[i]);
+	}
+	// cleanup and return length of path
+	delete[] portals;
+	return smoothPath.size();
 }
 
 bool NavMesh::FollowPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
@@ -128,11 +240,12 @@ bool NavMesh::NewPathBehaviour::execute(GameObject* gameObject, float deltaTime)
 		auto end = m_navMesh->getRandomNode();
 
 #pragma message("TODO: USe your own A* method here!")
-//		found = aStar(first, end, gameObject->path, NavMesh::Node::heuristic);
+		//AStar star;
+		//found = star.AStarSearch(first, end, gameObject->path, NavMesh::Node::heuristic);
 
 	} while (found == false);
 
-	NavMesh::smoothPath(gameObject->path, m_smoothPath);
+	smoothPath(gameObject->path, m_smoothPath);
 
 	return true;
 }
@@ -228,14 +341,7 @@ int NavMesh::stringPull(const Vector2* portals, int portalCount,
 	return npts;
 }
 
-int NavMesh::smoothPath(const std::list<Pathfinding::Node*>& path, std::list<Vector2>& smoothPath) {
-
-	if (path.size() == 0)
-		return 0;
-
-	smoothPath.clear();
-
-#pragma message("TODO: Build list of edges along the path to smooth!")
-
-	return smoothPath.size();
-}
+//int NavMesh::smoothPath(const std::list<Node*>& path, std::list<Vector2>& smoothPath) {
+//
+//
+//}

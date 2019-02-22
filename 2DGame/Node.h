@@ -3,14 +3,16 @@
 #include "Vector2.h"
 #include <string>
 #include <vector>
+#include <Renderer2D.h>
 
 class Node
 {public:
 	std::string Name;
 	Vector2 Pos{ 0,0 };
-	float G{ std::numeric_limits<float>::infinity() };
-	float H;
-	float F;	Node* N{ nullptr };
+	float G{ std::numeric_limits<float>::infinity() }; //or cost
+	float H{};//heuristic
+	float F{};//Final Score
+	Node* N{ nullptr };//previous node
 	std::vector<Edge> Connections;
 
 	Node(std::string label, Vector2 pos) : Name(label), Pos(pos) {}
@@ -27,3 +29,4 @@ class Node
 		}
 	}
 };
+

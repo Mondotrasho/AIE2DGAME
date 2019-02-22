@@ -5,6 +5,7 @@
 #include <list>
 #include "imgui.h"
 #include "FollowBehaviour.h"
+#include "AStar.h"
 
 App2D::App2D() {
 
@@ -23,7 +24,7 @@ bool App2D::startup() {
 	m_navMesh = new NavMesh(1280, 720);
 
 	// just to help mess with the random
-	srand(42);
+	srand(10);
 
 	// random obstacles
 	for (int i = 0; i < 12; ++i) {
@@ -39,6 +40,26 @@ bool App2D::startup() {
 
 	m_navMesh->build();
 
+	thing = new GameObject();
+	thing->position = Vector2(500,500);
+	AStar star;
+
+	auto first = m_navMesh->findClosest(thing->position.x, thing->position.y);
+	auto end = m_navMesh->getRandomNode();
+	endpos = &end->Pos;
+	std::list<Node*> a = star.AStarSearch(first, end);
+	std::list<NavNode*> navybois;
+	for (auto element : a)
+	{
+		auto node = m_navMesh->findClosest(element->Pos.x, element->Pos.y);
+		navybois.push_front(node) ;
+	}
+	std::list<Vector2> smoothed = std::list<Vector2>();
+	m_navMesh->smoothPath(navybois, smoothed);
+	thing->smoothPath = smoothed;
+	auto dest = thing->smoothPath.front();
+	destination = new Vector2(dest.x, dest.y);
+	thing->smoothPath.pop_front();
 	return true;
 }
 
@@ -55,6 +76,18 @@ void App2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
+
+	if (destination->distance(thing->position) < 10) {
+		auto dest = thing->smoothPath.front();
+		destination = new Vector2(dest.x, dest.y);
+		thing->smoothPath.pop_front();
+		}
+
+	
+	auto dir = thing->position + *destination;
+	auto norm = dir.normalised();
+	norm.y = -norm.y;
+	thing->position += norm * thing->speed* 4 *deltaTime;
 	//mouse->set_position(Vector2(input->getMouseX(), input->getMouseY()));
 	//thing->update(deltaTime);
 	// exit the application
@@ -83,6 +116,9 @@ void App2D::draw() {
 	for (auto& o : m_navMesh->getObstacles()) {
 		m_2dRenderer->drawBox(o.x + o.w * 0.5f, o.y + o.h * 0.5f, o.w, o.h);
 	}
+
+	m_2dRenderer->drawCircle(thing->position.x, thing->position.y, 10);
+	m_2dRenderer->drawCircle(endpos->x, endpos->y, 10);
 	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
 	//m_2dRenderer->drawText(m_font,("delta   : " + (std::to_string(mouse->pos.x))).c_str() 
 	//	, 100, getWindowWidth() / 2 + 100);
