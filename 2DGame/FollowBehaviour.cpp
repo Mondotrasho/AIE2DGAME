@@ -15,7 +15,11 @@ FollowBehaviour::~FollowBehaviour()
 
 Vector2 FollowBehaviour::update(Object* agent, float deltaTime)
 {
+	Vector2 mod = Vector2((rand() % (5 - 15) + 1), (rand() % (5 - 15) + 1));
+	mod /= 10;
 	Vector2 dir =  m_target->pos - agent->get_position();
+	//dir.x *= mod.x;
+	//dir.y *= mod.y;
 	float distance = dir.magnitude();
 
 	if (distance > 0.1f)
