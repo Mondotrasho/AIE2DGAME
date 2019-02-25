@@ -26,6 +26,6 @@ protected:
 	float m_timer;
 
 	Object* mouse;
-	AutonomousAgent* thing;
+	std::vector<AutonomousAgent*> things;
 	FollowBehaviour* follow;
 };

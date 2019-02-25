@@ -21,10 +21,17 @@ bool App2D::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 
 	mouse = new Object(Vector2(0,0),Vector2(0,0),10);
-	thing = new AutonomousAgent(Vector2(100, 100), Vector2(0, 0), 10);
+	for (int i = 0; i < 1000; ++i)
+	{
+		things.push_back(new AutonomousAgent(Vector2(rand() % ((0 - 1280) + 1), rand() % ((0 - 720) + 1)), Vector2(0, 0), 1));
+	}
 	follow = new FollowBehaviour();
 	follow->setTarget(mouse);
-	thing->addbehaviour(follow);
+	for each(auto thing in things)
+	{
+		thing->addbehaviour(follow);
+	}
+
 	return true;
 }
 
@@ -40,7 +47,10 @@ void App2D::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 	mouse->set_position(Vector2(input->getMouseX(), input->getMouseY()));
-	thing->update(deltaTime);
+	for each(auto thing in things)
+	{
+		thing->update(deltaTime);
+	}
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -53,9 +63,12 @@ void App2D::draw() {
 
 	// begin drawing sprites
 	m_2dRenderer->begin();
-	m_2dRenderer->setRenderColour(1, 0, 0);
-	thing->draw(m_2dRenderer);
-	m_2dRenderer->drawLine(thing->pos.x, thing->pos.y, thing->pos.x + thing->vel.x *100, thing->pos.y +thing->vel.y * 100, 1);
+	m_2dRenderer->setRenderColour(0.7, 0.7, 0.2);
+	for each(auto thing in things)
+	{
+		thing->draw(m_2dRenderer);
+		m_2dRenderer->drawLine(thing->pos.x, thing->pos.y, thing->pos.x + thing->vel.x * 1, thing->pos.y + thing->vel.y * 1, 1);	}
+	
 	m_2dRenderer->setRenderColour(0, 1, 0,0.2);
 	mouse->draw(m_2dRenderer);
 	
