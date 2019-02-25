@@ -72,3 +72,17 @@ x64/Debug/MathsLib.lib
 .vs/BootBase/v14/.suo
 .vs/config/applicationhost.config
 enc_temp_folder/39a9998132dfaf4d96255616a5c82492/FlowForce.h
+x64/Release/MathsLib.lib
+temp/Bootstrap/x64/Release/Texture.obj
+temp/Bootstrap/x64/Release/Renderer2D.obj
+temp/Bootstrap/x64/Release/Bootstrap.log
+temp/Bootstrap/x64/Release/Bootstrap.lib
+temp/Bootstrap/x64/Release/imgui.obj
+temp/Bootstrap/x64/Release/gl_core_4_4.obj
+temp/Bootstrap/x64/Release/Font.obj
+temp/Bootstrap/x64/Release/Bootstrap.pdb
+temp/Bootstrap/x64/Release/imgui_glfw3.obj
+temp/Bootstrap/x64/Release/imgui_draw.obj
+temp/Bootstrap/x64/Release/Input.obj
+temp/Bootstrap/x64/Release/Gizmos.obj
+temp/Bootstrap/x64/Release/Application.obj
