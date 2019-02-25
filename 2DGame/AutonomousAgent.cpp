@@ -19,7 +19,7 @@ eBehaviourResult AutonomousAgent::update(float deltatime)
 {
 	for each(Behaviour* behav in behaviours)
 	{
-		vel += behav->update(this, deltatime);
+		acc += behav->update(this, deltatime);
 	}
 	
 		if (vel.x > max_velocity)
@@ -40,11 +40,11 @@ eBehaviourResult AutonomousAgent::update(float deltatime)
 		}
 	
 	auto mod = (rand() % (5 - 15) + 1);
-	auto a = vel * speed * mod * deltatime;
-	vel += acc;
-	vel *= 0.9f;
+	auto a = vel * mod * deltatime;
+	vel += acc.normalised();
+	//vel *= 0.99f;
 	pos += vel;
-
+	acc = Vector2(0, 0);
 
 
 	if (pos.x > 1280)
