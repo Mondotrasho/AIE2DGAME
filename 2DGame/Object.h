@@ -6,7 +6,7 @@ class Object
 {
 public:
 	Object();
-	Object(Vector2 Pos, Vector2 Vel, float Size, float MaxV = 100.0f) : pos(Pos), vel(Vel), size(Size), max_velocity(MaxV){}
+	Object(Vector2 Pos, Vector2 Vel, float Size, float MaxV = 1000.0f) : pos(Pos), vel(Vel), size(Size), max_velocity(MaxV){}
 	~Object();
 	void set_velocity(const Vector2& Vel) { vel = Vel; };
 	Vector2 get_velocity() { return vel; };
@@ -16,6 +16,7 @@ public:
 	Vector2 vel;
 	float size;
 	float max_velocity;
+	float speed = 5;
 	void set_position(Vector2 newpos)
 	{
 		pos = newpos;
