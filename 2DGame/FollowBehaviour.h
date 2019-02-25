@@ -7,7 +7,7 @@
 class FollowBehaviour : public Behaviour {
 public:
 
-	FollowBehaviour();
+	FollowBehaviour(float Range = 1.0f):range(Range){}
 	virtual ~FollowBehaviour();
 
 	Vector2 update(Object* agent, float deltaTime) override;
@@ -17,6 +17,7 @@ public:
 private:
 
 	Object* m_target;
+	float range;
 };
 
 

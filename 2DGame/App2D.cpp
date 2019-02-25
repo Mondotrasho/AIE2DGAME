@@ -18,14 +18,14 @@ bool App2D::startup() {
 
 	m_2dRenderer = new aie::Renderer2D();
 
-	m_font = new aie::Font("./font/consolas.ttf", 32);
+	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	mouse = new Object(Vector2(0,0),Vector2(0,0),10);
 	for (int i = 0; i < 1000; ++i)
 	{
 		things.push_back(new AutonomousAgent(Vector2(rand() % ((0 - 1280) + 1), rand() % ((0 - 720) + 1)), Vector2(0, 0), 1));
 	}
-	follow = new FollowBehaviour();
+	follow = new FollowBehaviour(1);
 	follow->setTarget(mouse);
 	for each(auto thing in things)
 	{
@@ -72,7 +72,7 @@ void App2D::draw() {
 	m_2dRenderer->setRenderColour(0, 1, 0,0.2);
 	mouse->draw(m_2dRenderer);
 	
-	m_2dRenderer->drawText(m_font, "Press ESC to quit!", 0, 720 - 64);
+	m_2dRenderer->drawText(m_font, ("speed of 1st   : " + std::to_string(things.front()->vel.x) + " : " +std::to_string(things.front()->vel.y)).c_str(), 100, 100);
 	//m_2dRenderer->drawText(m_font,("delta   : " + (std::to_string(mouse->pos.x))).c_str() 
 	//	, 100, getWindowWidth() / 2 + 100);
 

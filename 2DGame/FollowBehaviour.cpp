@@ -3,12 +3,6 @@
 #include "Vector2.h"
 #include "Agent.h"
 
-
-FollowBehaviour::FollowBehaviour()
-{
-}
-
-
 FollowBehaviour::~FollowBehaviour()
 {
 }
@@ -22,12 +16,15 @@ Vector2 FollowBehaviour::update(Object* agent, float deltaTime)
 	//dir.y *= mod.y;
 	float distance = dir.magnitude();
 
-	if (distance > 0.1f)
+	if (distance > range)
 	{
 		return dir.normalised();
 	}
+	else
+	{
+		return Vector2(0, 0);
+	}
 
-	return Vector2(0, 0);
 
 	//Function execute
 	//	If the target is invalid, return eBehaviourResult::FAILURE
