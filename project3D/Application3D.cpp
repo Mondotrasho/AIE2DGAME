@@ -19,7 +19,7 @@ Application3D::~Application3D() {
 
 bool Application3D::startup() {
 	
-	setBackgroundColour(0.25f, 0.25f, 0.25f);
+	setBackgroundColour(0, 0.3f, 0.3);
 
 	// initialise gizmo primitive counts
 	Gizmos::create(10000, 10000, 10000, 10000);

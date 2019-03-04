@@ -19,22 +19,32 @@ Application::~Application() {
 
 bool Application::createWindow(const char* title, int width, int height, bool fullscreen) {
 
-	if (glfwInit() == GL_FALSE)
+	//check GLFW dependency
+	if (glfwInit() == GL_FALSE) {
+		std::cout << "ERROR : couldn't init GLFW" << std::endl;
 		return false;
+	}
+	std::cout << "LOADED : GLFW" << std::endl;
 
+	//create the window
 	m_window = glfwCreateWindow(width, height, title, (fullscreen ? glfwGetPrimaryMonitor() : nullptr), nullptr);
 	if (m_window == nullptr) {
 		glfwTerminate();
+		std::cout << "ERROR : couldn't open a window" << std::endl;
 		return false;
 	}
+	std::cout << "OPENED : WINDOW" << std::endl;
 
+	//pull focus
 	glfwMakeContextCurrent(m_window);
 
+	//check Opengl
 	if (ogl_LoadFunctions() == ogl_LOAD_FAILED) {
 		glfwDestroyWindow(m_window);
 		glfwTerminate();
 		return false;
 	}
+	std::cout << "LOADED : OPENGL" << std::endl;
 
 	glfwSetWindowSizeCallback(m_window, [](GLFWwindow*, int w, int h){ glViewport(0, 0, w, h); });
 
@@ -46,12 +56,20 @@ bool Application::createWindow(const char* title, int width, int height, bool fu
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	//print opengl version
+	auto major = ogl_GetMajorVersion();
+	auto minor = ogl_GetMinorVersion();
+	std::cout << "GL " << major << ":" << minor << std::endl;
+
 	// start input manager
 	Input::create();
+	std::cout << "Started : INPUT" << std::endl;
 
 	// imgui
 	ImGui_Init(m_window, true);
-	
+	std::cout << "Started : IMGUI" << std::endl;
+
+	std::cout << "Started : COMPLETE" << std::endl;
 	return true;
 }
 
