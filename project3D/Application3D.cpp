@@ -25,7 +25,7 @@ bool Application3D::startup() {
 	Gizmos::create(10000, 10000, 10000, 10000);
 
 	// create simple camera transforms
-	m_viewMatrix = glm::lookAt(vec3(10), vec3(0), vec3(0, 1, 0));
+	m_viewMatrix = glm::lookAt(vec3(10,10,10), vec3(0), vec3(0, 1, 0));
 
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f,
 										  getWindowWidth() / (float)getWindowHeight(),
@@ -73,6 +73,10 @@ void Application3D::update(float deltaTime) {
 	// demonstrate a few shapes
 	mat4 t = glm::rotate(mat4(1), time, glm::normalize(vec3(1, 1, 1)));
 	t[3] = vec4(-1, 0, 0, 1);
+
+
+	Gizmos::addCapsule(vec3(1,1,1), 2, 1, 10, 10, vec4(0.2, 0.4, 0.3, 1),&t);
+
 
 	 //quit if we press escape
 
