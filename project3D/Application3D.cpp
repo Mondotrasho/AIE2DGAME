@@ -3,6 +3,8 @@
 #include "Input.h"
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
+#include "Utils.h"
+#include "OzGiz.h"
 
 using glm::vec3;
 using glm::vec4;
@@ -23,6 +25,7 @@ bool Application3D::startup() {
 
 	// initialise gizmo primitive counts
 	Gizmos::create(10000, 10000, 10000, 10000);
+	OzGiz::create(10000, 10000, 10000, 10000);
 
 	// create simple camera transforms
 	m_viewMatrix = glm::lookAt(vec3(10,10,10), vec3(0), vec3(0, 1, 0));
@@ -53,19 +56,12 @@ void Application3D::update(float deltaTime) {
 							   vec3(0), vec3(0, 1, 0));
 
 	// wipe the gizmos clean for this frame
+	OzGiz::clear();
 	Gizmos::clear();
 
 	// draw a simple grid with gizmos
-	vec4 white(1,1,1,0.4);
-	vec4 black(0, 0, 0, 0.4);
-	for (int i = 0; i < 21; ++i) {
-		Gizmos::addLine(vec3(-10 + i, 0, 10),
-						vec3(-10 + i, 0, -10),
-						i == 10 ? white : black);
-		Gizmos::addLine(vec3(10, 0, -10 + i),
-						vec3(-10, 0, -10 + i),
-						i == 10 ? white : black);
-	}
+	Utils::drawGrid(10,10);
+	
 
 	// add a transform so that we can see the axis repositioning it 0.1 above ground
 	Gizmos::addTransform(mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0.1f,0,1));

@@ -23,7 +23,8 @@ Gizmos::Gizmos(unsigned int maxLines, unsigned int maxTris,
 	m_2Dlines(new GizmoLine[max2DLines]),
 	m_max2DTris(max2DTris),
 	m_2DtriCount(0),
-	m_2Dtris(new GizmoTri[max2DTris]) {
+	m_2Dtris(new GizmoTri[max2DTris]) 
+	{
 
 	// create shaders
 	const char* vsSource = "#version 150\n \
