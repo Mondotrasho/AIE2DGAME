@@ -42,7 +42,7 @@ eBehaviourResult AutonomousAgent::update(float deltatime)
 	auto mod = (rand() % (5 - 15) + 1);
 	auto a = vel * mod * deltatime;
 	vel += acc.normalised();
-	//vel *= 0.99f;
+	vel *= 0.99f;
 	pos += vel;
 	acc = Vector2(0, 0);
 

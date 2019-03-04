@@ -86,3 +86,4 @@ temp/Bootstrap/x64/Release/imgui_draw.obj
 temp/Bootstrap/x64/Release/Input.obj
 temp/Bootstrap/x64/Release/Gizmos.obj
 temp/Bootstrap/x64/Release/Application.obj
+temp/Bootstrap/x64/Release/Bootstrap.Build.CppClean.log

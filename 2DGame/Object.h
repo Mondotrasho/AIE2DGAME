@@ -26,7 +26,10 @@ public:
 	{
 		return pos;
 	}
-
+	void ApplyForce(Vector2 force)
+	{
+		acc += force;
+	}
 	void draw(aie::Renderer2D* rend);
 	//void update(float deltatime);
 	//

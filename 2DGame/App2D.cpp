@@ -20,7 +20,7 @@ bool App2D::startup() {
 
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
-	mouse = new Object(Vector2(0,0),Vector2(0,0),10);
+	mouse = new Object(Vector2(0,0),Vector2(0,0),1);
 	for (int i = 0; i < 1000; ++i)
 	{
 		things.push_back(new AutonomousAgent(Vector2(rand() % ((0 - 1280) + 1), rand() % ((0 - 720) + 1)), Vector2(0, 0), 1));
@@ -46,9 +46,15 @@ void App2D::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-	mouse->set_position(Vector2(input->getMouseX(), input->getMouseY()));
+	if (input->isMouseButtonDown(0)) {
+		mouse->set_position(Vector2(input->getMouseX(), input->getMouseY()));
+	}
+
 	for each(auto thing in things)
 	{
+		if (input->isMouseButtonDown(1)) {
+			mouse->set_position(Vector2(rand() % ((0 - 1280) + 1), rand() % ((0 - 720) + 1)));
+		}
 		thing->update(deltaTime);
 	}
 	// exit the application
