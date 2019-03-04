@@ -26,10 +26,10 @@ bool Application3D::startup() {
 
 	// create simple camera transforms
 	m_viewMatrix = glm::lookAt(vec3(10), vec3(0), vec3(0, 1, 0));
+
 	m_projectionMatrix = glm::perspective(glm::pi<float>() * 0.25f,
 										  getWindowWidth() / (float)getWindowHeight(),
 										  0.1f, 1000.f);
-	sun = sun->CreateSystem();
 	
 	return true;
 }
@@ -72,29 +72,25 @@ void Application3D::update(float deltaTime) {
 
 	// demonstrate a few shapes
 
-	Gizmos::addSphere(vec3(), 1, 80, 80, vec4(1, 1, 0, 0.75f));
+	mat4 t = glm::rotate(mat4(1), time, glm::normalize(vec3(1, 1, 1)));
+	t[3] = vec4(-1, 0, 0, 1);
 
+	//inner shape
+	Gizmos::addAABBFilled(vec3(0), vec3(1), vec4(0, 0.5f, 1, 0.25f));
 
-	//Gizmos::addAABBFilled(vec3(0), vec3(1), vec4(0, 0.5f, 1, 0.25f));
+	//outer shapes
+	Gizmos::addRing(vec3(5, 0, -5), 1, 1.5f, 8, vec4(0, 1, 0, 1), &t);
+	Gizmos::addDisk(vec3(-5, 0, 5), 1, 16, vec4(1, 1, 0, 1), &t);
+	Gizmos::addArc(vec3(-5, 0, -5), 0, 2, 1, 8, vec4(1, 0, 1, 1),&t);
+	Gizmos::addCylinderFilled(vec3(5, 0, 5), 0.5f, 1, 5, vec4(0, 0, 1, 1), &t);
+	
+	// demonstrate 2D gizmos
+	Gizmos::add2DAABB(glm::vec2(getWindowWidth() / 2, 100),
+					  glm::vec2(getWindowWidth() / 2 * (fmod(getTime(),3.f) / 3),20),
+					  vec4(0, 1, 1, 1));
+	Gizmos::add2DAABB(glm::vec2(getWindowWidth() / 2, getWindowHeight() / 2), glm::vec2(10,10), vec4(1,0,0,1));
+	 //quit if we press escape
 
-	//Gizmos::addRing(vec3(5, 0, -5), 1, 1.5f, 8, vec4(0, 1, 0, 1));
-	//Gizmos::addDisk(vec3(-5, 0, 5), 1, 16, vec4(1, 1, 0, 1));
-	//Gizmos::addArc(vec3(-5, 0, -5), 0, 2, 1, 8, vec4(1, 0, 1, 1));
-	//
-	//mat4 t = glm::rotate(mat4(1), time, glm::normalize(vec3(1, 1, 1)));
-	//t[3] = vec4(-2, 0, 0, 1);
-	//Gizmos::addCylinderFilled(vec3(0), 0.5f, 1, 5, vec4(0, 1, 1, 1), &t);
-	//
-	//Gizmos::addArcRing(vec3(0, 0, 0), 0, 2, 1, 8,1, vec4(1, 0, 1, 1));
-	//
-	//// demonstrate 2D gizmos
-	//Gizmos::add2DAABB(glm::vec2(getWindowWidth() / 2, 100),
-	//				  glm::vec2(getWindowWidth() / 2 * (fmod(getTime(),3.f) / 3),20),
-	//				  vec4(0, 1, 1, 1));
-	//Gizmos::add2DAABB(glm::vec2(getWindowWidth() / 2, getWindowHeight() / 2), glm::vec2(10,10), vec4(1,0,0,1));
-	// quit if we press escape
-
-	sun->update(deltaTime);
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
 }
@@ -111,7 +107,6 @@ void Application3D::draw() {
 
 	// draw 3D gizmos
 	Gizmos::draw(m_projectionMatrix * m_viewMatrix);
-	sun->draw();
 	// draw 2D gizmos using an orthogonal projection matrix (or screen dimensions)
 	Gizmos::draw2D((float)getWindowWidth(), (float)getWindowHeight());
 }

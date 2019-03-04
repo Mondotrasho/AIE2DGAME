@@ -163,12 +163,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application3D.cpp" />
-    <ClCompile Include="Body.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application3D.h" />
-    <ClInclude Include="Body.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
