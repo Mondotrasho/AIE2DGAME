@@ -56,8 +56,8 @@ void Application3D::update(float deltaTime) {
 	Gizmos::clear();
 
 	// draw a simple grid with gizmos
-	vec4 white(1);
-	vec4 black(0, 0, 0, 1);
+	vec4 white(1,1,1,0.4);
+	vec4 black(0, 0, 0, 0.4);
 	for (int i = 0; i < 21; ++i) {
 		Gizmos::addLine(vec3(-10 + i, 0, 10),
 						vec3(-10 + i, 0, -10),
@@ -67,28 +67,13 @@ void Application3D::update(float deltaTime) {
 						i == 10 ? white : black);
 	}
 
-	// add a transform so that we can see the axis
-	Gizmos::addTransform(mat4(1));
+	// add a transform so that we can see the axis repositioning it 0.1 above ground
+	Gizmos::addTransform(mat4(1,0,0,0,0,1,0,0,0,0,1,0,0,0.1f,0,1));
 
 	// demonstrate a few shapes
-
 	mat4 t = glm::rotate(mat4(1), time, glm::normalize(vec3(1, 1, 1)));
 	t[3] = vec4(-1, 0, 0, 1);
 
-	//inner shape
-	Gizmos::addAABBFilled(vec3(0), vec3(1), vec4(0, 0.5f, 1, 0.25f));
-
-	//outer shapes
-	Gizmos::addRing(vec3(5, 0, -5), 1, 1.5f, 8, vec4(0, 1, 0, 1), &t);
-	Gizmos::addDisk(vec3(-5, 0, 5), 1, 16, vec4(1, 1, 0, 1), &t);
-	Gizmos::addArc(vec3(-5, 0, -5), 0, 2, 1, 8, vec4(1, 0, 1, 1),&t);
-	Gizmos::addCylinderFilled(vec3(5, 0, 5), 0.5f, 1, 5, vec4(0, 0, 1, 1), &t);
-	
-	// demonstrate 2D gizmos
-	Gizmos::add2DAABB(glm::vec2(getWindowWidth() / 2, 100),
-					  glm::vec2(getWindowWidth() / 2 * (fmod(getTime(),3.f) / 3),20),
-					  vec4(0, 1, 1, 1));
-	Gizmos::add2DAABB(glm::vec2(getWindowWidth() / 2, getWindowHeight() / 2), glm::vec2(10,10), vec4(1,0,0,1));
 	 //quit if we press escape
 
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
