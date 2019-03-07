@@ -30,9 +30,12 @@ bool App2D::startup() {
 	follow->setTarget(mouse);
 	seek = new SeekBehaviour();
 	seek->set_target(mouse);
+	stayonscreen = new Wraparoundscreen();
+	stayonscreen->set_screensize(Vector2(getWindowWidth(), getWindowHeight()));
 	for each(auto thing in things)
 	{
 		thing->addbehaviour(seek);
+		thing->addbehaviour(stayonscreen);
 	}
 
 	return true;

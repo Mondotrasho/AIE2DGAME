@@ -5,6 +5,7 @@
 #include "AutonomousAgent.h"
 #include "FollowBehaviour.h"
 #include "SeekBehaviour.h"
+#include "Wraparoundscreen.h"
 
 class App2D : public aie::Application {
 public:
@@ -30,4 +31,5 @@ protected:
 	std::vector<AutonomousAgent*> things;
 	FollowBehaviour* follow;
 	SeekBehaviour* seek;
+	Wraparoundscreen* stayonscreen;
 };

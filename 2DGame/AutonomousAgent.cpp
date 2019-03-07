@@ -47,22 +47,7 @@ eBehaviourResult AutonomousAgent::update(float deltatime)
 	//acc = Vector2(0, 0);
 	//
 	//
-	//if (pos.x > 1280)
-	//{
-	//	pos.x = 0;
-	//}
-	//if (pos.x < 0)
-	//{
-	//	pos.x = 1280;
-	//}
-	//if (pos.y > 720)
-	//{
-	//	pos.y = 0;
-	//}
-	//if (pos.y < 0)
-	//{
-	//	pos.y = 720;
-	//}
+
 
 	for each(Behaviour* behav in behaviours)
 	{

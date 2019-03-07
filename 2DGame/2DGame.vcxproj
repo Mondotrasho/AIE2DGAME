@@ -182,6 +182,7 @@
     <ClCompile Include="SteeringBehaviour.cpp" />
     <ClCompile Include="SteeringForce.cpp" />
     <ClCompile Include="VelocityAgent.cpp" />
+    <ClCompile Include="Wraparoundscreen.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="SteeringBehaviour.h" />
     <ClInclude Include="SteeringForce.h" />
     <ClInclude Include="VelocityAgent.h" />
+    <ClInclude Include="Wraparoundscreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathsLib\MathsLib\MathsLib.vcxproj">
