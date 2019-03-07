@@ -17,7 +17,9 @@ public:
 	Vector2 acc;
 	float size;
 	float max_velocity;
+	float max_force = 1;
 	float speed = 1;
+	float mass = 1;
 	void set_position(Vector2 newpos)
 	{
 		pos = newpos;
@@ -26,8 +28,9 @@ public:
 	{
 		return pos;
 	}
-	void ApplyForce(Vector2 force)
+	void apply_force(Vector2 force)
 	{
+		force /= mass;
 		acc += force;
 	}
 	void draw(aie::Renderer2D* rend);
