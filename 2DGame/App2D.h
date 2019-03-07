@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "AutonomousAgent.h"
 #include "FollowBehaviour.h"
+#include "SeekBehaviour.h"
 
 class App2D : public aie::Application {
 public:
@@ -28,4 +29,5 @@ protected:
 	Object* mouse;
 	std::vector<AutonomousAgent*> things;
 	FollowBehaviour* follow;
+	SeekBehaviour* seek;
 };

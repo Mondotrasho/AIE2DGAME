@@ -5,6 +5,7 @@
 #include <list>
 #include "imgui.h"
 #include "FollowBehaviour.h"
+#include "SeekBehaviour.h"
 
 App2D::App2D() {
 
@@ -21,15 +22,17 @@ bool App2D::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	mouse = new Object(Vector2(0,0),Vector2(0,0),1);
-	for (int i = 0; i < 1000; ++i)
+	for (int i = 0; i < 100; ++i)
 	{
 		things.push_back(new AutonomousAgent(Vector2(rand() % ((0 - 1280) + 1), rand() % ((0 - 720) + 1)), Vector2(0, 0), 1));
 	}
 	follow = new FollowBehaviour(1);
 	follow->setTarget(mouse);
+	seek = new SeekBehaviour();
+	seek->set_target(mouse);
 	for each(auto thing in things)
 	{
-		thing->addbehaviour(follow);
+		thing->addbehaviour(seek);
 	}
 
 	return true;
