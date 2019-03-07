@@ -18,6 +18,5 @@ public:
 	{
 		behaviours.push_back(behave);
 	}
-
 };
 
