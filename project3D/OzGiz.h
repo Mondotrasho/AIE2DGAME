@@ -98,6 +98,8 @@ public:
 	~OzGiz();
 	void draw(Matrix4 mat);
 	static void addLine(Vector3& start, Vector3& end,Vector4 colour, float thickness = 1);
+	void draw(const Matrix4& projectionView);
+
 	static void clear() {
 		sm_singleton->m_lineCount = 0;
 	}

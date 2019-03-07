@@ -44,7 +44,20 @@ void OzGiz::draw(const Matrix4& projectionView) {
 		glUseProgram(sm_singleton->m_shader);
 
 		unsigned int projectionViewUniform = glGetUniformLocation(sm_singleton->m_shader, "ProjectionView");
-		glUniformMatrix4fv(projectionViewUniform, 1, false, glm::value_ptr(projectionView));
+		
+		GLfloat modelviewmatrix[16];
+		int f = 0;
+		for (int i ; i < 4; i++){
+			for (int j = 0; j < 4; ++j)
+			{
+				modelviewmatrix[f] = projectionView[i][j];
+				f++;
+			}
+			
+		
+			
+		}
+		glUniformMatrix4fv(projectionViewUniform, 1, false, modelviewmatrix);
 
 		if (sm_singleton->m_lineCount > 0) {
 			glBindBuffer(GL_ARRAY_BUFFER, sm_singleton->m_lineVBO);
@@ -54,42 +67,7 @@ void OzGiz::draw(const Matrix4& projectionView) {
 			glDrawArrays(GL_LINES, 0, sm_singleton->m_lineCount * 2);
 		}
 
-		if (sm_singleton->m_triCount > 0) {
-			glBindBuffer(GL_ARRAY_BUFFER, sm_singleton->m_triVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sm_singleton->m_triCount * sizeof(GizmoTri), sm_singleton->m_tris);
-
-			glBindVertexArray(sm_singleton->m_triVAO);
-			glDrawArrays(GL_TRIANGLES, 0, sm_singleton->m_triCount * 3);
-		}
-
-		if (sm_singleton->m_transparentTriCount > 0) {
-			// not ideal to store these, but Gizmos must work stand-alone
-			GLboolean blendEnabled = glIsEnabled(GL_BLEND);
-			GLboolean depthMask = GL_TRUE;
-			glGetBooleanv(GL_DEPTH_WRITEMASK, &depthMask);
-			int src, dst;
-			glGetIntegerv(GL_BLEND_SRC, &src);
-			glGetIntegerv(GL_BLEND_DST, &dst);
-
-			// setup blend states
-			if (blendEnabled == GL_FALSE)
-				glEnable(GL_BLEND);
-
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glDepthMask(GL_FALSE);
-
-			glBindBuffer(GL_ARRAY_BUFFER, sm_singleton->m_transparentTriVBO);
-			glBufferSubData(GL_ARRAY_BUFFER, 0, sm_singleton->m_transparentTriCount * sizeof(GizmoTri), sm_singleton->m_transparentTris);
-
-			glBindVertexArray(sm_singleton->m_transparentTriVAO);
-			glDrawArrays(GL_TRIANGLES, 0, sm_singleton->m_transparentTriCount * 3);
-
-			// reset state
-			glDepthMask(depthMask);
-			glBlendFunc(src, dst);
-			if (blendEnabled == GL_FALSE)
-				glDisable(GL_BLEND);
-		}
+		
 
 		glUseProgram(shader);
 	}
