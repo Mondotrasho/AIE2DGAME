@@ -7,6 +7,7 @@
 #include "SeekBehaviour.h"
 #include "Wraparoundscreen.h"
 #include "ArrivingBehaviour.h"
+#include "StayWithinBehaviour.h"
 
 class App2D : public aie::Application {
 public:
@@ -34,4 +35,5 @@ protected:
 	SeekBehaviour* seek;
 	Wraparoundscreen* stayonscreen;
 	ArrivingBehaviour* arriving;
+	StayWithinBehaviour* staywithin;
 };

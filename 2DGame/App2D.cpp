@@ -34,10 +34,12 @@ bool App2D::startup() {
 	stayonscreen->set_screensize(Vector2(getWindowWidth(), getWindowHeight()));
 	arriving = new ArrivingBehaviour();
 	arriving->set_target(mouse);
+	staywithin = new StayWithinBehaviour;
+	staywithin->set_walls(Vector2(200, 300), Vector2(200, 300));
 	for each(auto thing in things)
 	{
 		thing->addbehaviour(arriving);
-		thing->addbehaviour(stayonscreen);
+		thing->addbehaviour(staywithin);
 	}
 
 	return true;
