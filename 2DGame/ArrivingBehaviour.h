@@ -1,11 +1,11 @@
 #pragma once
 #include "Behaviour.h"
-class SeekBehaviour :
+class ArrivingBehaviour :
 	public Behaviour
 {
 public:
-	SeekBehaviour();
-	~SeekBehaviour();
+	ArrivingBehaviour();
+	~ArrivingBehaviour();
 
 	Vector2 update(Object* agent, float deltaTime) override;
 	void set_target(Object* target) { m_target = target; }

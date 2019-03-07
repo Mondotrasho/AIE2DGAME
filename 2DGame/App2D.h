@@ -6,6 +6,7 @@
 #include "FollowBehaviour.h"
 #include "SeekBehaviour.h"
 #include "Wraparoundscreen.h"
+#include "ArrivingBehaviour.h"
 
 class App2D : public aie::Application {
 public:
@@ -32,4 +33,5 @@ protected:
 	FollowBehaviour* follow;
 	SeekBehaviour* seek;
 	Wraparoundscreen* stayonscreen;
+	ArrivingBehaviour* arriving;
 };

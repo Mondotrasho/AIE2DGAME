@@ -172,6 +172,7 @@
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="App2D.cpp" />
+    <ClCompile Include="ArrivingBehaviour.cpp" />
     <ClCompile Include="AutonomousAgent.cpp" />
     <ClCompile Include="DotAgent.cpp" />
     <ClCompile Include="FlowForce.cpp" />
@@ -187,6 +188,7 @@
   <ItemGroup>
     <ClInclude Include="Agent.h" />
     <ClInclude Include="App2D.h" />
+    <ClInclude Include="ArrivingBehaviour.h" />
     <ClInclude Include="AStar.h" />
     <ClInclude Include="AutonomousAgent.h" />
     <ClInclude Include="Behaviour.h" />
