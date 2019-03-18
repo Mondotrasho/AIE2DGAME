@@ -51,7 +51,9 @@ bool Application::createWindow(const char* title, int width, int height, bool fu
 
 	// imgui
 	ImGui_Init(m_window, true);
-	
+
+	//version
+	printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION), glGetString(GL_SHADING_LANGUAGE_VERSION));
 	return true;
 }
 
