@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2.h"
 #include "Renderer2D.h"
+#include <vector>
 
 class Object
 {
@@ -17,9 +18,17 @@ public:
 	Vector2 acc;
 	float size;
 	float max_velocity;
+	Vector2 force;
 	float max_force = 1;
-	float speed = 1;
+	float speed = 10;
 	float mass = 1;
+
+	void setobjectpool(std::vector<Object*> pool)
+	{
+		objectpool = pool;
+	}
+	std::vector<Object*> objectpool;
+	std::vector<Object*> neighbourhood;
 	void set_position(Vector2 newpos)
 	{
 		pos = newpos;
@@ -28,10 +37,11 @@ public:
 	{
 		return pos;
 	}
-	void apply_force(Vector2 force)
+	void apply_force(Vector2 addforce)
 	{
-		force /= mass;
-		acc += force;
+		
+		addforce /= mass;
+		force += addforce;
 	}
 	void draw(aie::Renderer2D* rend);
 	//void update(float deltatime);

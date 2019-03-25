@@ -8,6 +8,9 @@
 #include "Wraparoundscreen.h"
 #include "ArrivingBehaviour.h"
 #include "StayWithinBehaviour.h"
+#include "SeperationBehaviour.h"
+#include "AllignBehaviour.h"
+#include "CohesionBehaviour.h"
 
 class App2D : public aie::Application {
 public:
@@ -36,4 +39,8 @@ protected:
 	Wraparoundscreen* stayonscreen;
 	ArrivingBehaviour* arriving;
 	StayWithinBehaviour* staywithin;
+	SeperationBehaviour* seperate;
+	AllignBehaviour* allign;
+	CohesionBehaviour* cohese;
+	std::vector<Object*> thingsbutitsobjectsnow;
 };

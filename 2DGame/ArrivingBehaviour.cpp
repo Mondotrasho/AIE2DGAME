@@ -2,10 +2,6 @@
 #include "Object.h"
 
 
-ArrivingBehaviour::ArrivingBehaviour()
-{
-}
-
 
 ArrivingBehaviour::~ArrivingBehaviour()
 {
@@ -32,9 +28,9 @@ Vector2 ArrivingBehaviour::update(Object* agent, float deltaTime)
 	}
 
 
-	Vector2 steer = desired - agent->vel;
+	Vector2 steer = (desired - agent->vel) * weight;
 	steer.limit(agent->max_force);
-	agent->apply_force(steer);
+	agent->apply_force(steer );
 
 	return Vector2();
 }

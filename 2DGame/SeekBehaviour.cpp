@@ -21,7 +21,7 @@ Vector2 SeekBehaviour::update(Object* agent, float deltaTime)
 
 	Vector2 steer = desired - agent->vel;
 
-	steer.limit(agent->max_force);
+	//steer.limit(agent->max_force);
 
 	agent->apply_force(steer);
 	return Vector2();

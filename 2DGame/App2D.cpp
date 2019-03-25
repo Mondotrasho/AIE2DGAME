@@ -22,9 +22,19 @@ bool App2D::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	mouse = new Object(Vector2(0,0),Vector2(0,0),1);
-	for (int i = 0; i < 100; ++i)
+	for (int i = 0; i < 30; ++i)
 	{
 		things.push_back(new AutonomousAgent(Vector2(rand() % ((0 - 1280) + 1), rand() % ((0 - 720) + 1)), Vector2(0, 0), 1));
+		//things.push_back(new AutonomousAgent(Vector2(rand() % ((0 - 1280) + 1), rand() % ((0 - 720) + 1)), Vector2((rand() % ((0 - 100) + 1))-50, (rand() % ((0 - 100) + 1))-50), 1));
+	}
+	for each(auto thing in things)
+	{
+		thingsbutitsobjectsnow.push_back(thing);
+		
+	}
+	for each(auto thing in things)
+	{
+		thing->setobjectpool(thingsbutitsobjectsnow);
 	}
 	follow = new FollowBehaviour(1);
 	follow->setTarget(mouse);
@@ -32,14 +42,20 @@ bool App2D::startup() {
 	seek->set_target(mouse);
 	stayonscreen = new Wraparoundscreen();
 	stayonscreen->set_screensize(Vector2(getWindowWidth(), getWindowHeight()));
-	arriving = new ArrivingBehaviour();
+	arriving = new ArrivingBehaviour(1);
 	arriving->set_target(mouse);
 	staywithin = new StayWithinBehaviour;
 	staywithin->set_walls(Vector2(200, 300), Vector2(200, 300));
+	allign = new AllignBehaviour(.01,50, thingsbutitsobjectsnow);
+	seperate = new SeperationBehaviour(.03, 25, thingsbutitsobjectsnow);
+	cohese = new CohesionBehaviour(.01, 20, thingsbutitsobjectsnow);
 	for each(auto thing in things)
 	{
-		thing->addbehaviour(arriving);
-		thing->addbehaviour(staywithin);
+		thing->addbehaviour(stayonscreen);
+		thing->addbehaviour(allign);
+		thing->addbehaviour(seperate);
+		thing->addbehaviour(cohese);
+	    thing->addbehaviour(arriving);
 	}
 
 	return true;

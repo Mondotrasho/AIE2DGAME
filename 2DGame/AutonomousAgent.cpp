@@ -48,13 +48,24 @@ eBehaviourResult AutonomousAgent::update(float deltatime)
 	//
 	//
 
+	
+	float Neighbourrad = 19;
+	for each (auto obj in objectpool)
+	{
+		if (obj->get_position().distance(this->get_position()) < Neighbourrad)
+		{
+			neighbourhood.push_back(obj);
+		}
+	}
 
 	for each(Behaviour* behav in behaviours)
 	{
 		behav->update(this, deltatime);
 	}
-
-	this->vel += acc;
+	//force.limit(max_force);
+	acc += force * deltatime;
+	vel += acc;
+	//vel.limit(max_velocity);
 	pos += vel;
 	acc *= 0;
 

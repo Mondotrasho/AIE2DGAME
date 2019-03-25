@@ -8,7 +8,7 @@ class AutonomousAgent : public Object
 public:
 	AutonomousAgent();
 	~AutonomousAgent();
-	AutonomousAgent(Vector2 Pos, Vector2 Vel, float Size,float MaxV = 10) : Object(Pos, Vel, Size, MaxV){}
+	AutonomousAgent(Vector2 Pos, Vector2 Vel, float Size,float MaxV = 1) : Object(Pos, Vel, Size, MaxV){}
 	eBehaviourResult update(float deltatime);
 	Vector2 GetMaxforce();
 
