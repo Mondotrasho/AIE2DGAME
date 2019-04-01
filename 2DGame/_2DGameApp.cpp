@@ -1,6 +1,8 @@
 #include "_2DGameApp.h"
 #include "Font.h"
 #include "Input.h"
+#include "imgui.h"
+
 _2DGameApp::_2DGameApp() {
 
 }
@@ -34,14 +36,23 @@ bool _2DGameApp::startup() {
 	m_navMesh->build();
 
 	Fish = new GameObject;
+	Mouse = new GameObject;
 	Fish->position = Vector2(getWindowWidth() / 2, getWindowHeight() / 2);
 	Fish->speed = 400;
+	Mouse->position = Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 +100);
+
+
 	follow = new FollowPathBehaviour();
 	Fish->behaviours.emplace_back(follow);
 	newpath = new NewPathBehaviour(m_navMesh, Fish->smoothPath);
 	newpath->m_navMesh = m_navMesh;
 	newpath->m_smoothPath = Fish->smoothPath;// = NewPathBehaviour(m_navMesh, Fish->smoothPath);
-	Fish->behaviours.emplace_back(newpath);
+	//Fish->behaviours.emplace_back(newpath);
+	mousepath = new MouseGenPathBehaviour(m_navMesh, Fish->smoothPath);
+	mousepath->m_navMesh = m_navMesh;
+	mousepath->m_smoothPath = Fish->smoothPath;
+	mousepath->settarget(Mouse);
+	Fish->behaviours.emplace_back(mousepath);
 	return true;
 }
 
@@ -59,6 +70,9 @@ void _2DGameApp::update(float deltaTime) {
 
 	Fish->Update(deltaTime);
 
+	if(input->isMouseButtonDown(0))
+		Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
+	
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -91,13 +105,15 @@ void _2DGameApp::draw() {
 		node->Draw(m_2dRenderer);
 	}
 	m_2dRenderer->setRenderColour(0, 1, 0);
-	Vector2 last = Fish->smoothPath.front();
-	for (auto place : Fish->smoothPath)
-	{
-		m_2dRenderer->drawCircle(place.x, place.y, 2);
-		m_2dRenderer->drawLine(place.x, place.y, last.x, last.y, 1);
-		last = place;
-	}
+	if (!Fish->smoothPath.empty()) {
+		Vector2 last = Fish->smoothPath.front();
+		for (auto place : Fish->smoothPath)
+		{
+			m_2dRenderer->drawCircle(place.x, place.y, 2);
+			m_2dRenderer->drawLine(place.x, place.y, last.x, last.y, 1);
+			last = place;
+		}
+	
 	m_2dRenderer->setRenderColour(1, 0, 0);
 	last = Fish->path.front()->Pos;
 	for (auto place : Fish->path)
@@ -107,7 +123,7 @@ void _2DGameApp::draw() {
 		m_2dRenderer->drawLine(place->Pos.x, place->Pos.y, last.x, last.y, 1);
 		last = place->Pos;
 	}
-
+	}
 	// draw obstacles
 	m_2dRenderer->setRenderColour(1, 0, 0);
 	for (auto& o : m_navMesh->getObstacles()) {

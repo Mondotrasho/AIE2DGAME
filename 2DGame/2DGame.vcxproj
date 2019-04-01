@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="FollowBehaviour.cpp" />
+    <ClCompile Include="MouseGenPathFollowBehaviour.cpp" />
     <ClCompile Include="NavMesh.cpp" />
     <ClCompile Include="NewPathBehaviour.cpp" />
     <ClCompile Include="poly2tri\common\shapes.cc" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Edge.h" />
     <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="MouseGenPathFollowBehaviour.h" />
     <ClInclude Include="NavMesh.h" />
     <ClInclude Include="NewPathBehaviour.h" />
     <ClInclude Include="Node.h" />

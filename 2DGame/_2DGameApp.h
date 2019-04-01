@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "NewPathBehaviour.h"
 #include "FollowBehaviour.h"
+#include "MouseGenPathFollowBehaviour.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -26,8 +27,10 @@ protected:
 
 	NavMesh*			m_navMesh;
 	GameObject* Fish;
+	GameObject* Mouse;
 
 	NewPathBehaviour* newpath;
 	FollowPathBehaviour* follow;
+	MouseGenPathBehaviour* mousepath;
 
 };
