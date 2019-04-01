@@ -70,6 +70,9 @@ public:
 						 openList.insert(it, edge->m_target);
 					 }
 					 else {
+						 // Node is already in the openList with a valid Score.
+						 // So compare the calculated Score with the existing
+						 // to find the shorter path.
 						 if (fScore < edge->m_target->F) 
 						 {
 							 edge->m_target->G = gScore;
