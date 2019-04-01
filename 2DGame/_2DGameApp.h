@@ -3,6 +3,9 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "NavMesh.h"
+#include "GameObject.h"
+#include "NewPathBehaviour.h"
+#include "FollowBehaviour.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -22,4 +25,9 @@ protected:
 	aie::Font*			m_font;
 
 	NavMesh*			m_navMesh;
+	GameObject* Fish;
+
+	NewPathBehaviour* newpath;
+	FollowPathBehaviour* follow;
+
 };

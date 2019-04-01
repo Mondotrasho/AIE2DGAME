@@ -1,11 +1,9 @@
 #include "_2DGameApp.h"
 #include "Font.h"
 #include "Input.h"
-
 _2DGameApp::_2DGameApp() {
 
 }
-
 _2DGameApp::~_2DGameApp() {
 
 }
@@ -35,6 +33,15 @@ bool _2DGameApp::startup() {
 
 	m_navMesh->build();
 
+	Fish = new GameObject;
+	Fish->position = Vector2(getWindowWidth() / 2, getWindowHeight() / 2);
+	Fish->speed = 400;
+	follow = new FollowPathBehaviour();
+	Fish->behaviours.emplace_back(follow);
+	newpath = new NewPathBehaviour(m_navMesh, Fish->smoothPath);
+	newpath->m_navMesh = m_navMesh;
+	newpath->m_smoothPath = Fish->smoothPath;// = NewPathBehaviour(m_navMesh, Fish->smoothPath);
+	Fish->behaviours.emplace_back(newpath);
 	return true;
 }
 
@@ -50,6 +57,8 @@ void _2DGameApp::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
+	Fish->Update(deltaTime);
+
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -61,23 +70,25 @@ void _2DGameApp::draw() {
 
 	// begin drawing sprites
 	m_2dRenderer->begin();
-	auto a = m_navMesh->getRandomNode();
-	auto b = m_navMesh->getRandomNode();
-	std::list<Pathfinding::Node*> c;
-	c.push_back(a);
-	c.push_back(b);
-
-	const std::list<Pathfinding::Node*> e = { c };
-	
-	std::list<Vector2> d;
-	auto size = m_navMesh->smoothPath(e, d);
+	//auto a = m_navMesh->getRandomNode();
+	//auto b = m_navMesh->getRandomNode();
+	//std::list<Node*> c;
+	//c.push_back(a);
+	//c.push_back(b);
+	//
+	//const std::list<Node*> e = { c };
+	//
+	//std::list<Vector2> d;
+	//auto size = m_navMesh->smoothPath(e, d);
 	// draw nav mesh polygons
 	for (auto node : m_navMesh->getNodes()) {
 
 		m_2dRenderer->setRenderColour(1, 1, 0);
-		m_2dRenderer->drawLine(node->vertices[0].x, node->vertices[0].y, node->vertices[1].x, node->vertices[1].y);
-		m_2dRenderer->drawLine(node->vertices[1].x, node->vertices[1].y, node->vertices[2].x, node->vertices[2].y);
-		m_2dRenderer->drawLine(node->vertices[2].x, node->vertices[2].y, node->vertices[0].x, node->vertices[0].y);
+		//m_2dRenderer->drawLine(node->vertices[0].x, node->vertices[0].y, node->vertices[1].x, node->vertices[1].y);
+		//m_2dRenderer->drawLine(node->vertices[1].x, node->vertices[1].y, node->vertices[2].x, node->vertices[2].y);
+		//m_2dRenderer->drawLine(node->vertices[2].x, node->vertices[2].y, node->vertices[0].x, node->vertices[0].y);
+
+		//node->Draw(m_2dRenderer);
 	}
 
 	// draw obstacles
@@ -86,6 +97,7 @@ void _2DGameApp::draw() {
 		m_2dRenderer->drawBox(o.x + o.w * 0.5f, o.y + o.h * 0.5f, o.w, o.h);
 	}
 
+	Fish->Draw(m_2dRenderer);
 	// done drawing sprites
 	m_2dRenderer->end();
 }

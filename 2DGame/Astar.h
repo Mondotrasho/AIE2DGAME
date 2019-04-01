@@ -10,7 +10,7 @@
 class AStar
 {
 public:
-	std::list<Node*> AStarSearch(Node* startNode, Node* endNode)
+	bool AStarSearch(Node* startNode, Node* endNode, std::list<Node*>& path,float Heuristic)
 	{
 		//Let openList be a List of Nodes
 		//	Let closedList be a List of Nodes
@@ -27,7 +27,10 @@ public:
 
 		startNode->G = 0;
 		openList.push(startNode);
-
+		if (startNode == endNode)
+		{
+			return false;
+		}
 		while (!openList.empty())
 		{
 			Node* currentNode = openList.top();
@@ -36,22 +39,26 @@ public:
 			if (currentNode == endNode) { break; }
 
 			closedList.insert(currentNode);
-
-			for (Edge& edge : currentNode->Connections)
+			if(closedList.size() == 16)
 			{
-				float dist = currentNode->G + edge.Cost;
+				printf("text");
+			}
 
-				if (dist < edge.m_target->G)
+			for (Edge* edge : currentNode->Connections)
+			{
+				float dist = currentNode->G + edge->Cost;
+
+				if (dist < edge->m_target->G)
 				{
-					edge.m_target->G = currentNode->G + edge.Cost;
-					edge.m_target->N = currentNode;
-					edge.m_target->H = edge.m_target->Pos.distance(endNode->Pos);
-					edge.m_target->F = edge.m_target->G + edge.m_target->H;
+					edge->m_target->G = currentNode->G + edge->Cost;
+					edge->m_target->N = currentNode;
+					edge->m_target->H = edge->m_target->Pos.distance(endNode->Pos);
+					edge->m_target->F = edge->m_target->G + edge->m_target->H;
 				}
 
-				if (closedList.find(edge.m_target) == closedList.end())
+				if (closedList.find(edge->m_target) == closedList.end())
 				{
-					openList.push(edge.m_target);
+					openList.push(edge->m_target);
 				}
 				////			Add c.target to openList if not in closedList
 				//openList.push(edge.m_target);
@@ -63,14 +70,15 @@ public:
 
 		}
 		Node* currentNode = endNode;
-		std::list<Node*> path;
+		std::list<Node*> newpath;
 
 		while (currentNode != nullptr) {
-			path.push_front(currentNode);
+			newpath.push_front(currentNode);
 			currentNode = currentNode->N;
 
 		}
-		return path;
+		path = newpath;
+		return true;
 
 	}
 

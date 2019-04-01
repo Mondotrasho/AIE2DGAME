@@ -166,7 +166,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="NavMesh.cpp" />
+    <ClCompile Include="NewPathBehaviour.cpp" />
     <ClCompile Include="poly2tri\common\shapes.cc" />
     <ClCompile Include="poly2tri\sweep\advancing_front.cc" />
     <ClCompile Include="poly2tri\sweep\cdt.cc" />
@@ -176,7 +178,14 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Astar.h" />
+    <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="Edge.h" />
+    <ClInclude Include="FollowBehaviour.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="NavMesh.h" />
+    <ClInclude Include="NewPathBehaviour.h" />
+    <ClInclude Include="Node.h" />
     <ClInclude Include="poly2tri\common\shapes.h" />
     <ClInclude Include="poly2tri\common\utils.h" />
     <ClInclude Include="poly2tri\poly2tri.h" />
