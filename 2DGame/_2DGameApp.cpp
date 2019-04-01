@@ -90,13 +90,22 @@ void _2DGameApp::draw() {
 		
 		node->Draw(m_2dRenderer);
 	}
-
+	m_2dRenderer->setRenderColour(0, 1, 0);
 	Vector2 last = Fish->smoothPath.front();
 	for (auto place : Fish->smoothPath)
 	{
 		m_2dRenderer->drawCircle(place.x, place.y, 2);
 		m_2dRenderer->drawLine(place.x, place.y, last.x, last.y, 1);
 		last = place;
+	}
+	m_2dRenderer->setRenderColour(1, 0, 0);
+	last = Fish->path.front()->Pos;
+	for (auto place : Fish->path)
+	{
+		
+		m_2dRenderer->drawCircle(place->Pos.x, place->Pos.y, 2);
+		m_2dRenderer->drawLine(place->Pos.x, place->Pos.y, last.x, last.y, 1);
+		last = place->Pos;
 	}
 
 	// draw obstacles

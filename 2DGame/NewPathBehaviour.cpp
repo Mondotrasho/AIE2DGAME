@@ -30,7 +30,7 @@ bool NewPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
 		found = astar.AStarSearch(first, end, gameObject->path, Node::heuristic(first, end));
 		
 	} while (found == false);
-	if(gameObject->path.size() >1)
+	if(gameObject->path.size() > 1)
 	NavMesh::smoothPath(gameObject->path, m_smoothPath);
 	}
 	return true;
