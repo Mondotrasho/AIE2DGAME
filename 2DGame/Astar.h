@@ -20,55 +20,67 @@ public:
 		//	Sort openList by Node.gScore
 
 
-		auto cmp = [](Node* left, Node* right) { return left->F > right->F; };
-		std::priority_queue< Node*, std::vector<Node*>, decltype(cmp)> openList(cmp);
-
-		std::set<Node*> closedList;
+		auto cmp = [](Node* left, Node* right) { return left->F < right->F; };
+		std::list<Node*> openList;
+		std::list<Node*> closedList;
 
 		startNode->G = 0;
-		openList.push(startNode);
+		startNode->N = nullptr;
+
 		if (startNode == endNode)
 		{
 			return false;
 		}
+		std::list<Node*>::iterator it = openList.begin();
+		openList.insert(it,startNode);
+
 		while (!openList.empty())
 		{
-			Node* currentNode = openList.top();
+			//sort by F
+			//std::sort(openList.begin(), openList.end(), cmp);
+			openList.sort(cmp);
 
-			openList.pop(); //with seed of 1 it causes heap curruption on hit 69
-
+			Node* currentNode = openList.front();
 			if (currentNode == endNode) { break; }
 
-			closedList.insert(currentNode);
-			
+			openList.remove(currentNode); //with seed of 1 it causes heap curruption on hit 69
+
+			std::list<Node*>::iterator it = closedList.begin();
+			closedList.insert(it, currentNode);	
 
 			for (Edge* edge : currentNode->Connections)
 			{
-				float dist = currentNode->G + edge->Cost;
-
-				if (dist < edge->m_target->G)
+				//if its not in the
+				if(!(std::find(closedList.begin(), closedList.end(), edge->m_target) != closedList.end()))
 				{
-					edge->m_target->G = currentNode->G + edge->Cost;
-					edge->m_target->N = currentNode;
-					edge->m_target->H = edge->m_target->Pos.distance(endNode->Pos);
+					auto gScore = currentNode->G + edge->Cost;
+					 auto hScore = edge->m_target->Pos.distance(endNode->Pos);
+					 auto fScore = gScore + hScore;
 
-					//causes issues
-					//edge->m_target->F = edge->m_target->G + edge->m_target->H;
-				}
+					// Have not yet visited the node.
+					// So calculate the Score and update its parent.
+					// Also add it to the openList for processing.
+					 if (!(std::find(openList.begin(), openList.end(), edge->m_target) != openList.end()))
+					 {
+						 edge->m_target->G = gScore;
+						 edge->m_target->F = fScore;
+						 edge->m_target->N = currentNode;
 
-				if (closedList.find(edge->m_target) == closedList.end())
-				{
-					openList.push(edge->m_target);
+						 std::list<Node*>::iterator it = openList.begin();
+						 openList.insert(it, edge->m_target);
+					 }
+					 else {
+						 if (fScore < edge->m_target->F) 
+						 {
+							 edge->m_target->G = gScore;
+							 edge->m_target->F = fScore;
+							 edge->m_target->N = currentNode;
+						 }
+					 }
 				}
-				////			Add c.target to openList if not in closedList
-				//openList.push(edge.m_target);
-				////			c.target.gScore = currentNode.gScore + c.cost
-				//edge.m_target->G = currentNode->G + edge.Cost;
-				////			c.target.parent = currentNode
-				//edge.m_target->N = currentNode;
 			}
-
 		}
+	
 		Node* currentNode = endNode;
 		std::list<Node*> newpath;
 
