@@ -19,7 +19,7 @@ class GameObject
 	}
 	void Draw(aie::Renderer2D* render)
 	{
-		render->drawCircle(position.x, position.y, 3);
+		render->drawCircle(position.x, position.y, 6);
 	}
 
 	// these are used by the NavMesh behaviours

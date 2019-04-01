@@ -16,8 +16,8 @@ bool _2DGameApp::startup() {
 
 	m_navMesh = new NavMesh(1280, 720);
 
-	// just to help mess with the random
-	srand(42);
+	// just to help mess with the random 1 is asy to debug the pop issue
+	srand(1);
 
 	// random obstacles
 	for (int i = 0; i < 12; ++i) {
@@ -84,11 +84,19 @@ void _2DGameApp::draw() {
 	for (auto node : m_navMesh->getNodes()) {
 
 		m_2dRenderer->setRenderColour(1, 1, 0);
-		//m_2dRenderer->drawLine(node->vertices[0].x, node->vertices[0].y, node->vertices[1].x, node->vertices[1].y);
-		//m_2dRenderer->drawLine(node->vertices[1].x, node->vertices[1].y, node->vertices[2].x, node->vertices[2].y);
-		//m_2dRenderer->drawLine(node->vertices[2].x, node->vertices[2].y, node->vertices[0].x, node->vertices[0].y);
+		m_2dRenderer->drawLine(node->vertices[0].x, node->vertices[0].y, node->vertices[1].x, node->vertices[1].y);
+		m_2dRenderer->drawLine(node->vertices[1].x, node->vertices[1].y, node->vertices[2].x, node->vertices[2].y);
+		m_2dRenderer->drawLine(node->vertices[2].x, node->vertices[2].y, node->vertices[0].x, node->vertices[0].y);
 
-		//node->Draw(m_2dRenderer);
+		node->Draw(m_2dRenderer);
+	}
+
+	Vector2 last = Fish->smoothPath.front();
+	for (auto place : Fish->smoothPath)
+	{
+		m_2dRenderer->drawCircle(place.x, place.y, 2);
+		m_2dRenderer->drawLine(place.x, place.y, last.x, last.y, 1);
+		last = place;
 	}
 
 	// draw obstacles

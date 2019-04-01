@@ -286,5 +286,6 @@ int NavMesh::smoothPath(const std::list<Node*>& path, std::list<Vector2>& smooth
 	}
 	// cleanup and return length of path
 	delete[] portals;
-	return smoothPath.size();
+	return smoothPath.size();
+
 }

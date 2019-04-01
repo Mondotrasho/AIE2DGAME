@@ -34,15 +34,13 @@ public:
 		while (!openList.empty())
 		{
 			Node* currentNode = openList.top();
-			openList.pop();
+
+			openList.pop(); //with seed of 1 it causes heap curruption on hit 69
 
 			if (currentNode == endNode) { break; }
 
 			closedList.insert(currentNode);
-			if(closedList.size() == 16)
-			{
-				printf("text");
-			}
+			
 
 			for (Edge* edge : currentNode->Connections)
 			{
@@ -53,7 +51,9 @@ public:
 					edge->m_target->G = currentNode->G + edge->Cost;
 					edge->m_target->N = currentNode;
 					edge->m_target->H = edge->m_target->Pos.distance(endNode->Pos);
-					edge->m_target->F = edge->m_target->G + edge->m_target->H;
+
+					//causes issues
+					//edge->m_target->F = edge->m_target->G + edge->m_target->H;
 				}
 
 				if (closedList.find(edge->m_target) == closedList.end())
@@ -81,7 +81,6 @@ public:
 		return true;
 
 	}
-
 
 	AStar();
 	~AStar();

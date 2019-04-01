@@ -19,9 +19,6 @@ bool NewPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
 			node->H = 0;
 			node->F = 0; 
 			node->N = nullptr;
-			node->vertices;
-			
-			
 		}
 		auto first = m_navMesh->findClosest(gameObject->position.x, gameObject->position.y);
 		auto end = m_navMesh->getRandomNode();

@@ -10,9 +10,13 @@ class Node
 public:
 	std::string Name;
 	Vector2 Pos{ 0,0 };
+	//cost to get there
 	float G{ std::numeric_limits<float>::infinity() };
-	float H;
-	float F;	
+	//heuristic from that point
+	float H{};
+
+	float F{};
+	//parent node
 	Node* N{ nullptr };
 	std::vector<Edge*> Connections;
 	std::vector<Vector2> vertices;
@@ -37,12 +41,13 @@ public:
 		float y = e->Pos.y - s->Pos.y;
 		return x * x + y * y;
 	}
-	Node() {}
+	Node() = default;
 	Node(std::string label, Vector2 pos) : Name(label), Pos(pos) {}
 	virtual ~Node()
 	{
 		//todo DO
-		for (auto e : Connections) delete e;
+		for (auto e : Connections) 
+			delete e;
 		
 	}
 
