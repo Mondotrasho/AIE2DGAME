@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
+#include "NavMesh.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -18,5 +19,7 @@ public:
 protected:
 
 	aie::Renderer2D*	m_2dRenderer;
-	float m_timer;
+	aie::Font*			m_font;
+
+	NavMesh*			m_navMesh;
 };
