@@ -166,6 +166,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BoolDecision.cpp" />
+    <ClCompile Include="Composite.cpp" />
+    <ClCompile Include="Decision.cpp" />
     <ClCompile Include="FishFood.cpp" />
     <ClCompile Include="FishShool.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
@@ -177,12 +180,17 @@
     <ClCompile Include="poly2tri\sweep\cdt.cc" />
     <ClCompile Include="poly2tri\sweep\sweep.cc" />
     <ClCompile Include="poly2tri\sweep\sweep_context.cc" />
+    <ClCompile Include="Selector.cpp" />
+    <ClCompile Include="Sequence.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Astar.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="BoolDecision.h" />
+    <ClInclude Include="Composite.h" />
+    <ClInclude Include="Decision.h" />
     <ClInclude Include="Djikstra.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="FishFood.h" />
@@ -200,6 +208,8 @@
     <ClInclude Include="poly2tri\sweep\cdt.h" />
     <ClInclude Include="poly2tri\sweep\sweep.h" />
     <ClInclude Include="poly2tri\sweep\sweep_context.h" />
+    <ClInclude Include="Selector.h" />
+    <ClInclude Include="Sequence.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>
