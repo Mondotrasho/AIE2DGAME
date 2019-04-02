@@ -64,21 +64,19 @@ void _2DGameApp::draw() {
 void _2DGameApp::InitializeSchools(int num,bool randspeed)
 {
 	//mouse pos object
-	Mouse = new GameObject;
-	Mouse->position = Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100);
+	Mouse = new GameObject(Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100),0);
 
 	for (int i = 0; i < num; ++i)
 	{
 		//make schools
-		auto freshfish = new GameObject;
-		freshfish->position = Vector2(getWindowWidth() / 2, getWindowHeight() / 2);
+		auto freshfish = new GameObject(Vector2(getWindowWidth() / 2, getWindowHeight() / 2),0);
 		if(randspeed)
 		{
-			freshfish->speed = 10 + (rand() % 600);
+			freshfish->set_speed(10 + (rand() % 600));
 		}
 		else
 		{
-			freshfish->speed = 600;
+			freshfish->set_speed(600);
 		}
 
 		//follow specifics

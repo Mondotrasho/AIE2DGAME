@@ -9,7 +9,7 @@ MouseGenPathBehaviour::~MouseGenPathBehaviour()
 {
 }
 
-bool MouseGenPathBehaviour::execute(GameObject* gameObject, float deltaTime)
+eBehaviourResult MouseGenPathBehaviour::execute(GameObject* gameObject, float deltaTime)
 {// random end node
 	bool found = false;
 	auto first = m_navMesh->findClosest(gameObject->position.x, gameObject->position.y);
@@ -36,5 +36,5 @@ bool MouseGenPathBehaviour::execute(GameObject* gameObject, float deltaTime)
 		if (gameObject->path.size() > 1)
 			NavMesh::smoothPath(gameObject->path, m_smoothPath);
 	}
-	return true;
+	return SUCCESS;
 }

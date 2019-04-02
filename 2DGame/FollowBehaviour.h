@@ -8,5 +8,5 @@ public:
 	FollowPathBehaviour() {}
 	virtual ~FollowPathBehaviour() {}
 
-	virtual bool execute(GameObject* gameObject, float deltaTime);
+	virtual eBehaviourResult execute(GameObject* gameObject, float deltaTime);
 };

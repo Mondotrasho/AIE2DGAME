@@ -3,10 +3,10 @@
 #include "Vector2.h"
 #include "GameObject.h"
 
-bool FollowPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
+eBehaviourResult FollowPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
 
 	if (gameObject->smoothPath.empty())
-		return false;
+		return FAILURE;
 
 	// access first node we're heading towards
 	Vector2 first = gameObject->smoothPath.front();
@@ -33,5 +33,5 @@ bool FollowPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
 		gameObject->smoothPath.pop_front();
 		gameObject->path.pop_front();
 	}
-	return true;
+	return FAILURE;
 }

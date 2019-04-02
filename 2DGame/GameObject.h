@@ -6,9 +6,38 @@
 
 class GameObject
 {
-	public:
+	public:	
+	GameObject();
+	GameObject(Vector2 Pos, float Speed) : position(Pos), speed(Speed) {}
+	~GameObject();
+
 	Vector2 position = {};
 	float speed = 50;
+	float size=6;
+	void set_position(Vector2 newpos)
+	{
+		position = newpos;
+	}
+	Vector2 get_position()
+	{
+		return position;
+	}
+	void set_speed(float newspeed)
+	{
+		speed = newspeed;
+	}
+	float get_speed()
+	{
+		return speed;
+	}
+	void set_size(float newsize)
+	{
+		size = newsize;
+	}
+	float get_size()
+	{
+		return size;
+	}
 
 	void Update(float delta)
 	{
@@ -17,9 +46,11 @@ class GameObject
 			b->execute(this, delta);
 		}
 	}
+
+
 	void Draw(aie::Renderer2D* render)
 	{
-		render->drawCircle(position.x, position.y, 6);
+		render->drawCircle(position.x, position.y, size);
 	}
 
 	// these are used by the NavMesh behaviours

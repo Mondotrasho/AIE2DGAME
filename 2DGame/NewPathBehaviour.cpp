@@ -7,7 +7,7 @@ NewPathBehaviour::NewPathBehaviour(NavMesh* navMesh, std::list<Vector2>& smoothP
 {
 }
 
-bool NewPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
+eBehaviourResult NewPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
 
 	// random end node
 	bool found = false;
@@ -33,5 +33,5 @@ bool NewPathBehaviour::execute(GameObject* gameObject, float deltaTime) {
 	if(gameObject->path.size() > 1)
 	NavMesh::smoothPath(gameObject->path, m_smoothPath);
 	}
-	return true;
+	return SUCCESS;
 }

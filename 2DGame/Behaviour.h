@@ -1,4 +1,9 @@
 #pragma once
+enum eBehaviourResult {
+	SUCCESS,
+	FAILURE,
+	RUNNING
+};
 
 class GameObject;
 
@@ -10,5 +15,5 @@ public:
 	virtual ~Behaviour() {}
 
 	// pure virtual function for executing the behaviour
-	virtual bool execute(GameObject* gameObject, float deltaTime) = 0;
+	virtual eBehaviourResult execute(GameObject* gameObject, float deltaTime) = 0;
 };

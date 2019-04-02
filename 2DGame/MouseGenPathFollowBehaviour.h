@@ -12,7 +12,7 @@ public:
 	MouseGenPathBehaviour(NavMesh* navMesh, std::list<Vector2>& smoothPath):m_navMesh(navMesh), m_smoothPath(smoothPath){}
 	virtual ~MouseGenPathBehaviour();
 
-	virtual bool execute(GameObject* gameObject, float deltaTime);
+	virtual eBehaviourResult execute(GameObject* gameObject, float deltaTime);
 
 	NavMesh* m_navMesh;
 	std::list<Vector2>& m_smoothPath;
