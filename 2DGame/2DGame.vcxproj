@@ -166,6 +166,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FishFood.cpp" />
+    <ClCompile Include="FishShool.cpp" />
     <ClCompile Include="FollowBehaviour.cpp" />
     <ClCompile Include="MouseGenPathFollowBehaviour.cpp" />
     <ClCompile Include="NavMesh.cpp" />
@@ -183,6 +185,8 @@
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="Djikstra.h" />
     <ClInclude Include="Edge.h" />
+    <ClInclude Include="FishFood.h" />
+    <ClInclude Include="FishShool.h" />
     <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="MouseGenPathFollowBehaviour.h" />

@@ -4,16 +4,26 @@
 #include "Node.h"
 #include "Behaviour.h"
 
+enum eTeam {
+	Blue,
+	Red,
+	None
+};
+
+
 class GameObject
 {
 	public:	
 	GameObject();
-	GameObject(Vector2 Pos, float Speed) : position(Pos), speed(Speed) {}
+	GameObject(Vector2 Pos, float Speed,Node* mynode = nullptr, eTeam myteam = None) : position(Pos), speed(Speed) {}
 	~GameObject();
 
 	Vector2 position = {};
 	float speed = 50;
 	float size=6;
+	eTeam team;
+	Node* Occupied{};
+
 	void set_position(Vector2 newpos)
 	{
 		position = newpos;
@@ -64,3 +74,11 @@ class GameObject
 
 	std::vector<Behaviour*> behaviours;
 };
+
+inline GameObject::GameObject()
+{
+}
+
+inline GameObject::~GameObject()
+{
+}

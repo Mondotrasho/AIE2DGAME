@@ -69,7 +69,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 	for (int i = 0; i < num; ++i)
 	{
 		//make schools
-		auto freshfish = new GameObject(Vector2(getWindowWidth() / 2, getWindowHeight() / 2),0);
+		auto freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2),0);
 		if(randspeed)
 		{
 			freshfish->set_speed(10 + (rand() % 600));

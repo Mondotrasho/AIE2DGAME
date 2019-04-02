@@ -51,6 +51,12 @@
     <ClCompile Include="MouseGenPathFollowBehaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FishShool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FishFood.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_2DGameApp.h">
@@ -105,6 +111,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Djikstra.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FishShool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FishFood.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
