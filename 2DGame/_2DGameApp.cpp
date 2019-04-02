@@ -18,7 +18,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 	
 	InitializeNavMesh();
-	InitializeSchools(10);	
+	InitializeSchools(60, true);	
 
 	return true;
 }
@@ -53,38 +53,52 @@ void _2DGameApp::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	DrawNavmesh(true,true,true);
-	DrawSchools();
+	DrawNavmesh(true,false, false);
+	DrawSchools(true, false, false);
+
 	// done drawing sprites
 	m_2dRenderer->end();
 }
 
 
-void _2DGameApp::InitializeSchools(int num)
+void _2DGameApp::InitializeSchools(int num,bool randspeed)
 {
+	//mouse pos object
 	Mouse = new GameObject;
 	Mouse->position = Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100);
 
 	for (int i = 0; i < num; ++i)
 	{
+		//make schools
 		auto freshfish = new GameObject;
 		freshfish->position = Vector2(getWindowWidth() / 2, getWindowHeight() / 2);
-		freshfish->speed = 600;
+		if(randspeed)
+		{
+			freshfish->speed = 10 + (rand() % 600);
+		}
+		else
+		{
+			freshfish->speed = 600;
+		}
 
+		//follow specifics
 		auto follow = new FollowPathBehaviour();
 		freshfish->behaviours.emplace_back(follow);
 
+		//randpath specifics
 		auto pathfinder = new NewPathBehaviour(m_navMesh, freshfish->smoothPath);
 		pathfinder->m_navMesh = m_navMesh;
 		pathfinder->m_smoothPath = freshfish->smoothPath;// = NewPathBehaviour(m_navMesh, Fish->smoothPath);
 		freshfish->behaviours.emplace_back(pathfinder);
 
+		//mouse path specifics
 		auto mousepath = new MouseGenPathBehaviour(m_navMesh, freshfish->smoothPath);
 		mousepath->m_navMesh = m_navMesh;
 		mousepath->m_smoothPath = freshfish->smoothPath;
 		mousepath->settarget(Mouse);
 		freshfish->behaviours.emplace_back(mousepath);
 
+		//push to storage
 		Schools.push_back(freshfish);
 		pathgenerators.push_back(pathfinder);
 		followers.push_back(follow);
@@ -103,36 +117,50 @@ void _2DGameApp::UpdateSchools(float delta_time, aie::Input* input)
 		Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
 
 }
-void _2DGameApp::DrawSchools()
+void _2DGameApp::DrawSchools(bool drawschools, bool drawpath, bool drawsmoothpath)
 {
+
 	for (auto school : Schools)
 	{
-		m_2dRenderer->setRenderColour(0, 1, 0);
-		if (!school->smoothPath.empty()) {
-			//Vector2 last = school->smoothPath.front();
-			//for (auto place : school->smoothPath)
-			//{
-			//	render->drawCircle(place.x, place.y, 2);
-			//	render->drawLine(place.x, place.y, last.x, last.y, 1);
-			//	last = place;
-			//}
-			//
-			//render->setRenderColour(1, 0, 0);
-			//last = school->path.front()->Pos;
-			//for (auto place : school->path)
-			//{
-			//
-			//	render->drawCircle(place->Pos.x, place->Pos.y, 2);
-			//	render->drawLine(place->Pos.x, place->Pos.y, last.x, last.y, 1);
-			//	last = place->Pos;
-			//}
+		//smooth draw specifics
+		if (drawsmoothpath)
+		{
+			m_2dRenderer->setRenderColour(0, 1, 0);
+			if (!school->smoothPath.empty())
+			{
+				Vector2 last = school->smoothPath.front();
+				for (auto place : school->smoothPath)
+				{
+					m_2dRenderer->drawCircle(place.x, place.y, 2);
+					m_2dRenderer->drawLine(place.x, place.y, last.x, last.y, 1);
+					last = place;
+				}
+			}
 		}
 
-	}
+		//path draw specifics
+		if (drawpath) {
+			m_2dRenderer->setRenderColour(1, 0, 0);
+			if (!school->path.empty())
+			{
 
-	for (auto school : Schools)
-	{
-		school->Draw(m_2dRenderer);
+				Vector2 last = school->path.front()->Pos;
+				for (auto place : school->path)
+				{
+
+					m_2dRenderer->drawCircle(place->Pos.x, place->Pos.y, 2);
+					m_2dRenderer->drawLine(place->Pos.x, place->Pos.y, last.x, last.y, 1);
+					last = place->Pos;
+				}
+			}
+		}
+
+		//schools draw specifics
+		if (drawschools)
+		{
+			m_2dRenderer->setRenderColour(0, 0, 1);
+			school->Draw(m_2dRenderer);
+		}
 	}
 }
 
@@ -145,7 +173,7 @@ void _2DGameApp::InitializeNavMesh()
 
 
 	// random obstacles
-	for (int i = 0; i < 12; ++i) {
+	for (int i = 0; i < 22; ++i) {
 
 		bool safe = false;
 		do {

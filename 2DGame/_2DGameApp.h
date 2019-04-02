@@ -14,8 +14,8 @@ public:
 
 	_2DGameApp();
 	virtual ~_2DGameApp();
-	void InitializeSchools(int num);
-	void DrawSchools();
+	void InitializeSchools(int num, bool randspeed);
+	void DrawSchools(bool drawschools, bool drawpath, bool drawsmoothpath);
 
 	void InitializeNavMesh();
 	virtual bool startup();
