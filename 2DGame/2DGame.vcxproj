@@ -181,6 +181,7 @@
   <ItemGroup>
     <ClInclude Include="Astar.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="Djikstra.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GameObject.h" />

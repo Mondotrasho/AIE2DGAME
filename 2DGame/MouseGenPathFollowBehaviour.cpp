@@ -2,6 +2,7 @@
 #include "NavMesh.h"
 #include "GameObject.h"
 #include "Astar.h"
+#include "Djikstra.h"
 
 
 MouseGenPathBehaviour::~MouseGenPathBehaviour()
@@ -27,9 +28,9 @@ bool MouseGenPathBehaviour::execute(GameObject* gameObject, float deltaTime)
 
 #pragma message("TODO: USe your own A* method here!")
 			AStar astar;
-			
+			Djikstra djikstra;
 
-			found = astar.AStarSearch(first, end, gameObject->path, Node::heuristic(first, end));
+			found = astar.AStarSearch(first, end, gameObject->path, Node::heuristic(first, end));//astar.AStarSearch(first, end, gameObject->path, Node::heuristic(first, end));
 
 		} while (found == false);
 		if (gameObject->path.size() > 1)

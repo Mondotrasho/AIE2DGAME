@@ -7,17 +7,23 @@
 #include "NewPathBehaviour.h"
 #include "FollowBehaviour.h"
 #include "MouseGenPathFollowBehaviour.h"
+#include "Input.h"
 
 class _2DGameApp : public aie::Application {
 public:
 
 	_2DGameApp();
 	virtual ~_2DGameApp();
+	void InitializeSchools(int num);
+	void DrawSchools();
 
+	void InitializeNavMesh();
 	virtual bool startup();
 	virtual void shutdown();
+	void UpdateSchools(float delta_time, aie::Input* input);
 
 	virtual void update(float deltaTime);
+	void DrawNavmesh(bool b, bool b1, bool b2);
 	virtual void draw();
 
 protected:
@@ -26,11 +32,11 @@ protected:
 	aie::Font*			m_font;
 
 	NavMesh*			m_navMesh;
-	GameObject* Fish;
+	std::vector<GameObject*> Schools;
 	GameObject* Mouse;
 
-	NewPathBehaviour* newpath;
-	FollowPathBehaviour* follow;
-	MouseGenPathBehaviour* mousepath;
+	std::vector<NewPathBehaviour*> pathgenerators;
+	std::vector<FollowPathBehaviour*> followers;
+	std::vector<MouseGenPathBehaviour*> mousepathgenerators;
 
 };

@@ -106,7 +106,7 @@ void NavMesh::build() {
 			if (sharedVerts == 2) {
 				float mag = node2->Pos.distance(node->Pos);
 				// add links to both nodes //todo watch out for me I added the 2 &
-				node->Connections.push_back(new Edge(node2, 0));//mag));
+				node->Connections.push_back(new Edge(node2, 1));//mag));
 				//node2->Connections.push_back(new Edge(node, mag));
 			}
 		}

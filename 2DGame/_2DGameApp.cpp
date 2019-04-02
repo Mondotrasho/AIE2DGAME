@@ -10,16 +10,139 @@ _2DGameApp::~_2DGameApp() {
 
 }
 
+
 bool _2DGameApp::startup() {
 	
 	m_2dRenderer = new aie::Renderer2D();
 
 	m_font = new aie::Font("./font/consolas.ttf", 32);
+	
+	InitializeNavMesh();
+	InitializeSchools(10);	
 
+	return true;
+}
+
+void _2DGameApp::shutdown() {
+
+	delete m_navMesh;
+
+	delete m_font;
+	delete m_2dRenderer;
+}
+
+
+
+void _2DGameApp::update(float deltaTime) {
+	// input example
+	aie::Input* input = aie::Input::getInstance();
+	
+	UpdateSchools(deltaTime,input);
+
+	// exit the application
+	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
+		quit();
+}
+
+
+
+void _2DGameApp::draw() {
+	// wipe the screen to the background colour
+	clearScreen();
+
+	// begin drawing sprites
+	m_2dRenderer->begin();
+
+	DrawNavmesh(true,true,true);
+	DrawSchools();
+	// done drawing sprites
+	m_2dRenderer->end();
+}
+
+
+void _2DGameApp::InitializeSchools(int num)
+{
+	Mouse = new GameObject;
+	Mouse->position = Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100);
+
+	for (int i = 0; i < num; ++i)
+	{
+		auto freshfish = new GameObject;
+		freshfish->position = Vector2(getWindowWidth() / 2, getWindowHeight() / 2);
+		freshfish->speed = 600;
+
+		auto follow = new FollowPathBehaviour();
+		freshfish->behaviours.emplace_back(follow);
+
+		auto pathfinder = new NewPathBehaviour(m_navMesh, freshfish->smoothPath);
+		pathfinder->m_navMesh = m_navMesh;
+		pathfinder->m_smoothPath = freshfish->smoothPath;// = NewPathBehaviour(m_navMesh, Fish->smoothPath);
+		freshfish->behaviours.emplace_back(pathfinder);
+
+		auto mousepath = new MouseGenPathBehaviour(m_navMesh, freshfish->smoothPath);
+		mousepath->m_navMesh = m_navMesh;
+		mousepath->m_smoothPath = freshfish->smoothPath;
+		mousepath->settarget(Mouse);
+		freshfish->behaviours.emplace_back(mousepath);
+
+		Schools.push_back(freshfish);
+		pathgenerators.push_back(pathfinder);
+		followers.push_back(follow);
+		mousepathgenerators.push_back(mousepath);
+
+	}
+}
+void _2DGameApp::UpdateSchools(float delta_time, aie::Input* input)
+{
+	for (auto school : Schools)
+	{
+		school->Update(delta_time);
+	}
+
+	if (input->isMouseButtonDown(0))
+		Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
+
+}
+void _2DGameApp::DrawSchools()
+{
+	for (auto school : Schools)
+	{
+		m_2dRenderer->setRenderColour(0, 1, 0);
+		if (!school->smoothPath.empty()) {
+			//Vector2 last = school->smoothPath.front();
+			//for (auto place : school->smoothPath)
+			//{
+			//	render->drawCircle(place.x, place.y, 2);
+			//	render->drawLine(place.x, place.y, last.x, last.y, 1);
+			//	last = place;
+			//}
+			//
+			//render->setRenderColour(1, 0, 0);
+			//last = school->path.front()->Pos;
+			//for (auto place : school->path)
+			//{
+			//
+			//	render->drawCircle(place->Pos.x, place->Pos.y, 2);
+			//	render->drawLine(place->Pos.x, place->Pos.y, last.x, last.y, 1);
+			//	last = place->Pos;
+			//}
+		}
+
+	}
+
+	for (auto school : Schools)
+	{
+		school->Draw(m_2dRenderer);
+	}
+}
+
+void _2DGameApp::InitializeNavMesh()
+{
 	m_navMesh = new NavMesh(1280, 720);
 
 	// just to help mess with the random 1 is asy to debug the pop issue
 	srand(1);
+
 
 	// random obstacles
 	for (int i = 0; i < 12; ++i) {
@@ -34,103 +157,29 @@ bool _2DGameApp::startup() {
 	}
 
 	m_navMesh->build();
-
-	Fish = new GameObject;
-	Mouse = new GameObject;
-	Fish->position = Vector2(getWindowWidth() / 2, getWindowHeight() / 2);
-	Fish->speed = 400;
-	Mouse->position = Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 +100);
-
-
-	follow = new FollowPathBehaviour();
-	Fish->behaviours.emplace_back(follow);
-	newpath = new NewPathBehaviour(m_navMesh, Fish->smoothPath);
-	newpath->m_navMesh = m_navMesh;
-	newpath->m_smoothPath = Fish->smoothPath;// = NewPathBehaviour(m_navMesh, Fish->smoothPath);
-	//Fish->behaviours.emplace_back(newpath);
-	mousepath = new MouseGenPathBehaviour(m_navMesh, Fish->smoothPath);
-	mousepath->m_navMesh = m_navMesh;
-	mousepath->m_smoothPath = Fish->smoothPath;
-	mousepath->settarget(Mouse);
-	Fish->behaviours.emplace_back(mousepath);
-	return true;
 }
-
-void _2DGameApp::shutdown() {
-
-	delete m_navMesh;
-
-	delete m_font;
-	delete m_2dRenderer;
-}
-
-void _2DGameApp::update(float deltaTime) {
-	// input example
-	aie::Input* input = aie::Input::getInstance();
-
-	Fish->Update(deltaTime);
-
-	if(input->isMouseButtonDown(0))
-		Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
-	
-	// exit the application
-	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
-		quit();
-}
-
-void _2DGameApp::draw() {
-	// wipe the screen to the background colour
-	clearScreen();
-
-	// begin drawing sprites
-	m_2dRenderer->begin();
-	//auto a = m_navMesh->getRandomNode();
-	//auto b = m_navMesh->getRandomNode();
-	//std::list<Node*> c;
-	//c.push_back(a);
-	//c.push_back(b);
-	//
-	//const std::list<Node*> e = { c };
-	//
-	//std::list<Vector2> d;
-	//auto size = m_navMesh->smoothPath(e, d);
+void _2DGameApp::DrawNavmesh(bool drawobstacles, bool drawpoly, bool drawnode)
+{
 	// draw nav mesh polygons
 	for (auto node : m_navMesh->getNodes()) {
 
 		m_2dRenderer->setRenderColour(1, 1, 0);
-		m_2dRenderer->drawLine(node->vertices[0].x, node->vertices[0].y, node->vertices[1].x, node->vertices[1].y);
-		m_2dRenderer->drawLine(node->vertices[1].x, node->vertices[1].y, node->vertices[2].x, node->vertices[2].y);
-		m_2dRenderer->drawLine(node->vertices[2].x, node->vertices[2].y, node->vertices[0].x, node->vertices[0].y);
-		
-		node->Draw(m_2dRenderer);
-	}
-	m_2dRenderer->setRenderColour(0, 1, 0);
-	if (!Fish->smoothPath.empty()) {
-		Vector2 last = Fish->smoothPath.front();
-		for (auto place : Fish->smoothPath)
-		{
-			m_2dRenderer->drawCircle(place.x, place.y, 2);
-			m_2dRenderer->drawLine(place.x, place.y, last.x, last.y, 1);
-			last = place;
+		if (drawpoly) {
+			m_2dRenderer->drawLine(node->vertices[0].x, node->vertices[0].y, node->vertices[1].x, node->vertices[1].y);
+			m_2dRenderer->drawLine(node->vertices[1].x, node->vertices[1].y, node->vertices[2].x, node->vertices[2].y);
+			m_2dRenderer->drawLine(node->vertices[2].x, node->vertices[2].y, node->vertices[0].x, node->vertices[0].y);
 		}
-	
-	m_2dRenderer->setRenderColour(1, 0, 0);
-	last = Fish->path.front()->Pos;
-	for (auto place : Fish->path)
-	{
-		
-		m_2dRenderer->drawCircle(place->Pos.x, place->Pos.y, 2);
-		m_2dRenderer->drawLine(place->Pos.x, place->Pos.y, last.x, last.y, 1);
-		last = place->Pos;
-	}
-	}
-	// draw obstacles
-	m_2dRenderer->setRenderColour(1, 0, 0);
-	for (auto& o : m_navMesh->getObstacles()) {
-		m_2dRenderer->drawBox(o.x + o.w * 0.5f, o.y + o.h * 0.5f, o.w, o.h);
+		m_2dRenderer->setRenderColour(1, 1, 0);
+		if (drawnode) {
+			node->Draw(m_2dRenderer);
+		}
 	}
 
-	Fish->Draw(m_2dRenderer);
-	// done drawing sprites
-	m_2dRenderer->end();
+	// draw obstacles
+	if (drawobstacles) {
+		m_2dRenderer->setRenderColour(1, 0, 0);
+		for (auto& o : m_navMesh->getObstacles()) {
+			m_2dRenderer->drawBox(o.x + o.w * 0.5f, o.y + o.h * 0.5f, o.w, o.h);
+		}
+	}
 }
