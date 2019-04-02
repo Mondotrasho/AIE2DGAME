@@ -5,11 +5,8 @@ class FishShool :
 {
 public:
 	FishShool();
-	FishShool(const Vector2& vector2, int i)
-	{
-		position = vector2;
-		speed = i;
-	};
+	FishShool(const Vector2& Pos, int Speed, Node* mynode = nullptr, eTeam myteam = None) : GameObject(Pos, Speed, mynode, myteam) {}
+
 	~FishShool();
 
 	GameObject fish[8];
