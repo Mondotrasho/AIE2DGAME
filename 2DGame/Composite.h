@@ -2,7 +2,7 @@
 #include "Behaviour.h"
 #include <vector>
 
-class Composite : Behaviour
+class Composite : public Behaviour
 {
 public:
 	Composite();

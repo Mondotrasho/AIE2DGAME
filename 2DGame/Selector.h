@@ -16,6 +16,10 @@ public:
 			{
 				return SUCCESS;
 			}
+			if (child->execute(agent, deltaTime) == RUNNING)
+			{
+				return RUNNING;
+			}
 		}
 		return FAILURE;
 	}

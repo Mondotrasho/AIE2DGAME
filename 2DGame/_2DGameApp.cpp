@@ -18,7 +18,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 	
 	InitializeNavMesh();
-	InitializeSchools(60, true);	
+	InitializeSchools(1, true);	
 
 	return true;
 }
@@ -54,7 +54,7 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 
 	DrawNavmesh(true,false, false);
-	DrawSchools(true, false, false);
+	DrawSchools(true, true, true);
 
 	// done drawing sprites
 	m_2dRenderer->end();
@@ -63,6 +63,10 @@ void _2DGameApp::draw() {
 
 void _2DGameApp::InitializeSchools(int num,bool randspeed)
 {
+
+	
+
+
 	//mouse pos object
 	Mouse = new GameObject(Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100),0);
 
@@ -80,24 +84,35 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		}
 
 		//follow specifics
-		auto follow = new FollowPathBehaviour();
-		freshfish->addbehaviour(follow);
+		auto follow = new ActionMoveAlongPath();
 
 		//randpath specifics
-		auto pathfinder = new NewPathBehaviour(m_navMesh, freshfish->smoothPath);
-		freshfish->addbehaviour(pathfinder);
+		auto pathfinder = new ActionIdle(m_navMesh);
 
 		//mouse path specifics
 		auto mousepath = new MouseGenPathBehaviour(m_navMesh, freshfish->smoothPath);
 		mousepath->settarget(Mouse);
 		freshfish->addbehaviour(mousepath);
 
+		auto nodefind = new FindMyNode(m_navMesh);
+
+		//the sequence/AND for idle
+		//fist is finds where it is then it trys to move along its path and finaly it makes a new path
+		auto doer = new Sequence();
+		doer->children.push_back(nodefind);
+		doer->children.push_back(follow);
+		doer->children.push_back(pathfinder);
+
+		//add the idle sequence directly
+		freshfish->addbehaviour(doer);
+
 		//push to storage
 		Schools.push_back(freshfish);
 		pathgenerators.push_back(pathfinder);
 		followers.push_back(follow);
 		mousepathgenerators.push_back(mousepath);
-
+		nodefinders.push_back(nodefind);
+		dotillstop.emplace_back(doer);
 	}
 }
 void _2DGameApp::UpdateSchools(float delta_time, aie::Input* input)
@@ -113,6 +128,8 @@ void _2DGameApp::UpdateSchools(float delta_time, aie::Input* input)
 }
 void _2DGameApp::DrawSchools(bool drawschools, bool drawpath, bool drawsmoothpath)
 {
+
+	Mouse->Draw(m_2dRenderer);
 
 	for (auto school : Schools)
 	{

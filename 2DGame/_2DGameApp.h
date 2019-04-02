@@ -9,6 +9,10 @@
 #include "MouseGenPathFollowBehaviour.h"
 #include "Input.h"
 #include "FishShool.h"
+#include "ActionIdle.h"
+#include "ActionMoveAlongPath.h"
+#include "FindMyNode.h"
+#include "Sequence.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -36,8 +40,10 @@ protected:
 	std::vector<FishShool*> Schools;
 	GameObject* Mouse;
 
-	std::vector<NewPathBehaviour*> pathgenerators;
-	std::vector<FollowPathBehaviour*> followers;
+	std::vector<ActionIdle*> pathgenerators;
+	std::vector<ActionMoveAlongPath*> followers;
 	std::vector<MouseGenPathBehaviour*> mousepathgenerators;
+	std::vector<FindMyNode*> nodefinders;
 
+	std::vector<Sequence*> dotillstop;
 };
