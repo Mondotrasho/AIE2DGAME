@@ -39,6 +39,11 @@ class GameObject
 		return size;
 	}
 
+	void addbehaviour(Behaviour* behave)
+	{
+		behaviours.push_back(behave);
+	}
+
 	void Update(float delta)
 	{
 		for (auto b : behaviours)

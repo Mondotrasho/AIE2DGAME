@@ -81,20 +81,16 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 
 		//follow specifics
 		auto follow = new FollowPathBehaviour();
-		freshfish->behaviours.emplace_back(follow);
+		freshfish->addbehaviour(follow);
 
 		//randpath specifics
 		auto pathfinder = new NewPathBehaviour(m_navMesh, freshfish->smoothPath);
-		pathfinder->m_navMesh = m_navMesh;
-		pathfinder->m_smoothPath = freshfish->smoothPath;// = NewPathBehaviour(m_navMesh, Fish->smoothPath);
-		freshfish->behaviours.emplace_back(pathfinder);
+		freshfish->addbehaviour(pathfinder);
 
 		//mouse path specifics
 		auto mousepath = new MouseGenPathBehaviour(m_navMesh, freshfish->smoothPath);
-		mousepath->m_navMesh = m_navMesh;
-		mousepath->m_smoothPath = freshfish->smoothPath;
 		mousepath->settarget(Mouse);
-		freshfish->behaviours.emplace_back(mousepath);
+		freshfish->addbehaviour(mousepath);
 
 		//push to storage
 		Schools.push_back(freshfish);
