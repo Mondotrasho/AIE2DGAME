@@ -1,5 +1,7 @@
 #pragma once
 #include "Composite.h"
+
+//A Sequence acts as an AND
 class Sequence :
 	public Composite
 {
@@ -15,8 +17,8 @@ public:
 			{
 				return FAILURE;
 			}
-			return SUCCESS;
 		}
+		return SUCCESS;
 	};
 };
 
