@@ -59,7 +59,8 @@ public:
 
 					// Have not yet visited the node.
 					// So calculate the Score and update its parent.
-					// Also add it to the openList for processing.
+					// Also add it to the openList for processing.
+
 					if (!(std::find(openList.begin(), openList.end(), edge->m_target) != openList.end()))
 					{
 						edge->m_target->G = gScore;
@@ -158,7 +159,8 @@ public:
 
 					// Have not yet visited the node.
 					// So calculate the Score and update its parent.
-					// Also add it to the openList for processing.
+					// Also add it to the openList for processing.
+
 					if (!(std::find(openList.begin(), openList.end(), edge->m_target) != openList.end()))
 					{
 						edge->m_target->G = gScore;
