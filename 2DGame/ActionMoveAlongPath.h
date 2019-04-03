@@ -11,6 +11,12 @@ public:
 
 	eBehaviourResult execute(GameObject* gameObject, float deltaTime) override
 	{
+		if (gameObject->target != nullptr) {
+			if (gameObject->target->Occupied == gameObject->Occupied)
+			{
+				return SUCCESS;
+			}
+		}
 		if (gameObject->smoothPath.empty())
 			return SUCCESS;
 
