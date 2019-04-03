@@ -75,9 +75,6 @@
     <ClCompile Include="ActionIdle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="FindMyNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -168,6 +165,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ActionMoveAlongPath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionPathToTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckInRangeOfFood.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckIfInRangeOfTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEatFood.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

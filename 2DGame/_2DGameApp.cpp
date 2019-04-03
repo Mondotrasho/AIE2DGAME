@@ -2,6 +2,7 @@
 #include "Font.h"
 #include "Input.h"
 #include "imgui.h"
+#include "FishFood.h"
 
 _2DGameApp::_2DGameApp() {
 
@@ -37,7 +38,7 @@ void _2DGameApp::update(float deltaTime) {
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 	
-	UpdateSchools(deltaTime,input);
+	UpdategameObjects(deltaTime,input);
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -53,8 +54,8 @@ void _2DGameApp::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	DrawNavmesh(true,false, false);
-	DrawSchools(true, true, true);
+	DrawNavmesh(true, true, true);
+	DrawgameObjects(true, true, true);
 
 	// done drawing sprites
 	m_2dRenderer->end();
@@ -68,12 +69,12 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 
 
 	//mouse pos object
-	Mouse = new GameObject(Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100),0);
+	//Mouse = new GameObject(Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100),0,&Pool);
 
 	for (int i = 0; i < num; ++i)
 	{
 		//make schools
-		auto freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2),0);
+		auto freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2),0, &Pool,nullptr,Blue);
 		if(randspeed)
 		{
 			freshfish->set_speed(10 + (rand() % 600));
@@ -84,63 +85,107 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		}
 
 		//follow specifics
-		auto follow = new ActionMoveAlongPath();
+		ActionMoveAlongPath* follow = new ActionMoveAlongPath();
 
 		//randpath specifics
-		auto pathfinder = new ActionIdle(m_navMesh);
+		ActionIdle* pathfinder = new ActionIdle(m_navMesh);
 
 		//mouse path specifics
-		auto mousepath = new MouseGenPathBehaviour(m_navMesh, freshfish->smoothPath);
-		mousepath->settarget(Mouse);
-		freshfish->addbehaviour(mousepath);
+		//MouseGenPathBehaviour* mousepath = new MouseGenPathBehaviour(m_navMesh, freshfish->smoothPath);
+		//mousepath->settarget(Mouse);
+		//freshfish->addbehaviour(mousepath);
 
-		auto nodefind = new FindMyNode(m_navMesh);
+		FindMyNode* nodefind = new FindMyNode(m_navMesh);
+
+		//the selector/OR for everything
+		Selector* orer = new Selector();
+
+		CheckInRangeOfFood* foodrange = new CheckInRangeOfFood(m_navMesh,400);
+		ActionPathToTarget* findfoodpath = new ActionPathToTarget(m_navMesh);
+		ActionMoveAlongPath* followfoodpath = new ActionMoveAlongPath();
+		CheckIfInRangeOfTarget* amiinfoodrange = new CheckIfInRangeOfTarget(10);
+		ActionEatFood* eatfood = new ActionEatFood(101);
+
+		//the sequence/AND for food eating
+		//
+		auto fooddo = new Sequence();
+		fooddo->children.push_back(nodefind);
+		fooddo->children.push_back(foodrange);
+		fooddo->children.push_back(findfoodpath);
+		fooddo->children.push_back(followfoodpath);
+		fooddo->children.push_back(amiinfoodrange);
+		fooddo->children.push_back(eatfood);
 
 		//the sequence/AND for idle
 		//fist is finds where it is then it trys to move along its path and finaly it makes a new path
-		auto doer = new Sequence();
-		doer->children.push_back(nodefind);
-		doer->children.push_back(follow);
-		doer->children.push_back(pathfinder);
+		auto idledo = new Sequence();
+		idledo->children.push_back(nodefind);
+		idledo->children.push_back(follow);
+		idledo->children.push_back(pathfinder);
+
+		//orer->children.push_back(nodefind);
+		orer->children.push_back(fooddo);
+		orer->children.push_back(idledo);
 
 		//add the idle sequence directly
-		freshfish->addbehaviour(doer);
+		freshfish->addbehaviour(orer);
+
+		//pool add
+		//freshfish->ObjectPool = Pool;
 
 		//push to storage
-		Schools.push_back(freshfish);
+		Pool.push_back(freshfish);
 		pathgenerators.push_back(pathfinder);
 		followers.push_back(follow);
-		mousepathgenerators.push_back(mousepath);
+		//mousepathgenerators.push_back(mousepath);
 		nodefinders.push_back(nodefind);
-		dotillstop.emplace_back(doer);
+		IDLEAND.emplace_back(idledo);
+		foodrangers.emplace_back(foodrange);
+		findfoodpathers.emplace_back(findfoodpath);
+		followfoodpathers.emplace_back(followfoodpath);
+		amiinfoodrangers.emplace_back(amiinfoodrange);
+		eatfooders.emplace_back(eatfood);
+		FOODAND.emplace_back(fooddo);
+		OR.emplace_back(orer);
+
+
 	}
 }
-void _2DGameApp::UpdateSchools(float delta_time, aie::Input* input)
+bool notdone = true;
+void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 {
-	for (auto school : Schools)
+	for (auto object : Pool)
 	{
-		school->Update(delta_time);
+		object->Update(delta_time);
 	}
 
-	if (input->isMouseButtonDown(0))
-		Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
+	if (input->isMouseButtonDown(0) && notdone)
+	{
+		//Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
+		auto newnodefinder = new FindMyNode(m_navMesh);
+		auto newfood = new FishFood(Vector2(input->getMouseX(), input->getMouseY()), 0, &Pool,nullptr, Blue);
+		newfood->addtopool();
+		newfood->addbehaviour(newnodefinder);
+		nodefinders.emplace_back(newnodefinder);
+		//notdone = false;
+	}
 
 }
-void _2DGameApp::DrawSchools(bool drawschools, bool drawpath, bool drawsmoothpath)
+void _2DGameApp::DrawgameObjects(bool drawobjects, bool drawpath, bool drawsmoothpath)
 {
 
-	Mouse->Draw(m_2dRenderer);
+	//Mouse->Draw(m_2dRenderer);
 
-	for (auto school : Schools)
+	for (auto object : Pool)
 	{
 		//smooth draw specifics
 		if (drawsmoothpath)
 		{
 			m_2dRenderer->setRenderColour(0, 1, 0);
-			if (!school->smoothPath.empty())
+			if (!object->smoothPath.empty())
 			{
-				Vector2 last = school->smoothPath.front();
-				for (auto place : school->smoothPath)
+				Vector2 last = object->smoothPath.front();
+				for (auto place : object->smoothPath)
 				{
 					m_2dRenderer->drawCircle(place.x, place.y, 2);
 					m_2dRenderer->drawLine(place.x, place.y, last.x, last.y, 1);
@@ -152,11 +197,11 @@ void _2DGameApp::DrawSchools(bool drawschools, bool drawpath, bool drawsmoothpat
 		//path draw specifics
 		if (drawpath) {
 			m_2dRenderer->setRenderColour(1, 0, 0);
-			if (!school->path.empty())
+			if (!object->path.empty())
 			{
 
-				Vector2 last = school->path.front()->Pos;
-				for (auto place : school->path)
+				Vector2 last = object->path.front()->Pos;
+				for (auto place : object->path)
 				{
 
 					m_2dRenderer->drawCircle(place->Pos.x, place->Pos.y, 2);
@@ -167,10 +212,10 @@ void _2DGameApp::DrawSchools(bool drawschools, bool drawpath, bool drawsmoothpat
 		}
 
 		//schools draw specifics
-		if (drawschools)
+		if (drawobjects)
 		{
 			m_2dRenderer->setRenderColour(0, 0, 1);
-			school->Draw(m_2dRenderer);
+			object->Draw(m_2dRenderer);
 		}
 	}
 }

@@ -185,16 +185,19 @@
     <ClCompile Include="poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Selector.cpp" />
     <ClCompile Include="Sequence.cpp" />
-    <ClCompile Include="Source.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionEatFood.h" />
     <ClInclude Include="ActionIdle.h" />
     <ClInclude Include="ActionMoveAlongPath.h" />
+    <ClInclude Include="ActionPathToTarget.h" />
     <ClInclude Include="Astar.h" />
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="BoolDecision.h" />
+    <ClInclude Include="CheckIfInRangeOfTarget.h" />
+    <ClInclude Include="CheckInRangeOfFood.h" />
     <ClInclude Include="Composite.h" />
     <ClInclude Include="Decision.h" />
     <ClInclude Include="Djikstra.h" />

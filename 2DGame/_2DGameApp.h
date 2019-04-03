@@ -13,6 +13,11 @@
 #include "ActionMoveAlongPath.h"
 #include "FindMyNode.h"
 #include "Sequence.h"
+#include "ActionPathToTarget.h"
+#include "CheckInRangeOfFood.h"
+#include "CheckIfInRangeOfTarget.h"
+#include "ActionEatFood.h"
+#include "Selector.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -20,12 +25,12 @@ public:
 	_2DGameApp();
 	virtual ~_2DGameApp();
 	void InitializeSchools(int num, bool randspeed);
-	void DrawSchools(bool drawschools, bool drawpath, bool drawsmoothpath);
+	void UpdategameObjects(float delta_time, aie::Input* input);
+	void DrawgameObjects(bool drawobjects, bool drawpath, bool drawsmoothpath);
 
 	void InitializeNavMesh();
 	virtual bool startup();
 	virtual void shutdown();
-	void UpdateSchools(float delta_time, aie::Input* input);
 
 	virtual void update(float deltaTime);
 	void DrawNavmesh(bool b, bool b1, bool b2);
@@ -37,14 +42,23 @@ protected:
 	aie::Font*			m_font;
 
 	NavMesh*			m_navMesh;
-	std::vector<FishShool*> Schools;
+	std::vector<GameObject*> Pool;
 	GameObject* Mouse;
 
+	std::vector<Selector*> OR; //OR
+
+	std::vector<Sequence*> FOODAND; //AND
+	std::vector<CheckInRangeOfFood*> foodrangers; //first												
+	std::vector<ActionPathToTarget*> findfoodpathers; //second
+	std::vector<ActionMoveAlongPath*> followfoodpathers; //third
+	std::vector<CheckIfInRangeOfTarget*> amiinfoodrangers; //fourth
+	std::vector<ActionEatFood*> eatfooders; //fifth
+
 	//idle and sequence
-	std::vector<Sequence*> dotillstop; //AND
+	std::vector<Sequence*> IDLEAND; //AND
 	std::vector<FindMyNode*> nodefinders; //first
 	std::vector<ActionIdle*> pathgenerators; //second
 	std::vector<ActionMoveAlongPath*> followers; //third
-
+	
 	std::vector<MouseGenPathBehaviour*> mousepathgenerators;
 };
