@@ -40,10 +40,11 @@ protected:
 	std::vector<FishShool*> Schools;
 	GameObject* Mouse;
 
-	std::vector<ActionIdle*> pathgenerators;
-	std::vector<ActionMoveAlongPath*> followers;
-	std::vector<MouseGenPathBehaviour*> mousepathgenerators;
-	std::vector<FindMyNode*> nodefinders;
+	//idle and sequence
+	std::vector<Sequence*> dotillstop; //AND
+	std::vector<FindMyNode*> nodefinders; //first
+	std::vector<ActionIdle*> pathgenerators; //second
+	std::vector<ActionMoveAlongPath*> followers; //third
 
-	std::vector<Sequence*> dotillstop;
+	std::vector<MouseGenPathBehaviour*> mousepathgenerators;
 };
