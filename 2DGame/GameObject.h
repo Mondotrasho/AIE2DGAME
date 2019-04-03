@@ -3,6 +3,7 @@
 #include <list>
 #include "Node.h"
 #include "Behaviour.h"
+#include <algorithm>
 
 enum eTeam {
 	Blue,
@@ -15,7 +16,10 @@ class GameObject
 {
 	public:	
 	GameObject();
-	GameObject(Vector2 Pos, float Speed,Node* mynode = nullptr, eTeam myteam = None) : position(Pos), speed(Speed) {}
+	GameObject(Vector2 Pos, float Speed, std::vector<GameObject*>* newpool,Node* mynode = nullptr, eTeam myteam = None) : position(Pos), speed(Speed), ObjectPool(newpool)
+	{
+	}
+
 	~GameObject();
 
 	Vector2 position = {};
@@ -23,7 +27,16 @@ class GameObject
 	float size=6;
 	eTeam team;
 	Node* Occupied{};
-
+	GameObject* target = nullptr;
+	std::vector<GameObject*>* ObjectPool;
+	void set_target(GameObject* newtarget)
+	{
+		target = newtarget;
+	}
+	void set_pool(std::vector<GameObject*>* newpool)
+	{
+		ObjectPool = newpool;
+	}
 	void set_position(Vector2 newpos)
 	{
 		position = newpos;
@@ -73,9 +86,33 @@ class GameObject
 	std::list<Node*> path;
 
 	std::vector<Behaviour*> behaviours;
+
+	//checking type
+	virtual bool isfood() { return false; }
+	virtual bool isfish() { return false; }
+	virtual bool isschool() { return false; }
+
+	//moves off screen clears values and removes itself from the object pool
+	void remove()
+	{
+		position = {9999,9999};
+		speed = 0;
+		size = 0;
+		team = None;
+		Occupied= nullptr;
+		target = nullptr;
+
+		//todo remove things
+		//ObjectPool->erase(std::remove(ObjectPool->begin(), ObjectPool->end(), this), ObjectPool->end());
+	}
+
+	void addtopool()
+	{
+		ObjectPool->emplace_back(this);
+	}
 };
 
-inline GameObject::GameObject()
+inline GameObject::GameObject()//: ObjectPool(new std::vector<GameObject*>() )
 {
 }
 
