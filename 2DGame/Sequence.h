@@ -13,14 +13,15 @@ public:
 	{
 		for (auto child : children)
 		{
-			if (child->execute(agent,deltaTime) == FAILURE)
+			auto result = child->execute(agent, deltaTime);
+			if (result == FAILURE)
 			{
 				return FAILURE;
 			}
-			if(child->execute(agent, deltaTime) == RUNNING)
-			{
-				return RUNNING;
-			}
+			//if (result == RUNNING)
+			//{
+			//	return RUNNING;
+			//}
 		}
 		return SUCCESS;
 	};

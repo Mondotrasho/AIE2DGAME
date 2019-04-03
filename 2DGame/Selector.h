@@ -12,11 +12,12 @@ public:
 	{
 		for (auto child : children)
 		{
-			if (child->execute(agent, deltaTime) == SUCCESS)
+			auto result = child->execute(agent, deltaTime);
+			if (result == SUCCESS)
 			{
 				return SUCCESS;
 			}
-			if (child->execute(agent, deltaTime) == RUNNING)
+			if (result == RUNNING)
 			{
 				return RUNNING;
 			}
