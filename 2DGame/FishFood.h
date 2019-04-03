@@ -15,7 +15,7 @@ public:
 	void Draw(aie::Renderer2D* render) override
 	{
 		render->setRenderColour(1, 0, 1);
-		render->drawCircle(position.x, position.y, size);
+		render->drawBox(position.x, position.y, size,size);
 	}
 };
 
