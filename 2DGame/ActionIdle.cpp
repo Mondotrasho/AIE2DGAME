@@ -14,6 +14,7 @@ ActionIdle::~ActionIdle()
 
 eBehaviourResult ActionIdle::execute(GameObject* gameObject, float deltaTime)
 {
+	if (gameObject->smoothPath.empty()){
 	// random end node
 	bool found = false;
 	do {
@@ -47,4 +48,5 @@ eBehaviourResult ActionIdle::execute(GameObject* gameObject, float deltaTime)
 	}
 
 	return SUCCESS;
+	}return FAILURE;
 }
