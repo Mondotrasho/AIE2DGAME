@@ -14,5 +14,11 @@ public:
 	virtual bool isfood() { return false; }
 	virtual bool isfish() { return true; }
 	virtual bool isschool() { return false; }
+
+	void Draw(aie::Renderer2D* render) override
+	{
+		render->setRenderColour(0, 1, 1);
+		render->drawCircle(position.x, position.y, size);
+	}
 };
 
