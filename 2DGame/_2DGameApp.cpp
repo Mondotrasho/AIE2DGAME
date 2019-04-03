@@ -19,7 +19,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 	
 	InitializeNavMesh();
-	InitializeSchools(1, true);	
+	InitializeSchools(14, false);	
 
 	return true;
 }
@@ -54,8 +54,8 @@ void _2DGameApp::draw() {
 	// begin drawing sprites
 	m_2dRenderer->begin();
 
-	DrawNavmesh(true, true, true);
-	DrawgameObjects(true, true, true);
+	DrawNavmesh(true, false, false);
+	DrawgameObjects(true, false, false);
 
 	// done drawing sprites
 	m_2dRenderer->end();
@@ -81,7 +81,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		}
 		else
 		{
-			freshfish->set_speed(600);
+			freshfish->set_speed(300);
 		}
 
 		//follow specifics
@@ -159,11 +159,11 @@ void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 		object->Update(delta_time);
 	}
 
-	if (input->isMouseButtonDown(0) && notdone)
+	if (rand() % 200 == 1 )//input->isMouseButtonDown(0) && notdone)
 	{
 		//Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
 		auto newnodefinder = new FindMyNode(m_navMesh);
-		auto newfood = new FishFood(Vector2(input->getMouseX(), input->getMouseY()), 0, &Pool,nullptr, Blue);
+		auto newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool,nullptr, Blue);
 		newfood->addtopool();
 		newfood->addbehaviour(newnodefinder);
 		nodefinders.emplace_back(newnodefinder);

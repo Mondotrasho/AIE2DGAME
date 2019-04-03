@@ -76,7 +76,7 @@ class GameObject
 	}
 
 
-	void Draw(aie::Renderer2D* render)
+	virtual void Draw(aie::Renderer2D* render)
 	{
 		render->drawCircle(position.x, position.y, size);
 	}
