@@ -29,6 +29,7 @@ class GameObject
 	eTeam team;
 	Node* Occupied{};
 	GameObject* target = nullptr;
+	GameObject* hunter = nullptr;
 	std::vector<GameObject*>* ObjectPool;
 	Sprite sprite;
 	bool deleteme = false;

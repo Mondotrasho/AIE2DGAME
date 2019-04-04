@@ -4,6 +4,7 @@
 #include "imgui.h"
 #include "FishFood.h"
 #include "algorithm"
+#include "FishShool.h"
 
 _2DGameApp::_2DGameApp() {
 
@@ -20,7 +21,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 	
 	InitializeNavMesh();
-	InitializeSchools(10, false);	
+	InitializeSchools(50, false);	
 
 	return true;
 }
@@ -94,7 +95,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		}
 		else
 		{
-			freshfish->set_speed(300);
+			freshfish->set_speed(100);
 		}
 		
 		freshfish->size = 1;
@@ -110,6 +111,11 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		//the selector/OR for everything
 		Selector* orer = new Selector();
 
+		
+		CheckBeingHunted* huntedcheck = new CheckBeingHunted(300); //first												
+		ActionPathAwayFromTarget* pathaway = new ActionPathAwayFromTarget(m_navMesh); //second
+		ActionMoveAlongPath* runningpath = new ActionMoveAlongPath(); //third
+
 		CheckInRangeOfEdibleFish* fishrange = new CheckInRangeOfEdibleFish(m_navMesh, 400);
 		ActionPathToMovingTarget* findfishpath = new ActionPathToMovingTarget(m_navMesh);
 		ActionMoveAlongPath* followfishpath = new ActionMoveAlongPath();
@@ -123,6 +129,12 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		ActionEatFood* eatfood = new ActionEatFood(101);
 
 		
+		//huntescape
+		auto hunteddo = new Sequence();
+		hunteddo->children.emplace_back(nodefind);
+		hunteddo->children.emplace_back(huntedcheck);
+		hunteddo->children.emplace_back(pathaway);
+		hunteddo->children.emplace_back(runningpath);
 
 		//the sequence/AND for fish eating
 		//
@@ -153,6 +165,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		idledo->children.push_back(pathfinder);
 
 		//orer->children.push_back(nodefind);
+		orer->children.push_back(hunteddo);
 		orer->children.push_back(fishdo);
 		orer->children.push_back(fooddo);
 		orer->children.push_back(idledo);

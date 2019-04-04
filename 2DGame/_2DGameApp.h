@@ -4,11 +4,7 @@
 #include "Renderer2D.h"
 #include "NavMesh.h"
 #include "GameObject.h"
-#include "NewPathBehaviour.h"
-#include "FollowBehaviour.h"
-#include "MouseGenPathFollowBehaviour.h"
 #include "Input.h"
-#include "FishShool.h"
 #include "ActionIdle.h"
 #include "ActionMoveAlongPath.h"
 #include "FindMyNode.h"
@@ -21,6 +17,8 @@
 #include "ActionEatFish.h"
 #include "CheckInRangeOfEdibleFish.h"
 #include "ActionPathToMovingTarget.h"
+#include "CheckBeingHunted.h"
+#include "ActionPathAwayFromTarget.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -50,6 +48,12 @@ protected:
 
 	//brain "stem"
 	std::vector<Selector*> OR; //OR
+
+	//FleeHunters sequence
+	std::vector<Sequence*> FLEEAND; //AND
+	std::vector<CheckBeingHunted*> huntedcheckers; //first												
+	std::vector<ActionPathAwayFromTarget*> pathawayers; //second
+	std::vector<ActionMoveAlongPath*> runningpathers; //third
 
 	//fish as food sequence
 	std::vector<Sequence*> FISHAND; //AND
