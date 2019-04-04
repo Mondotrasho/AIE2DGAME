@@ -19,8 +19,11 @@ public:
 	eBehaviourResult execute(GameObject* gameObject, float deltaTime) override
 	{
 		gameObject->size++;
-		gameObject->target->remove();
-		gameObject->target = nullptr;
+
+		if (gameObject->target != nullptr) {
+			gameObject->target->remove();		
+			gameObject->target = nullptr;
+		}
 		return SUCCESS;
 	}
 

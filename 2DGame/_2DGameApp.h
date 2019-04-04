@@ -46,7 +46,7 @@ protected:
 
 	NavMesh*			m_navMesh;
 	std::vector<GameObject*> Pool;
-	GameObject* Mouse;
+	float timer = 1;
 
 	//brain "stem"
 	std::vector<Selector*> OR; //OR
@@ -72,6 +72,4 @@ protected:
 	std::vector<FindMyNode*> nodefinders; //first
 	std::vector<ActionIdle*> pathgenerators; //second
 	std::vector<ActionMoveAlongPath*> followers; //third
-	
-	std::vector<MouseGenPathBehaviour*> mousepathgenerators;
 };

@@ -1,6 +1,7 @@
 #pragma once
 #include "Behaviour.h"
 #include "GameObject.h"
+#include "Utilities.h"
 
 class ActionMoveAlongPath :
 	public Behaviour
@@ -39,6 +40,18 @@ public:
 			// move to target (can overshoot!)
 			gameObject->position.x += xDiff * gameObject->speed * deltaTime;
 			gameObject->position.y += yDiff * gameObject->speed * deltaTime;
+
+			auto dir = gameObject->position - first;
+			auto angle = Vector2(0, 1).angle_between(dir);
+
+			if (gameObject->position.x < first.x)
+			{
+				gameObject->angle = angle;
+			}
+			if (gameObject->position.x > first.x)
+			{
+				gameObject->angle = -angle;
+			}
 		}
 		else {
 			// at the node, remove it and move to the next

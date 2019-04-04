@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "imgui.h"
 #include "FishFood.h"
+#include "algorithm"
 
 _2DGameApp::_2DGameApp() {
 
@@ -19,7 +20,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 	
 	InitializeNavMesh();
-	InitializeSchools(6, true);	
+	InitializeSchools(10, false);	
 
 	return true;
 }
@@ -55,7 +56,7 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 
 	DrawNavmesh(true, false, false);
-	DrawgameObjects(true, false, true);
+	DrawgameObjects(true, false, false);
 
 	// done drawing sprites
 	m_2dRenderer->end();
@@ -71,7 +72,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 	//mouse pos object
 	//Mouse = new GameObject(Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100),0,&Pool);
 
-	for (int i = 0; i < 30; ++i)
+	for (int i = 0; i < num; ++i)
 	{
 
 		FishShool* freshfish;
@@ -97,17 +98,11 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		}
 		
 
-
 		//follow specifics
 		ActionMoveAlongPath* follow = new ActionMoveAlongPath();
 
 		//randpath specifics
 		ActionIdle* pathfinder = new ActionIdle(m_navMesh);
-
-		//mouse path specifics
-		//MouseGenPathBehaviour* mousepath = new MouseGenPathBehaviour(m_navMesh, freshfish->smoothPath);
-		//mousepath->settarget(Mouse);
-		//freshfish->addbehaviour(mousepath);
 
 		FindMyNode* nodefind = new FindMyNode(m_navMesh);
 
@@ -168,56 +163,63 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		//freshfish->ObjectPool = Pool;
 
 		//push to storage
-		Pool.push_back(freshfish);
-		pathgenerators.push_back(pathfinder);
-		followers.push_back(follow);
-		//mousepathgenerators.push_back(mousepath);
-		nodefinders.push_back(nodefind);
-		IDLEAND.emplace_back(idledo);
-		foodrangers.emplace_back(foodrange);
-		findfoodpathers.emplace_back(findfoodpath);
-		followfoodpathers.emplace_back(followfoodpath);
-		amiinfoodrangers.emplace_back(amiinfoodrange);
-		eatfooders.emplace_back(eatfood);
-		FOODAND.emplace_back(fooddo);
-		ediblefishrangers.emplace_back(fishrange);
-		findfishpathers.emplace_back(findfishpath);
-		followfishpathers.emplace_back(followfishpath);
-		amiinfishrangers.emplace_back(amiinfishrange);
-		eatfishers.emplace_back(eatfish);
-		FISHAND.emplace_back(fishdo);
-		OR.emplace_back(orer);
-
-
-
+		Pool.push_back(freshfish);	
 	}
 }
 bool notdone = true;
 void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 {
+	if (timer > 0) { timer -= delta_time; }
+
+	//clean pool
+	for (int i = 0; i < Pool.size();)
+	{
+		if (Pool[i]->deleteme) {
+			std::vector<GameObject*>::iterator itposition = std::find(Pool.begin(), Pool.end(), Pool[i]);
+			Pool.erase(itposition);
+			break;
+		}
+		i++;
+	}
+	//update pool
 	for (auto object : Pool)
 	{
 		object->Update(delta_time);
 	}
 
-	if (rand() % 200 == 1 )//input->isMouseButtonDown(0) && notdone)
+	if ((rand() % 200 == 1))
 	{
-		//Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
 		auto newnodefinder = new FindMyNode(m_navMesh);
 		FishFood* newfood;
 		switch (rand() % 2) {
-		case 0:newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, Blue);
+		case 1:newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, Blue);
 			break;
-		case 1: newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, Red);
+		case 0: newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, Red);
 			break;
 		default: newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, None);
 		}
 		newfood->addtopool();
 		newfood->addbehaviour(newnodefinder);
 		nodefinders.emplace_back(newnodefinder);
-		//notdone = false;
 	}
-
+	if (input->isMouseButtonDown(0) && timer < 0.1f)
+	{
+		auto newnodefinder = new FindMyNode(m_navMesh);
+		FishFood* newfood = new FishFood(Vector2(input->getMouseX(), input->getMouseY()), 0, &Pool, nullptr, Blue);
+		newfood->addtopool();
+		newfood->addbehaviour(newnodefinder);
+		nodefinders.emplace_back(newnodefinder);
+		timer = 0.3f;
+	}
+	if (input->isMouseButtonDown(1) && timer < 0.1f)
+	{
+		auto newnodefinder = new FindMyNode(m_navMesh);
+		FishFood* newfood = new FishFood(Vector2(input->getMouseX(), input->getMouseY()), 0, &Pool, nullptr, Red);
+		newfood->addtopool();
+		newfood->addbehaviour(newnodefinder);
+		nodefinders.emplace_back(newnodefinder);
+		timer = 0.3f;
+	}
 }
 void _2DGameApp::DrawgameObjects(bool drawobjects, bool drawpath, bool drawsmoothpath)
 {
@@ -309,7 +311,7 @@ void _2DGameApp::DrawNavmesh(bool drawobstacles, bool drawpoly, bool drawnode)
 
 	// draw obstacles
 	if (drawobstacles) {
-		m_2dRenderer->setRenderColour(1, 0, 0);
+		m_2dRenderer->setRenderColour(0.4, 00.4, 0);
 		for (auto& o : m_navMesh->getObstacles()) {
 			m_2dRenderer->drawBox(o.x + o.w * 0.5f, o.y + o.h * 0.5f, o.w, o.h);
 		}

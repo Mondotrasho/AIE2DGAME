@@ -185,6 +185,7 @@
     <ClCompile Include="poly2tri\sweep\sweep_context.cc" />
     <ClCompile Include="Selector.cpp" />
     <ClCompile Include="Sequence.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -223,6 +224,7 @@
     <ClInclude Include="poly2tri\sweep\sweep_context.h" />
     <ClInclude Include="Selector.h" />
     <ClInclude Include="Sequence.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="_2DGameApp.h" />
   </ItemGroup>
   <ItemGroup>

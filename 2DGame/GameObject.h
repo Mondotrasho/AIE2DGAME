@@ -4,6 +4,7 @@
 #include "Node.h"
 #include "Behaviour.h"
 #include <algorithm>
+#include "Sprite.h"
 
 enum eTeam {
 	Blue,
@@ -29,6 +30,10 @@ class GameObject
 	Node* Occupied{};
 	GameObject* target = nullptr;
 	std::vector<GameObject*>* ObjectPool;
+	Sprite sprite;
+	bool deleteme = false;
+	float angle = 0;
+
 	void set_target(GameObject* newtarget)
 	{
 		target = newtarget;
@@ -95,15 +100,14 @@ class GameObject
 	//moves off screen clears values and removes itself from the object pool
 	void remove()
 	{
+		deleteme = true;
 		position = {9999,9999};
 		speed = 0;
-		size = 0;
+		size = 1;
 		team = None;
 		Occupied= nullptr;
 		target = nullptr;
-
-		//todo remove things
-		//ObjectPool->erase(std::remove(ObjectPool->begin(), ObjectPool->end(), this), ObjectPool->end());
+		sprite.setScale(1, 1);
 	}
 
 	void addtopool()
