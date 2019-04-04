@@ -25,7 +25,7 @@ class GameObject
 
 	Vector2 position = {};
 	float speed = 50;
-	float size=6;
+	float size= 5;
 	eTeam team;
 	Node* Occupied{};
 	GameObject* target = nullptr;

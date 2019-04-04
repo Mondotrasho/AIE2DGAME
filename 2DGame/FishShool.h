@@ -43,15 +43,16 @@ public:
 		default: ; }
 
 		//scale by size
-		for (int i = 0; i < size; ++i)
-		{
-			sprite.scale(1.05, 1.05);
-		}
+		//sprite.scale(-.5f, -.5f);
+		//for (int i = 0; i < size; ++i)
+		//{
+		//	sprite.scale(1.05, 1.05);
+		//}
 		//rotate to face
 		//wiggle using sin width of wiggle * (sin wave * frequency) + the angle I am at
 		sprite.setRotate(0.2 * sin(glfwGetTime() * 300 ) + angle);
 		sprite.setPosition(position.x, position.y);
-		sprite.draw(render);
+		sprite.draw(render,size);
 
 		//render->drawCircle(position.x, position.y, size);
 	}

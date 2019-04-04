@@ -15,9 +15,17 @@ void Sprite::update(float deltaTime)
 {
 }
 
-void Sprite::draw(aie::Renderer2D* renderer)
+void Sprite::draw(aie::Renderer2D* renderer, float mod = 0)
 {
-	renderer->drawSpriteTransformed3x3(m_texture, (float*)&m_globalTransform);
+	if(mod == 0)
+	{ //vannila
+		renderer->drawSpriteTransformed3x3(m_texture, (float*)&m_globalTransform);
+	}
+	else
+	{ //with rectangular scale (for fish)
+		renderer->drawSpriteTransformed3x3(m_texture, (float*)&m_globalTransform, 2.5 * mod, 10 * mod);
+	}
+
 }
 
 void Sprite::updateTransform()

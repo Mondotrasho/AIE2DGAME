@@ -97,6 +97,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 			freshfish->set_speed(300);
 		}
 		
+		freshfish->size = 1;
 
 		//follow specifics
 		ActionMoveAlongPath* follow = new ActionMoveAlongPath();

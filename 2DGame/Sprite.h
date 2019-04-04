@@ -13,7 +13,7 @@ public:
 	Sprite();
 	~Sprite();
 	void update(float deltaTime);
-	void draw(aie::Renderer2D* renderer);
+	void draw(aie::Renderer2D* renderer, float mod);
 
 	const Matrix3& getLocalTransform() const
 	{
