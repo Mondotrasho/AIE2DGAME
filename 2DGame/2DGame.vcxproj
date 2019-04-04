@@ -189,14 +189,17 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionEatFish.h" />
     <ClInclude Include="ActionEatFood.h" />
     <ClInclude Include="ActionIdle.h" />
     <ClInclude Include="ActionMoveAlongPath.h" />
+    <ClInclude Include="ActionPathToMovingTarget.h" />
     <ClInclude Include="ActionPathToTarget.h" />
     <ClInclude Include="Astar.h" />
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="BoolDecision.h" />
     <ClInclude Include="CheckIfInRangeOfTarget.h" />
+    <ClInclude Include="CheckInRangeOfEdibleFish.h" />
     <ClInclude Include="CheckInRangeOfFood.h" />
     <ClInclude Include="Composite.h" />
     <ClInclude Include="Decision.h" />

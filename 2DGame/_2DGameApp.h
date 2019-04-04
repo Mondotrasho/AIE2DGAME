@@ -18,6 +18,9 @@
 #include "CheckIfInRangeOfTarget.h"
 #include "ActionEatFood.h"
 #include "Selector.h"
+#include "ActionEatFish.h"
+#include "CheckInRangeOfEdibleFish.h"
+#include "ActionPathToMovingTarget.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -45,8 +48,18 @@ protected:
 	std::vector<GameObject*> Pool;
 	GameObject* Mouse;
 
+	//brain "stem"
 	std::vector<Selector*> OR; //OR
 
+	//fish as food sequence
+	std::vector<Sequence*> FISHAND; //AND
+	std::vector<CheckInRangeOfEdibleFish*> ediblefishrangers; //first												
+	std::vector<ActionPathToMovingTarget*> findfishpathers; //second
+	std::vector<ActionMoveAlongPath*> followfishpathers; //third
+	std::vector<CheckIfInRangeOfTarget*> amiinfishrangers; //fourth
+	std::vector<ActionEatFish*> eatfishers; //fifth
+
+	//food as food sequence
 	std::vector<Sequence*> FOODAND; //AND
 	std::vector<CheckInRangeOfFood*> foodrangers; //first												
 	std::vector<ActionPathToTarget*> findfoodpathers; //second

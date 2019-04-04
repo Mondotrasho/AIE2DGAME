@@ -19,7 +19,7 @@ bool _2DGameApp::startup() {
 	m_font = new aie::Font("./font/consolas.ttf", 32);
 	
 	InitializeNavMesh();
-	InitializeSchools(14, false);	
+	InitializeSchools(6, true);	
 
 	return true;
 }
@@ -55,7 +55,7 @@ void _2DGameApp::draw() {
 	m_2dRenderer->begin();
 
 	DrawNavmesh(true, false, false);
-	DrawgameObjects(true, false, false);
+	DrawgameObjects(true, false, true);
 
 	// done drawing sprites
 	m_2dRenderer->end();
@@ -71,10 +71,22 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 	//mouse pos object
 	//Mouse = new GameObject(Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100),0,&Pool);
 
-	for (int i = 0; i < num; ++i)
+	for (int i = 0; i < 30; ++i)
 	{
+
+		FishShool* freshfish;
 		//make schools
-		auto freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2),0, &Pool,nullptr,Blue);
+		//rand teams
+		switch (rand() % 2)
+		{
+		case 0:freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2), 0, &Pool, nullptr, Blue);
+			break;
+		case 1: freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2), 0, &Pool, nullptr, Red);
+			break;
+		default:freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2), 0, &Pool, nullptr, None); ;
+		}
+
+		//auto freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2),0, &Pool,nullptr,Blue);
 		if(randspeed)
 		{
 			freshfish->set_speed(10 + (rand() % 600));
@@ -83,6 +95,8 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		{
 			freshfish->set_speed(300);
 		}
+		
+
 
 		//follow specifics
 		ActionMoveAlongPath* follow = new ActionMoveAlongPath();
@@ -100,11 +114,30 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		//the selector/OR for everything
 		Selector* orer = new Selector();
 
+		CheckInRangeOfEdibleFish* fishrange = new CheckInRangeOfEdibleFish(m_navMesh, 400);
+		ActionPathToMovingTarget* findfishpath = new ActionPathToMovingTarget(m_navMesh);
+		ActionMoveAlongPath* followfishpath = new ActionMoveAlongPath();
+		CheckIfInRangeOfTarget* amiinfishrange = new CheckIfInRangeOfTarget(10);
+		ActionEatFish* eatfish = new ActionEatFish(101);
+
 		CheckInRangeOfFood* foodrange = new CheckInRangeOfFood(m_navMesh,400);
 		ActionPathToTarget* findfoodpath = new ActionPathToTarget(m_navMesh);
 		ActionMoveAlongPath* followfoodpath = new ActionMoveAlongPath();
 		CheckIfInRangeOfTarget* amiinfoodrange = new CheckIfInRangeOfTarget(10);
 		ActionEatFood* eatfood = new ActionEatFood(101);
+
+		
+
+		//the sequence/AND for fish eating
+		//
+		auto fishdo = new Sequence();
+		fishdo->children.push_back(nodefind);
+		fishdo->children.push_back(fishrange);
+		fishdo->children.push_back(findfishpath);
+		fishdo->children.push_back(followfishpath);
+		fishdo->children.push_back(amiinfishrange);
+		fishdo->children.push_back(eatfish);
+
 
 		//the sequence/AND for food eating
 		//
@@ -124,6 +157,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		idledo->children.push_back(pathfinder);
 
 		//orer->children.push_back(nodefind);
+		orer->children.push_back(fishdo);
 		orer->children.push_back(fooddo);
 		orer->children.push_back(idledo);
 
@@ -146,7 +180,14 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		amiinfoodrangers.emplace_back(amiinfoodrange);
 		eatfooders.emplace_back(eatfood);
 		FOODAND.emplace_back(fooddo);
+		ediblefishrangers.emplace_back(fishrange);
+		findfishpathers.emplace_back(findfishpath);
+		followfishpathers.emplace_back(followfishpath);
+		amiinfishrangers.emplace_back(amiinfishrange);
+		eatfishers.emplace_back(eatfish);
+		FISHAND.emplace_back(fishdo);
 		OR.emplace_back(orer);
+
 
 
 	}
@@ -163,7 +204,14 @@ void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 	{
 		//Mouse->position = Vector2(input->getMouseX(), input->getMouseY());
 		auto newnodefinder = new FindMyNode(m_navMesh);
-		auto newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool,nullptr, Blue);
+		FishFood* newfood;
+		switch (rand() % 2) {
+		case 0:newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, Blue);
+			break;
+		case 1: newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, Red);
+			break;
+		default: newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, None);
+		}
 		newfood->addtopool();
 		newfood->addbehaviour(newnodefinder);
 		nodefinders.emplace_back(newnodefinder);

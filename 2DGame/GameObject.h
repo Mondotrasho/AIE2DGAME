@@ -16,7 +16,7 @@ class GameObject
 {
 	public:	
 	GameObject();
-	GameObject(Vector2 Pos, float Speed, std::vector<GameObject*>* newpool,Node* mynode = nullptr, eTeam myteam = None) : position(Pos), speed(Speed), ObjectPool(newpool)
+	GameObject(Vector2 Pos, float Speed, std::vector<GameObject*>* newpool,Node* mynode = nullptr, eTeam myteam = None) : position(Pos), speed(Speed), ObjectPool(newpool) ,  team(myteam)
 	{
 	}
 

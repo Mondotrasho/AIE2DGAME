@@ -179,5 +179,14 @@
     <ClInclude Include="ActionEatFood.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CheckInRangeOfEdibleFish.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEatFish.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionPathToMovingTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
