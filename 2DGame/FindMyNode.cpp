@@ -1,17 +1,17 @@
-#include "FindMyNode.h"
+#include "ActionFindMyNode.h"
 #include "GameObject.h"
 
 
-FindMyNode::FindMyNode()
+ActionFindMyNode::ActionFindMyNode()
 {
 }
 
 
-FindMyNode::~FindMyNode()
+ActionFindMyNode::~ActionFindMyNode()
 {
 }
 
-eBehaviourResult FindMyNode::execute(GameObject* gameObject, float deltaTime)
+eBehaviourResult ActionFindMyNode::execute(GameObject* gameObject, float deltaTime)
 {
 	gameObject->Occupied = m_navMesh->findClosest(gameObject->position.x, gameObject->position.y);
 	return SUCCESS;

@@ -166,25 +166,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ActionIdle.cpp" />
-    <ClCompile Include="ActionMoveAlongPath.cpp" />
-    <ClCompile Include="BoolDecision.cpp" />
-    <ClCompile Include="Composite.cpp" />
-    <ClCompile Include="Decision.cpp" />
-    <ClCompile Include="FindMyNode.cpp" />
     <ClCompile Include="FishFood.cpp" />
     <ClCompile Include="FishShool.cpp" />
-    <ClCompile Include="FollowBehaviour.cpp" />
-    <ClCompile Include="MouseGenPathFollowBehaviour.cpp" />
     <ClCompile Include="NavMesh.cpp" />
-    <ClCompile Include="NewPathBehaviour.cpp" />
     <ClCompile Include="poly2tri\common\shapes.cc" />
     <ClCompile Include="poly2tri\sweep\advancing_front.cc" />
     <ClCompile Include="poly2tri\sweep\cdt.cc" />
     <ClCompile Include="poly2tri\sweep\sweep.cc" />
     <ClCompile Include="poly2tri\sweep\sweep_context.cc" />
-    <ClCompile Include="Selector.cpp" />
-    <ClCompile Include="Sequence.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="_2DGameApp.cpp" />
     <ClCompile Include="main.cpp" />
@@ -209,14 +198,11 @@
     <ClInclude Include="Decision.h" />
     <ClInclude Include="Djikstra.h" />
     <ClInclude Include="Edge.h" />
-    <ClInclude Include="FindMyNode.h" />
+    <ClInclude Include="ActionFindMyNode.h" />
     <ClInclude Include="FishFood.h" />
     <ClInclude Include="FishShool.h" />
-    <ClInclude Include="FollowBehaviour.h" />
     <ClInclude Include="GameObject.h" />
-    <ClInclude Include="MouseGenPathFollowBehaviour.h" />
     <ClInclude Include="NavMesh.h" />
-    <ClInclude Include="NewPathBehaviour.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="poly2tri\common\shapes.h" />
     <ClInclude Include="poly2tri\common\utils.h" />

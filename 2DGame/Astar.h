@@ -12,14 +12,6 @@ class AStar
 public:
 	bool AStarSearch(Node* startNode, Node* endNode, std::list<Node*>& path, float Heuristic)
 	{
-		//Let openList be a List of Nodes
-		//	Let closedList be a List of Nodes
-		//	Set startNode.parent to null
-		//	Add startNode to openList
-		//	While openList is not empty
-		//	Sort openList by Node.gScore
-
-
 		auto cmp = [](Node* left, Node* right) { return left->F < right->F; };
 		std::list<Node*> openList;
 		std::list<Node*> closedList;
@@ -37,13 +29,12 @@ public:
 		while (!openList.empty())
 		{
 			//sort by F
-			//std::sort(openList.begin(), openList.end(), cmp);
 			openList.sort(cmp);
 
 			Node* currentNode = openList.front();
 			if (currentNode == endNode) { break; }
 
-			openList.remove(currentNode); //with seed of 1 it causes heap curruption on hit 69
+			openList.remove(currentNode); 
 
 			std::list<Node*>::iterator it = closedList.begin();
 			closedList.insert(it, currentNode);

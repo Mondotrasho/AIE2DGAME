@@ -106,7 +106,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		//randpath specifics
 		ActionIdle* pathfinder = new ActionIdle(m_navMesh);
 
-		FindMyNode* nodefind = new FindMyNode(m_navMesh);
+		ActionFindMyNode* nodefind = new ActionFindMyNode(m_navMesh);
 
 		//the selector/OR for everything
 		Selector* orer = new Selector();
@@ -207,7 +207,7 @@ void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 
 	if ((rand() % 200 == 1))
 	{
-		auto newnodefinder = new FindMyNode(m_navMesh);
+		auto newnodefinder = new ActionFindMyNode(m_navMesh);
 		FishFood* newfood;
 		switch (rand() % 2) {
 		case 1:newfood = new FishFood(Vector2(rand() % getWindowWidth(), rand() % getWindowHeight()), 0, &Pool, nullptr, Blue);
@@ -222,7 +222,7 @@ void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 	}
 	if (input->isMouseButtonDown(0) && timer < 0.1f)
 	{
-		auto newnodefinder = new FindMyNode(m_navMesh);
+		auto newnodefinder = new ActionFindMyNode(m_navMesh);
 		FishFood* newfood = new FishFood(Vector2(input->getMouseX(), input->getMouseY()), 0, &Pool, nullptr, Blue);
 		newfood->addtopool();
 		newfood->addbehaviour(newnodefinder);
@@ -231,7 +231,7 @@ void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 	}
 	if (input->isMouseButtonDown(1) && timer < 0.1f)
 	{
-		auto newnodefinder = new FindMyNode(m_navMesh);
+		auto newnodefinder = new ActionFindMyNode(m_navMesh);
 		FishFood* newfood = new FishFood(Vector2(input->getMouseX(), input->getMouseY()), 0, &Pool, nullptr, Red);
 		newfood->addtopool();
 		newfood->addbehaviour(newnodefinder);

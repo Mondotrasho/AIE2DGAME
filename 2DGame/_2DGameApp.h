@@ -7,7 +7,7 @@
 #include "Input.h"
 #include "ActionIdle.h"
 #include "ActionMoveAlongPath.h"
-#include "FindMyNode.h"
+#include "ActionFindMyNode.h"
 #include "Sequence.h"
 #include "ActionPathToTarget.h"
 #include "CheckInRangeOfFood.h"
@@ -76,7 +76,7 @@ protected:
 
 	//idle and sequence
 	std::vector<Sequence*> IDLEAND; //AND
-	std::vector<FindMyNode*> nodefinders; //first
+	std::vector<ActionFindMyNode*> nodefinders; //first
 	std::vector<ActionIdle*> pathgenerators; //second
 	std::vector<ActionMoveAlongPath*> followers; //third
 };

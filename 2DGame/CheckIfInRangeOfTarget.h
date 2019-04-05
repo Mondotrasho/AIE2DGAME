@@ -9,30 +9,20 @@
 class CheckIfInRangeOfTarget : public Behaviour
 {
 public:
-	CheckIfInRangeOfTarget()
-	{
-	}
-
+	CheckIfInRangeOfTarget(){}
 	CheckIfInRangeOfTarget(float newrange) : range(newrange) {}
+	~CheckIfInRangeOfTarget(){}
 
-	~CheckIfInRangeOfTarget()
-	{
-	}
-
-
-	eBehaviourResult execute(GameObject* gameObject, float deltaTime) override
-	{
-		//todo remove when I can move in nodes
-		//if(gameObject->target->Occupied == gameObject->Occupied)
-		//{
-		//	return SUCCESS;
-		//}
-		if (gameObject->target->position.distance(gameObject->position) < range)
-		{
-			return SUCCESS;
-		}
-		return FAILURE;
-	}
+	eBehaviourResult execute(GameObject* gameObject, float deltaTime) override;
 
 	float range;
 };
+
+inline eBehaviourResult CheckIfInRangeOfTarget::execute(GameObject* gameObject, float deltaTime)
+{
+	if (gameObject->target->position.distance(gameObject->position) < range)
+	{
+		return SUCCESS;
+	}
+	return FAILURE;
+}

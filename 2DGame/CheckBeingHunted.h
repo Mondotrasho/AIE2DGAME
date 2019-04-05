@@ -5,29 +5,25 @@
 class CheckBeingHunted : public Behaviour
 {
 public:
-	CheckBeingHunted()
-	{
-	}
-
+	CheckBeingHunted(){}
 	CheckBeingHunted(float newrange) : range(newrange) {}
-
-	~CheckBeingHunted()
-	{
-	}
+	~CheckBeingHunted(){}
 
 	//todo run from closest
-	eBehaviourResult execute(GameObject* gameObject, float deltaTime) override
-	{
-		for (auto obj : *gameObject->ObjectPool)
-		{
-			if(obj->target == gameObject && gameObject->position.distance(obj->position) < range)
-			{
-				gameObject->hunter = obj;
-				return SUCCESS;
-			}
-		}
-		return FAILURE;
-	}
+	eBehaviourResult execute(GameObject* gameObject, float deltaTime) override;
 
 	float range;
 };
+
+inline eBehaviourResult CheckBeingHunted::execute(GameObject* gameObject, float deltaTime)
+{
+	for (auto obj : *gameObject->ObjectPool)
+	{
+		if (obj->target == gameObject && gameObject->position.distance(obj->position) < range)
+		{
+			gameObject->hunter = obj;
+			return SUCCESS;
+		}
+	}
+	return FAILURE;
+}

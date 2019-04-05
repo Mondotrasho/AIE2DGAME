@@ -5,9 +5,8 @@
 class Composite : public Behaviour
 {
 public:
-	Composite();
-	~Composite();
-
+	Composite(){};
+	~Composite(){};
 
 	eBehaviourResult execute(GameObject* agent, float deltaTime) override = 0;
 

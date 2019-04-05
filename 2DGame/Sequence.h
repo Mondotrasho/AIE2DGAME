@@ -6,24 +6,22 @@ class Sequence :
 	public Composite
 {
 public:
-	Sequence();
-	~Sequence();
+	Sequence(){};
+	~Sequence(){};
 
-	eBehaviourResult execute(GameObject* agent, float deltaTime) override
-	{
-		for (auto child : children)
-		{
-			auto result = child->execute(agent, deltaTime);
-			if (result == FAILURE)
-			{
-				return FAILURE;
-			}
-			//if (result == RUNNING)
-			//{
-			//	return RUNNING;
-			//}
-		}
-		return SUCCESS;
-	};
+	eBehaviourResult execute(GameObject* agent, float deltaTime) override;;
 };
+
+inline eBehaviourResult Sequence::execute(GameObject* agent, float deltaTime)
+{
+	for (auto child : children)
+	{
+		auto result = child->execute(agent, deltaTime);
+		if (result == FAILURE)
+		{
+			return FAILURE;
+		}
+	}
+	return SUCCESS;
+}
 
