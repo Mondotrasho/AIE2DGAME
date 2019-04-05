@@ -8,9 +8,6 @@ public:
 	ActionEatFood()
 	{
 	}
-
-	ActionEatFood(float newrange) : range(newrange) {}
-
 	~ActionEatFood()
 	{
 	}
@@ -26,6 +23,5 @@ public:
 		}
 		return SUCCESS;
 	}
-
-	float range;
+;
 };

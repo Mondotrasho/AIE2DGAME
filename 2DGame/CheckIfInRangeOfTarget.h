@@ -23,10 +23,10 @@ public:
 	eBehaviourResult execute(GameObject* gameObject, float deltaTime) override
 	{
 		//todo remove when I can move in nodes
-		if(gameObject->target->Occupied == gameObject->Occupied)
-		{
-			return SUCCESS;
-		}
+		//if(gameObject->target->Occupied == gameObject->Occupied)
+		//{
+		//	return SUCCESS;
+		//}
 		if (gameObject->target->position.distance(gameObject->position) < range)
 		{
 			return SUCCESS;

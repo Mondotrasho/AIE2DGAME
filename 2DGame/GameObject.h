@@ -98,7 +98,7 @@ class GameObject
 	virtual bool isfish() { return false; }
 	virtual bool isschool() { return false; }
 
-	//moves off screen clears values and removes itself from the object pool
+	//moves off screen clears values and tags itself for cleanup
 	void remove()
 	{
 		deleteme = true;

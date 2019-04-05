@@ -9,8 +9,6 @@ public:
 	{
 	}
 
-	ActionEatFish(float newrange) : range(newrange) {}
-
 	~ActionEatFish()
 	{
 	}
@@ -23,6 +21,4 @@ public:
 		gameObject->target = nullptr;
 		return SUCCESS;
 	}
-
-	float range;
 };

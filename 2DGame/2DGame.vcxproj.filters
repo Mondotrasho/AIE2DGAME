@@ -200,5 +200,8 @@
     <ClInclude Include="ActionPathAwayFromTarget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ActionSwimToTarget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

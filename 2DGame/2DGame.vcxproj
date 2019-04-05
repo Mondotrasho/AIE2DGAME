@@ -197,6 +197,7 @@
     <ClInclude Include="ActionPathAwayFromTarget.h" />
     <ClInclude Include="ActionPathToMovingTarget.h" />
     <ClInclude Include="ActionPathToTarget.h" />
+    <ClInclude Include="ActionSwimToTarget.h" />
     <ClInclude Include="Astar.h" />
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="BoolDecision.h" />

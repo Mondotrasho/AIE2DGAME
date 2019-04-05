@@ -19,6 +19,7 @@
 #include "ActionPathToMovingTarget.h"
 #include "CheckBeingHunted.h"
 #include "ActionPathAwayFromTarget.h"
+#include "ActionSwimToTarget.h"
 
 class _2DGameApp : public aie::Application {
 public:
@@ -61,6 +62,7 @@ protected:
 	std::vector<ActionPathToMovingTarget*> findfishpathers; //second
 	std::vector<ActionMoveAlongPath*> followfishpathers; //third
 	std::vector<CheckIfInRangeOfTarget*> amiinfishrangers; //fourth
+	std::vector<ActionSwimToTarget*> swimtofish;
 	std::vector<ActionEatFish*> eatfishers; //fifth
 
 	//food as food sequence
@@ -69,6 +71,7 @@ protected:
 	std::vector<ActionPathToTarget*> findfoodpathers; //second
 	std::vector<ActionMoveAlongPath*> followfoodpathers; //third
 	std::vector<CheckIfInRangeOfTarget*> amiinfoodrangers; //fourth
+	std::vector<ActionSwimToTarget*> swimtofood;
 	std::vector<ActionEatFood*> eatfooders; //fifth
 
 	//idle and sequence

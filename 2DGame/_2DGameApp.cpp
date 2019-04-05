@@ -112,21 +112,23 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		Selector* orer = new Selector();
 
 		
-		CheckBeingHunted* huntedcheck = new CheckBeingHunted(300); //first												
+		CheckBeingHunted* huntedcheck = new CheckBeingHunted(150); //first												
 		ActionPathAwayFromTarget* pathaway = new ActionPathAwayFromTarget(m_navMesh); //second
 		ActionMoveAlongPath* runningpath = new ActionMoveAlongPath(); //third
 
-		CheckInRangeOfEdibleFish* fishrange = new CheckInRangeOfEdibleFish(m_navMesh, 400);
+		CheckInRangeOfEdibleFish* fishrange = new CheckInRangeOfEdibleFish(m_navMesh, 200);
 		ActionPathToMovingTarget* findfishpath = new ActionPathToMovingTarget(m_navMesh);
 		ActionMoveAlongPath* followfishpath = new ActionMoveAlongPath();
+		ActionSwimToTarget* swimtofish = new ActionSwimToTarget();
 		CheckIfInRangeOfTarget* amiinfishrange = new CheckIfInRangeOfTarget(10);
-		ActionEatFish* eatfish = new ActionEatFish(101);
+		ActionEatFish* eatfish = new ActionEatFish();
 
-		CheckInRangeOfFood* foodrange = new CheckInRangeOfFood(m_navMesh,400);
+		CheckInRangeOfFood* foodrange = new CheckInRangeOfFood(m_navMesh,100);
 		ActionPathToTarget* findfoodpath = new ActionPathToTarget(m_navMesh);
 		ActionMoveAlongPath* followfoodpath = new ActionMoveAlongPath();
+		ActionSwimToTarget* swimtofood = new ActionSwimToTarget();
 		CheckIfInRangeOfTarget* amiinfoodrange = new CheckIfInRangeOfTarget(10);
-		ActionEatFood* eatfood = new ActionEatFood(101);
+		ActionEatFood* eatfood = new ActionEatFood();
 
 		
 		//huntescape
@@ -143,6 +145,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		fishdo->children.push_back(fishrange);
 		fishdo->children.push_back(findfishpath);
 		fishdo->children.push_back(followfishpath);
+		fishdo->children.push_back(swimtofish);
 		fishdo->children.push_back(amiinfishrange);
 		fishdo->children.push_back(eatfish);
 
@@ -154,6 +157,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		fooddo->children.push_back(foodrange);
 		fooddo->children.push_back(findfoodpath);
 		fooddo->children.push_back(followfoodpath);
+		fooddo->children.push_back(swimtofood);
 		fooddo->children.push_back(amiinfoodrange);
 		fooddo->children.push_back(eatfood);
 
