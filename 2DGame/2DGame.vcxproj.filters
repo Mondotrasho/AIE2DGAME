@@ -16,6 +16,18 @@
     <Filter Include="Poly2Tri">
       <UniqueIdentifier>{5ef51b29-5261-49ce-9e45-80bb47750b97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameObjects">
+      <UniqueIdentifier>{747d63d9-c95c-4f4f-a963-bc708b4bb040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behaviours">
+      <UniqueIdentifier>{d0bc2e42-c8b1-4f89-ac78-aeb2ca19b6b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behaviours\Actions">
+      <UniqueIdentifier>{6f7d9767-fd5e-49f1-8cc7-112c6fa869f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Behaviours\Checks">
+      <UniqueIdentifier>{185248cc-b17a-40d4-81a3-df182cb15b95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="_2DGameApp.cpp">
@@ -40,12 +52,6 @@
       <Filter>Poly2Tri</Filter>
     </ClCompile>
     <ClCompile Include="NavMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FishShool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FishFood.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
@@ -89,77 +95,77 @@
     <ClInclude Include="Node.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Behaviour.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Djikstra.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FishShool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FishFood.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BoolDecision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Composite.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Decision.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Selector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sequence.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionIdle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionMoveAlongPath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionPathToTarget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckInRangeOfFood.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckIfInRangeOfTarget.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionEatFood.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CheckInRangeOfEdibleFish.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionEatFish.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionPathToMovingTarget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CheckBeingHunted.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CheckInRangeOfFood.h">
+      <Filter>Behaviours\Checks</Filter>
     </ClInclude>
-    <ClInclude Include="ActionPathAwayFromTarget.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CheckBeingHunted.h">
+      <Filter>Behaviours\Checks</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckIfInRangeOfTarget.h">
+      <Filter>Behaviours\Checks</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckInRangeOfEdibleFish.h">
+      <Filter>Behaviours\Checks</Filter>
     </ClInclude>
     <ClInclude Include="ActionSwimToTarget.h">
-      <Filter>Header Files</Filter>
+      <Filter>Behaviours\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEatFish.h">
+      <Filter>Behaviours\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionEatFood.h">
+      <Filter>Behaviours\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionIdle.h">
+      <Filter>Behaviours\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionMoveAlongPath.h">
+      <Filter>Behaviours\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionPathAwayFromTarget.h">
+      <Filter>Behaviours\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionPathToMovingTarget.h">
+      <Filter>Behaviours\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionPathToTarget.h">
+      <Filter>Behaviours\Actions</Filter>
     </ClInclude>
     <ClInclude Include="ActionFindMyNode.h">
-      <Filter>Header Files</Filter>
+      <Filter>Behaviours\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="FishShool.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="FishFood.h">
+      <Filter>GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sequence.h">
+      <Filter>Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Selector.h">
+      <Filter>Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Composite.h">
+      <Filter>Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BoolDecision.h">
+      <Filter>Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Decision.h">
+      <Filter>Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
