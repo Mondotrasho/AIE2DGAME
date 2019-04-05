@@ -14,7 +14,7 @@ public:
 		switch (myteam) {
 		case Blue: sprite.load("../bin/textures/barrelBlue.png");
 			break;
-		case Red: sprite.load("../bin/textures/barrelRed.png");
+		case Red:  sprite.load("../bin/textures/barrelRed.png");
 			break;
 		case None: sprite.load("../bin/textures/barrelBeige.png");
 			break;
@@ -33,21 +33,7 @@ public:
 
 	void Draw(aie::Renderer2D* render) override
 	{
-		switch (team) { 
-		case Blue: render->setRenderColour(0, 0, 1);
-			break;
-		case Red: render->setRenderColour(1, 0,0 );
-			break;
-		case None: render->setRenderColour(1, 1, 1);
-			break;
-		default: ; }
-
-		//scale by size
-		//sprite.scale(-.5f, -.5f);
-		//for (int i = 0; i < size; ++i)
-		//{
-		//	sprite.scale(1.05, 1.05);
-		//}
+		render->setRenderColour(1, 1, 1, 1);
 		//rotate to face
 		//wiggle using sin width of wiggle * (sin wave * frequency) + the angle I am at
 		sprite.setRotate(0.2 * sin(glfwGetTime() * 300 ) + angle);
