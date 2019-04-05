@@ -65,17 +65,9 @@ void _2DGameApp::draw() {
 
 
 void _2DGameApp::InitializeSchools(int num,bool randspeed)
-{
-
-	
-
-
-	//mouse pos object
-	//Mouse = new GameObject(Vector2(getWindowWidth() / 2 + 100, getWindowHeight() / 2 + 100),0,&Pool);
-
+{	
 	for (int i = 0; i < num; ++i)
 	{
-
 		FishShool* freshfish;
 		//make schools
 		//rand teams
@@ -88,7 +80,6 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		default:freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2), 0, &Pool, nullptr, None); ;
 		}
 
-		//auto freshfish = new FishShool(Vector2(getWindowWidth() / 2, getWindowHeight() / 2),0, &Pool,nullptr,Blue);
 		if(randspeed)
 		{
 			freshfish->set_speed(10 + (rand() % 600));
@@ -100,22 +91,19 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		
 		freshfish->size = 1;
 
-		//follow specifics
-		ActionMoveAlongPath* follow = new ActionMoveAlongPath();
 
-		//randpath specifics
-		ActionIdle* pathfinder = new ActionIdle(m_navMesh);
 
 		ActionFindMyNode* nodefind = new ActionFindMyNode(m_navMesh);
 
 		//the selector/OR for everything
 		Selector* orer = new Selector();
 
-		
-		CheckBeingHunted* huntedcheck = new CheckBeingHunted(150); //first												
-		ActionPathAwayFromTarget* pathaway = new ActionPathAwayFromTarget(m_navMesh); //second
-		ActionMoveAlongPath* runningpath = new ActionMoveAlongPath(); //third
+		//flee and 
+		CheckBeingHunted* huntedcheck = new CheckBeingHunted(150);											
+		ActionPathAwayFromTarget* pathaway = new ActionPathAwayFromTarget(m_navMesh);
+		ActionMoveAlongPath* runningpath = new ActionMoveAlongPath();
 
+		//hunt and
 		CheckInRangeOfEdibleFish* fishrange = new CheckInRangeOfEdibleFish(m_navMesh, 200);
 		ActionPathToMovingTarget* findfishpath = new ActionPathToMovingTarget(m_navMesh);
 		ActionMoveAlongPath* followfishpath = new ActionMoveAlongPath();
@@ -123,6 +111,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		CheckIfInRangeOfTarget* amiinfishrange = new CheckIfInRangeOfTarget(10);
 		ActionEatFish* eatfish = new ActionEatFish();
 
+		//food and
 		CheckInRangeOfFood* foodrange = new CheckInRangeOfFood(m_navMesh,100);
 		ActionPathToTarget* findfoodpath = new ActionPathToTarget(m_navMesh);
 		ActionMoveAlongPath* followfoodpath = new ActionMoveAlongPath();
@@ -130,18 +119,18 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		CheckIfInRangeOfTarget* amiinfoodrange = new CheckIfInRangeOfTarget(10);
 		ActionEatFood* eatfood = new ActionEatFood();
 
-		
+		//idle and
+		ActionMoveAlongPath* follow = new ActionMoveAlongPath();
+		ActionIdle* pathfinder = new ActionIdle(m_navMesh);
+
 		//huntescape
 		auto hunteddo = new Sequence();
-		hunteddo->children.emplace_back(nodefind);
 		hunteddo->children.emplace_back(huntedcheck);
 		hunteddo->children.emplace_back(pathaway);
 		hunteddo->children.emplace_back(runningpath);
 
 		//the sequence/AND for fish eating
-		//
 		auto fishdo = new Sequence();
-		fishdo->children.push_back(nodefind);
 		fishdo->children.push_back(fishrange);
 		fishdo->children.push_back(findfishpath);
 		fishdo->children.push_back(followfishpath);
@@ -151,9 +140,7 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 
 
 		//the sequence/AND for food eating
-		//
 		auto fooddo = new Sequence();
-		fooddo->children.push_back(nodefind);
 		fooddo->children.push_back(foodrange);
 		fooddo->children.push_back(findfoodpath);
 		fooddo->children.push_back(followfoodpath);
@@ -164,27 +151,23 @@ void _2DGameApp::InitializeSchools(int num,bool randspeed)
 		//the sequence/AND for idle
 		//fist is finds where it is then it trys to move along its path and finaly it makes a new path
 		auto idledo = new Sequence();
-		idledo->children.push_back(nodefind);
 		idledo->children.push_back(follow);
 		idledo->children.push_back(pathfinder);
 
-		//orer->children.push_back(nodefind);
+		//fill the "brain stem"
 		orer->children.push_back(hunteddo);
 		orer->children.push_back(fishdo);
 		orer->children.push_back(fooddo);
 		orer->children.push_back(idledo);
 
-		//add the idle sequence directly
+		//add the idle sequence directly and the node find behaviour
+		freshfish->addbehaviour(nodefind);
 		freshfish->addbehaviour(orer);
-
-		//pool add
-		//freshfish->ObjectPool = Pool;
 
 		//push to storage
 		Pool.push_back(freshfish);	
 	}
 }
-bool notdone = true;
 void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 {
 	if (timer > 0) { timer -= delta_time; }
@@ -241,9 +224,6 @@ void _2DGameApp::UpdategameObjects(float delta_time, aie::Input* input)
 }
 void _2DGameApp::DrawgameObjects(bool drawobjects, bool drawpath, bool drawsmoothpath)
 {
-
-	//Mouse->Draw(m_2dRenderer);
-
 	for (auto object : Pool)
 	{
 		//smooth draw specifics
@@ -267,11 +247,9 @@ void _2DGameApp::DrawgameObjects(bool drawobjects, bool drawpath, bool drawsmoot
 			m_2dRenderer->setRenderColour(1, 0, 0);
 			if (!object->path.empty())
 			{
-
 				Vector2 last = object->path.front()->Pos;
 				for (auto place : object->path)
 				{
-
 					m_2dRenderer->drawCircle(place->Pos.x, place->Pos.y, 2);
 					m_2dRenderer->drawLine(place->Pos.x, place->Pos.y, last.x, last.y, 1);
 					last = place->Pos;
@@ -295,10 +273,8 @@ void _2DGameApp::InitializeNavMesh()
 	// just to help mess with the random 1 is asy to debug the pop issue
 	srand(1);
 
-
 	// random obstacles
 	for (int i = 0; i < 22; ++i) {
-
 		bool safe = false;
 		do {
 			safe = m_navMesh->addObstacle(rand() / float(RAND_MAX) * getWindowWidth() * 0.75f + getWindowWidth() * 0.125f,
@@ -314,7 +290,6 @@ void _2DGameApp::DrawNavmesh(bool drawobstacles, bool drawpoly, bool drawnode)
 {
 	// draw nav mesh polygons
 	for (auto node : m_navMesh->getNodes()) {
-
 		m_2dRenderer->setRenderColour(1, 1, 0);
 		if (drawpoly) {
 			m_2dRenderer->drawLine(node->vertices[0].x, node->vertices[0].y, node->vertices[1].x, node->vertices[1].y);

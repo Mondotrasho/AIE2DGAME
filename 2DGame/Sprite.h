@@ -12,18 +12,12 @@ class Sprite
 public:
 	Sprite();
 	~Sprite();
+
 	void update(float deltaTime);
 	void draw(aie::Renderer2D* renderer, float mod);
 
-	const Matrix3& getLocalTransform() const
-	{
-		return m_localTransform;
-	}
-
-	const Matrix3& getGlobalTransform() const
-	{
-		return m_globalTransform;
-	}
+	const Matrix3& getLocalTransform() const;
+	const Matrix3& getGlobalTransform() const;
 
 	void updateTransform();
 	void setPosition(float x, float y);

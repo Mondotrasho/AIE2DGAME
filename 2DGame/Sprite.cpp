@@ -28,6 +28,16 @@ void Sprite::draw(aie::Renderer2D* renderer, float mod = 0)
 
 }
 
+const Matrix3& Sprite::getLocalTransform() const
+{
+	return m_localTransform;
+}
+
+const Matrix3& Sprite::getGlobalTransform() const
+{
+	return m_globalTransform;
+}
+
 void Sprite::updateTransform()
 {
 	if (m_parent != nullptr)

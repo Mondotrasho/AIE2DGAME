@@ -10,7 +10,7 @@
 class AStar
 {
 public:
-	bool AStarSearch(Node* startNode, Node* endNode, std::list<Node*>& path, float Heuristic)
+	bool AStarSearch(Node* startNode, Node* endNode, std::list<Node*>& path, float Heuristic) //heuristic is unused as I calc it in the search
 	{
 		auto cmp = [](Node* left, Node* right) { return left->F < right->F; };
 		std::list<Node*> openList;
